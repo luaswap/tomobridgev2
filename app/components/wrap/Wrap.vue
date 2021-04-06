@@ -116,12 +116,10 @@
         </div>
         <div class="step-one__buttons text-center mt-5">
             <b-button
-                class="btn--big"
-                @click="back">Back</b-button>
+                class="btn--big">Back</b-button>
             <b-button
                 class="btn--big"
-                variant="primary"
-                @click="nextStep">Next</b-button>
+                variant="primary">Next</b-button>
         </div>
     </b-container>
 </template>
@@ -141,6 +139,9 @@ export default {
             agreeEx: false,
             agreePk: false,
             agreeAll: false,
+            allChecked: false,
+            fromWrapSelected: {},
+            recAddress: '',
             fromData: [
                 { name: 'Ethereum', symbol: 'ETH', image: '' }
             ]
@@ -152,6 +153,7 @@ export default {
     },
     destroyed () { },
     created: async function () {
+        this.fromWrapSelected = this.fromData[0]
     },
     methods: {
         customLabel ({ name }) {

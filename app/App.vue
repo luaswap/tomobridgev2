@@ -92,7 +92,8 @@ export default {
     data () {
         return {
             selectedLanguage: this.$store.state.language || 'English',
-            address: ''
+            address: '',
+            provider: ''
         }
     },
     computed: {
