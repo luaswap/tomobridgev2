@@ -1,0 +1,26 @@
+.wrapbox__row {
+    align-items: center;
+    display: flex;
+    margin-bottom: 30px;
+
+    @include media-breakpoint-down(sm) {
+        .col-5:last-child {
+            .multiselect__content {
+                left: auto;
+                right: 0;
+            }
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        margin-bottom: 35px;
+    }
+
+    @include media-breakpoint-up(xl) {
+        margin-bottom: 40px;
+    }
+
+    @include media-breakpoint-up(xxl) {
+        margin-bottom: 50px;
+    }
+}

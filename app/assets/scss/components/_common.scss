@@ -1,0 +1,15 @@
+.common-main-content {
+    display: flex;
+    padding: 3em 0 2em;
+    min-height: calc(100vh - 62px - 108px);
+
+    @include media-breakpoint-only(md) {
+        min-height: calc(100vh - 62px - 133px);
+        padding: 2em 0;
+    }
+
+    @include media-breakpoint-down(sm) {
+        min-height: calc(100vh - 61px - 184px);
+        padding: 2em 0;
+    }
+}

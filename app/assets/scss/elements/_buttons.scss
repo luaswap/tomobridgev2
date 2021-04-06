@@ -1,0 +1,48 @@
+button,
+.btn {
+  border: none;
+  border-radius: 10px;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px;
+  text-align: center;
+
+  &:active,
+  &:focus {
+    box-shadow: none !important;
+    outline: none !important;
+  }
+}
+
+button.btn--big,
+.btn.btn--big {
+  @include media-breakpoint-up(md) {
+    font-size: $global-font-size-md;
+  }
+
+  @include media-breakpoint-up(xl) {
+    font-size: 22px;
+  }
+}
+
+.btn-primary {
+  background-color: $color-primary;
+  color: #fff;
+
+  @extend %transition;
+
+  &.disabled {
+    background-color: #d2d2d6;
+  }
+}
+
+.btn-secondary {
+  background-color: $color-bg;
+  color: $color-primary;
+
+  &:hover {
+    background-color: $color-primary;
+    color: #fff;
+  }
+}

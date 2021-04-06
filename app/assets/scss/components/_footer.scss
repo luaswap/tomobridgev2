@@ -1,0 +1,75 @@
+.tomo-footer {
+    @include fsz(15);
+    padding: 2em 0;
+
+    @include media-breakpoint-down(sm) {
+        text-align: center;
+    }
+
+    .row {
+        align-items: flex-end;
+    }
+
+    .tomo-copyright {}
+
+    .tomo-meta-links {
+        padding-top: 15px;
+
+        ul {
+            @include media-breakpoint-down(md) {
+                margin: 0 -10px;
+            }
+            width: 70%;
+            margin: auto;
+
+            li {
+                display: inline-block;
+                padding: 0px 25px;
+                position: relative;
+
+                @include media-breakpoint-down(md) {
+                    padding: 2px 10px;
+                }
+
+                &::after {
+                    content: "";
+                    background: rgba(#888, .3);
+                    width: 1px;
+                    height: 15px;
+                    position: absolute;
+                    right: 0;
+                    margin-top: 4px;
+
+                    @include media-breakpoint-down(md) {
+                        height: 12px;
+                        margin-top: 5px;
+                    }
+                }
+
+                &:first-child {
+                    @include media-breakpoint-up(lg) {
+                        padding-left: 0;
+                    }
+                }
+
+                &:last-child {
+                    @include media-breakpoint-up(lg) {
+                        padding-right: 0;
+                    }
+
+                    &::after {
+                        display: none;
+                    }
+                }
+
+                a {
+                    color: $color-primary;
+
+                    &:hover {
+                        color: $color-text;
+                    }
+                }
+            }
+        }
+    }
+}
