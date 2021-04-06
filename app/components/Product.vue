@@ -180,7 +180,7 @@ export default {
             } else {
                 switch (product) {
                 case 'bridge':
-                    this.$router.push({ path: '/wrap' })
+                    this.$router.push({ path: '/select' })
                     break
                 case 'tomob':
                     this.isAgreed = false

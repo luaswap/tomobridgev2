@@ -40,6 +40,8 @@
     "store": "^2.0.12",
     "vue": "^2.6.12",
     "vue-clipboard2": "^0.3.1",
+    "vue-i18n": "^8.24.2",
+    "vue-multiselect": "^2.1.6",
     "vue-router": "^3.0.6",
     "vue-toasted": "^1.1.28",
     "vuelidate": "^0.7.6",

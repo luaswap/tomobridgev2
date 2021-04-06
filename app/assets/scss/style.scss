@@ -46,3 +46,11 @@ This is the first layer of classes and should be agnostically named
   Eg. list-inline, ui-list, etc.
 */
 @import 'objects/*';
+
+/*
+Trumps
+================================================
+utilities and helper classes with ability to override anything
+which goes before in the triangle, eg. .hide helper class
+*/
+@import 'trumps/custom.scss'

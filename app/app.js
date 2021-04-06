@@ -6,9 +6,15 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Vuex from 'vuex'
 import Toasted from 'vue-toasted'
+import VueI18n from 'vue-i18n'
 
 import routes from './routes'
-// import Home from './components/Home.vue'
+
+import en from './assets/translation/en.json'
+import vi from './assets/translation/vi.json'
+import tr from './assets/translation/tr.json'
+import ja from './assets/translation/ja.json'
+import cn from './assets/translation/cn.json'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
@@ -27,6 +33,18 @@ Vue.use(Toasted, {
     singleton: true
 })
 
+Vue.use(VueI18n)
+const i18n = new VueI18n({
+    locale: 'en',
+    messages: {
+        en,
+        vi,
+        tr,
+        ja,
+        cn
+    }
+})
+
 const store = new Vuex.Store({
     state: {
     }
@@ -43,8 +61,12 @@ const router = new VueRouter({
 
 new Vue({ // eslint-disable-line no-new
     el: '#app',
+    i18n,
     store,
     router: router,
     components: { App },
+    data: {
+        language: 'en'
+    },
     template: '<App/>'
 })
