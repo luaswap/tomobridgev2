@@ -20,13 +20,14 @@
                 <b-collapse
                     id="nav-collapse"
                     is-nav>
-                    <b-navbar-nav class="ml-auto navbar-buttons">
+                    <div class="ml-auto navbar-buttons">
                         <b-button
+                            class="btn-token"
                             variant="success">Connect Wallets</b-button>
-                        <span class="network">Ethereum</span>
-                        <b-nav-item-dropdown
+                        <span class="btn-token network ml-2">Ethereum</span>
+                        <b-dropdown
                             :text="selectedLanguage"
-                            class="nav-item ml-3">
+                            class="nav-item btn-language ml-3">
                             <b-dropdown-item
                                 class="current-lang"
                                 @click="changeLang('english')">English</b-dropdown-item>
@@ -36,8 +37,8 @@
                                 @click="changeLang('japanese')">日本語</b-dropdown-item>
                             <b-dropdown-item
                                 @click="changeLang('chinese')">简体中文</b-dropdown-item>
-                        </b-nav-item-dropdown>
-                    </b-navbar-nav>
+                        </b-dropdown>
+                    </div>
                 </b-collapse>
             </section>
         </b-navbar>

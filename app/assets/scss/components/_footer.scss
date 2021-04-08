@@ -1,5 +1,5 @@
 .tomo-footer {
-    @include fsz(15);
+    @include fsz(13);
     padding: 2em 0;
 
     @include media-breakpoint-down(sm) {
@@ -63,7 +63,7 @@
                 }
 
                 a {
-                    color: $color-primary;
+                    color: $color-dark;
 
                     &:hover {
                         color: $color-text;

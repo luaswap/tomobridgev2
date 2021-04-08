@@ -1,6 +1,6 @@
 body {
   font-family: $global-fonts;
-  font-size: $global-font-size-xs;
+  font-size: $global-font-size-md;
   -webkit-font-smoothing: antialiased;
 
   @include media-breakpoint-up(md) {
@@ -10,4 +10,11 @@ body {
   @include media-breakpoint-up(xl) {
     font-size: $global-font-size-xl;
   }
+}
+h1, h2, h3, h4, h5 {
+  font-weight: bold;
+}
+a:hover {
+  text-decoration: none;
+  opacity: .6;
 }

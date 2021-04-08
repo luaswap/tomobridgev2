@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <h4 class="">Select Asset to convert</h4>
+        <h5 class="">Select Asset to convert</h5>
         <b-row class="wrapbox__row mb-lg-4 mt-4">
             <b-col cols="7">
                 <multiselect
@@ -42,12 +42,12 @@
             </b-col>
         </b-row>
 
-        <div class="text-center">
+        <div class="text-center my-5">
             <p>You are converting ERC-20 XXX to TomoChain wrapped XXX</p>
         </div>
         <b-row>
             <b-col cols="6">
-                <ul>
+                <ul class="st-ul">
                     <li>View Wrapped Token address on
                         <a href="#">TomoScan</a>
                     </li>
@@ -116,10 +116,21 @@
         </div>
         <div class="step-one__buttons text-center mt-5">
             <b-button
-                class="btn--big">Back</b-button>
+                class="btn--big st-back">
+                <b-icon
+                    class="light-h"
+                    icon="arrow-left-short"
+                    font-scale="1.5"/>
+                Back
+            </b-button>
             <b-button
-                class="btn--big"
-                variant="primary">Next</b-button>
+                class="btn--big st-next">
+                Next
+                <b-icon
+                    class="light-h"
+                    icon="arrow-right-short"
+                    font-scale="1.5"/>
+            </b-button>
         </div>
     </b-container>
 </template>

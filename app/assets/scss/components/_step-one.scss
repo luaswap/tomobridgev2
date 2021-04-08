@@ -94,18 +94,51 @@
 .step-one__buttons {
     margin-bottom: 50px;
     margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    .btn {
-        margin: 0 10px;
-        min-width: 160px;
+    .st-next {
+        background: #00e9b4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        text-transform: none;
+        position: relative;
+        color: #000 !important;
+        font-family: $global-fonts;
+        min-width: 200px;
+        svg {
+            transition: all .3s;
+            margin-left: 15px;
+        }
+        &:hover {
+            svg {
+                transform: translateX(20px);
+            }
+        }
+    }
+
+    .st-back {
+        background: transparent!important;
+        color: #000 !important;
+        display: flex;
+        align-items: center;
+        min-width: 50px;
+        svg {
+            transition: all .3s;
+            margin-right: 15px;
+        }
+        &:hover {
+            svg {
+                transform: translateX(-20px);
+            }
+        }
     }
 
     @include media-breakpoint-up(md) {
         margin-top: 30px;
-
-        .btn {
-            min-width: 200px;
-        }
     }
 
     @include media-breakpoint-up(xl) {
@@ -114,7 +147,6 @@
 
         .btn {
             margin: 0 20px;
-            min-width: 330px;
         }
     }
 }

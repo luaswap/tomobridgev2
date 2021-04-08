@@ -1,12 +1,11 @@
 .token-max,
 .add-address {
-  background-color: rgb(253, 234, 241)!important;
-  border: 1px solid rgb(253, 234, 241)!important;
+  background-color: rgb(240, 240, 240)!important;
   border-radius: 0.5rem;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: bold;
   cursor: pointer;
-  color: rgb(255, 0, 122)!important;
+  color: $color-dark!important;
   position: absolute;
   right: 30px;
   top: 0;
@@ -14,6 +13,6 @@
   top: 28%;
   transform: translateY(-50%);
   &:hover {
-    border: 1px solid  rgb(255, 0, 122)!important;
+    background-color: rgb(226, 226, 226)!important;
   }
 }

@@ -1,6 +1,6 @@
 .common-main-content {
     display: flex;
-    padding: 3em 0 2em;
+    padding: 3em 0 0;
     min-height: calc(100vh - 62px - 108px);
 
     @include media-breakpoint-only(md) {
@@ -13,3 +13,4 @@
         padding: 2em 0;
     }
 }
+

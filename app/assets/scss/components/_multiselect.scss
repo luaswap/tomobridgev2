@@ -44,13 +44,15 @@
     @extend %transition;
 
     @include media-breakpoint-up(lg) {
-        font-size: 16px;
-        padding: 15px;
+        padding: 10px 15px;
     }
+}
 
-    @include media-breakpoint-up(xl) {
-        font-size: $global-font-size-xl;
-        padding: 15px 20px;
+input[type=text], input[type=password] {
+    padding: 5px 15px;
+    @extend %transition;
+    @include media-breakpoint-up(lg) {
+        padding: 10px 15px;
     }
 }
 

@@ -3,7 +3,7 @@ button,
   border: none;
   border-radius: 10px;
   display: inline-block;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   padding: 12px;
   text-align: center;
@@ -19,10 +19,6 @@ button.btn--big,
 .btn.btn--big {
   @include media-breakpoint-up(md) {
     font-size: $global-font-size-md;
-  }
-
-  @include media-breakpoint-up(xl) {
-    font-size: 22px;
   }
 }
 
