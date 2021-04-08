@@ -8,7 +8,8 @@
                         'steps__col--active' : step >= 1,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Send Request {{ fromWrapToken.name || '' }}</p>
+                    <p class="steps__name">
+                        Send Request {{ fromWrapToken.name || '' }} {{ toWrapToken.name || '' }}</p>
                     <p class="steps__number"><span>1</span></p>
                 </b-col>
                 <b-col
@@ -26,43 +27,39 @@
                         'steps__col--active' : step >= 3,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Send TomoChain wrapped USDT {{ toWrapToken.name || '' }} {{ fromWrapToken.name || '' }}</p>
+                    <p class="steps__name">Send ERC-20 XXX {{ toWrapToken.name || '' }}</p>
                     <p class="steps__number"><span>3</span></p>
                 </b-col>
             </b-row>
         </div>
         <div v-if="step === 1">
-            <WrapStepOne :parent="this"/>
+            <UnWrapStepOne :parent="this"/>
         </div>
         <div v-if="step === 2">
-            <WrapStepTwo :parent="this"/>
+            <UnWrapStepTwo :parent="this"/>
         </div>
         <div v-if="step === 3">
-            <WrapStepThree :parent="this"/>
+            <UnWrapStepThree :parent="this"/>
         </div>
+        <div
+            :class="(loading ? 'tomo-loading' : '')"/>
     </b-container>
 </template>
 
 <script>
-import WrapStepOne from './WrapStepOne'
-import WrapStepTwo from './WrapStepTwo'
-import WrapStepThree from './WrapStepThree'
+import UnWrapStepOne from './UnwrapStepOne'
+import UnWrapStepTwo from './UnwrapStepTwo'
+import UnWrapStepThree from './UnwrapStepThree'
 
 export default {
     name: 'App',
     components: {
-        WrapStepOne,
-        WrapStepTwo,
-        WrapStepThree
+        UnWrapStepOne,
+        UnWrapStepTwo,
+        UnWrapStepThree
     },
     data () {
         return {
-            step: 0,
-            fromWrapToken: {},
-            toWrapToken: {},
-            receiveAddress: this.$route.params.receiveAddress || '',
-            config: {},
-            expireTime: ''
         }
     },
     async updated () {
