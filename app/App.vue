@@ -22,12 +22,12 @@
                     is-nav>
                     <div class="ml-auto navbar-buttons">
                         <b-button
-                            class="btn-token"
-                            variant="success">Connect Wallets</b-button>
-                        <span class="btn-token network ml-2">Ethereum</span>
+                            class="btn-token">Connect Wallets</b-button>
+                        <b-button
+                            class="btn-token network ml-3">Ethereum</b-button>
                         <b-dropdown
                             :text="selectedLanguage"
-                            class="nav-item btn-language ml-3">
+                            class="nav-item btn-language ml-2">
                             <b-dropdown-item
                                 class="current-lang"
                                 @click="changeLang('english')">English</b-dropdown-item>

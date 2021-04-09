@@ -60,6 +60,12 @@ export default {
     },
     data () {
         return {
+            step: 3,
+            fromWrapToken: {},
+            toWrapToken: {},
+            receiveAddress: this.$route.params.receiveAddress || '',
+            config: {},
+            expireTime: ''
         }
     },
     async updated () {

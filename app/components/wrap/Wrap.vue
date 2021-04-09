@@ -88,7 +88,7 @@
             </b-col>
         </b-row>
         <div class="mt-3 style-label">
-            <span class="font-weight-bold">Please confirm the following:</span>
+            <p class="font-weight-bold mb-2">Please confirm the following:</p>
             <b-form-checkbox
                 v-model="agreeEx"
                 class="mr-1 m1 light-h">

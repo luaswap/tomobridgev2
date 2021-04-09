@@ -1,45 +1,15 @@
 <template>
     <b-container class="step-one text-center">
-        <h3 class="step-one__title">{{ $t('wrapGuide1') }}:</h3>
-        <p class="step-one__subtitle">{{ $t('sendToAddress1') + ` ${tokenName} ` + $t('sendToAddress2') }}</p>
-        <div>
-            <label class="step-one__warning">
-                {{ $t('wrapWarning') }} {{ minimumDeposit }} {{ tokenName }}
-            </label>
-            <i
-                id="warning"
-                class="tb-info mb-2"/>
-            <b-tooltip
-                target="warning">
-                {{ $t('wranningTooltip') }} {{ tokenName }}
-            </b-tooltip>
-        </div>
-        <vue-qrcode
-            :options="{ width: 200, color: { light: '#f6f7fa' } }"
-            :value="addressQRCode"
-            class="step-one__qr"/>
-        <div class="step-one__address-box">
-            <a
-                :href="getAddressUrl()"
-                class="step-one__address text-break"
-                target="_blank">{{ depositAddress }}</a>
-            <b-button
-                v-clipboard:copy="depositAddress"
-                v-clipboard:success="onCopy"
-                variant="primary"
-                class="step-one__copy"><i class="tb-copy"/>{{ $t('copyBtn') }}</b-button>
-        </div>
-        <p class="step-one__subtitle">
-            {{ $t('wrapConfirm') }}
-        </p>
-        <div class="step-one__buttons">
-            <b-button
-                class="btn--big"
-                @click="back">{{ $t('cancelBtn') }}</b-button>
-            <b-button
-                class="btn--big"
-                variant="primary"
-                @click="nextStep">{{ $t('confirmTransaction') }}</b-button>
+        <p class="text-danger">You need to sign the request on MetaMask to activate the withdrawal request</p>
+        <p>Your withdrawal request has been successfully approved</p>
+        <div class="mt-5">
+            <p>Please keep this window open</p>
+            <div class="text-center">
+                <b-button
+                    class="btn--big st-next m-auto">
+                    Transaction pending
+                </b-button>
+            </div>
         </div>
     </b-container>
 </template>

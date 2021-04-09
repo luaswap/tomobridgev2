@@ -42,12 +42,12 @@
             </b-col>
         </b-row>
 
-        <div class="text-center">
-            <p>You are converting TomoChain wrapped XXX to ERC-20 XXX</p>
+        <div class="text-center my-5">
+            <p>You are converting ERC-20 XXX to TomoChain wrapped XXX</p>
         </div>
         <b-row>
             <b-col cols="6">
-                <ul>
+                <ul class="st-ul">
                     <li>View Wrapped Token address on
                         <a href="#">Etherscan</a>
                     </li>
@@ -88,7 +88,7 @@
             </b-col>
         </b-row>
         <div class="mt-3 style-label">
-            <span class="font-weight-bold">Please confirm the following:</span>
+            <p class="font-weight-bold mb-2">Please confirm the following:</p>
             <b-form-checkbox
                 v-model="agreeEx"
                 class="mr-1 m1 light-h">
@@ -116,10 +116,21 @@
         </div>
         <div class="step-one__buttons text-center mt-5">
             <b-button
-                class="btn--big">Back</b-button>
+                class="btn--big st-back">
+                <b-icon
+                    class="light-h"
+                    icon="arrow-left-short"
+                    font-scale="2"/>
+                Back
+            </b-button>
             <b-button
-                class="btn--big"
-                variant="primary">Next</b-button>
+                class="btn--big st-next">
+                Next
+                <b-icon
+                    class="light-h"
+                    icon="arrow-right-short"
+                    font-scale="2"/>
+            </b-button>
         </div>
     </b-container>
 </template>

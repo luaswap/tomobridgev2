@@ -51,7 +51,7 @@
 
     .steps__col--active {
         .steps__name {
-            color: $color-primary;
+            // color: $color-primary;
         }
 
         .steps__number::before {
@@ -65,33 +65,33 @@
         }
 
         .steps__number>span {
-            background-color: $color-primary;
-            border-color: $color-primary;
-            color: #fff;
+            background-color: $color-primary2;
+            border-color: $color-primary2;
+            color: #000;
 
-            &::before,
-            &::after {
-                background-color: $color-primary;
-                border-radius: 100%;
-                content: '';
-                display: block;
-                left: 50%;
-                position: absolute;
-                top: 50%;
-                transform: translate(-50%, -50%);
-            }
+            // &::before,
+            // &::after {
+            //     background-color: $color-primary;
+            //     border-radius: 100%;
+            //     content: '';
+            //     display: block;
+            //     left: 50%;
+            //     position: absolute;
+            //     top: 50%;
+            //     transform: translate(-50%, -50%);
+            // }
 
-            &::before {
-                height: 60px;
-                opacity: .3;
-                width: 60px;
-            }
+            // &::before {
+            //     height: 60px;
+            //     opacity: .3;
+            //     width: 60px;
+            // }
 
-            &::after {
-                height: 70px;
-                opacity: .1;
-                width: 70px;
-            }
+            // &::after {
+            //     height: 70px;
+            //     opacity: .1;
+            //     width: 70px;
+            // }
         }
 
         @include media-breakpoint-up(lg) {
@@ -144,7 +144,6 @@
     color: $color-gray;
     font-weight: 600;
     margin-bottom: 15px;
-    text-transform: uppercase;
 
     @include media-breakpoint-up(md) {
         margin-bottom: 20px;
@@ -176,7 +175,7 @@
         border: 1px solid $color-gray;
         border-radius: 100%;
         display: inline-block;
-        font-weight: 600;
+        font-weight: bold;
         height: 50px;
         line-height: 50px;
         margin: 0 auto;
@@ -192,10 +191,11 @@
         width: 40%;
 
         >span {
-            font-size: 20px;
+            font-size: 24px;
             height: 60px;
             line-height: 60px;
             width: 60px;
+            font-weight: bold;
         }
     }
 }
