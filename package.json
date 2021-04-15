@@ -31,6 +31,7 @@
   "homepage": "https://github.com/tomochain/tomobridgev2#readme",
   "dependencies": {
     "axios": "^0.21.1",
+    "bignumber.js": "^9.0.1",
     "body-parser": "^1.19.0",
     "config": "^3.3.2",
     "cors": "^2.8.5",
@@ -47,6 +48,7 @@
     "vue-toasted": "^1.1.28",
     "vuelidate": "^0.7.6",
     "vuex": "^3.5.1",
+    "web3": "^1.0.0-beta.55",
     "winston": "^3.3.3"
   },
   "devDependencies": {

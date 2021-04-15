@@ -1,0 +1,36 @@
+.login__buttons {
+    display: grid;
+    grid-gap: 10px;
+
+    img {
+        display: block;
+        margin: 0 auto 5px;
+        max-width: 25px;
+    }
+
+    @include media-breakpoint-up(lg) {
+        img {
+            display: inline-block;
+            margin-bottom: 0;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        span {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+
+    @include media-breakpoint-up(xxl) {
+        margin-bottom: 30px;
+
+        button {
+            font-size: $global-font-size-xl;
+        }
+
+        +.text-error {
+            margin-top: -15px;
+        }
+    }
+}

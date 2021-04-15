@@ -113,7 +113,7 @@
         </b-container>
         <div class="py-4">
             <b-container>
-                <div class="row flex-row-reverse tomo-footer">
+                <div class="row flex-row-reverse tomo-footer-product">
                     <div class="col-12">
                         <div class="tomo-meta-links text-center">
                             <ul class="p-0 m-0">

@@ -7,8 +7,13 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Vuex from 'vuex'
 import Toasted from 'vue-toasted'
 import VueI18n from 'vue-i18n'
+import Web3 from 'web3'
 
 import routes from './routes'
+
+import Helper from './utils'
+
+import TomoBridgeTokenAbi from '../abis/TomoBridgeWrapToken.json'
 
 import en from './assets/translation/en.json'
 import vi from './assets/translation/vi.json'
@@ -47,8 +52,58 @@ const i18n = new VueI18n({
 
 const store = new Vuex.Store({
     state: {
+        address: '',
+        network: '',
+        provider: '',
+        redirectTo: ''
+    },
+    getters: {
+        address: state => state.address,
+        network: state => state.network
     }
 })
+
+Vue.prototype.setupProvider = async function (provider, wjs) {
+    Vue.prototype.NetworkProvider = provider
+    if (wjs instanceof Web3) {
+        Vue.prototype.web3 = wjs
+        Vue.prototype.TomoBridgeTokenAbi = TomoBridgeTokenAbi
+    }
+}
+
+Vue.prototype.getAccount = async function (resolve, reject) {
+    const provider = Vue.prototype.NetworkProvider || ''
+    const web3 = Vue.prototype.web3
+    let account
+    switch (provider) {
+    case 'metamask':
+        // Request account access if needed - for metamask
+        if (window.ethereum) {
+            // await window.ethereum.enable()
+            await window.ethereum.request({ method: 'eth_requestAccounts' })
+        }
+        account = (await web3.eth.getAccounts())[0]
+        break
+    case 'pantograph':
+        // Request account access if needed - for pantograph
+        if (window.tomochain) {
+            await window.tomochain.enable()
+        }
+        account = (await web3.eth.getAccounts())[0]
+        break
+    default:
+        break
+    }
+    if (!account || account.length <= 0) {
+        console.log(`Couldn't get any accounts! Make sure
+            your Ethereum client is configured correctly.`)
+    }
+    return account
+}
+
+Vue.prototype.getChainId = Helper.getChainId
+
+Vue.prototype.truncate = Helper.truncate
 
 const EventBus = new Vue()
 

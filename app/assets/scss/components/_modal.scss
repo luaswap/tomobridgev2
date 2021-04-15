@@ -1,6 +1,6 @@
 .modal-dialog {
     @include media-breakpoint-up(xl) {
-        max-width: 760px;
+        max-width: 420px;
     }
 }
 
@@ -13,31 +13,31 @@
 }
 
 .modal-header {
-    border-bottom: 0;
-    display: block;
-    padding: 20px;
+    // border-bottom: 0;
+    // display: block;
+    // padding: 20px;
     text-align: center;
 
-    .close {
-        display: none;
-    }
+    // .close {
+    //     display: none;
+    // }
 
-    @include media-breakpoint-up(xl) {
-        padding: 50px 50px 30px;
-    }
+    // @include media-breakpoint-up(xl) {
+    //     padding: 50px 50px 30px;
+    // }
 }
 
 .modal-title {
     color: $color-primary;
-    font-size: 20px;
+    font-size: 10px;
     font-weight: 800;
 
     @include media-breakpoint-up(md) {
-        font-size: 25px;
+        font-size: 15px;
     }
 
     @include media-breakpoint-up(lg) {
-        font-size: 30px;
+        font-size: 20px;
     }
 }
 

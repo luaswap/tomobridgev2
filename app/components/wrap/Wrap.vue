@@ -116,7 +116,8 @@
         </div>
         <div class="step-one__buttons text-center mt-5">
             <b-button
-                class="btn--big st-back">
+                class="btn--big st-back"
+                @click="back">
                 <b-icon
                     class="light-h"
                     icon="arrow-left-short"
@@ -169,6 +170,9 @@ export default {
     methods: {
         customLabel ({ name }) {
             return `${name}`
+        },
+        back () {
+            this.$router.go(-1)
         }
     }
 }

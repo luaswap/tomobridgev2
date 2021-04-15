@@ -13,7 +13,7 @@
                     <div class="box-btn">
                         <a
                             class="row btn-tm"
-                            @click="redirect('tomoe')">
+                            @click="redirect('unwrapErc20')">
                             <div class="col-5 px-0 text-center">
                                 <p>
                                     <img
@@ -39,7 +39,7 @@
                         </a>
                         <a
                             class="row btn-tm mt-5"
-                            @click="redirect('tomoe')">
+                            @click="redirect('wrapErc20')">
                             <div class="col-5 px-0 text-center">
                                 <p>
                                     <img
@@ -67,13 +67,18 @@
                 </div>
             </b-col>
         </b-row>
+        <LoginModal
+            ref="loginModal"
+            :parent="this"/>
     </b-container>
 </template>
 
 <script>
+import LoginModal from './components/modals/Login'
 export default {
     name: 'App',
     components: {
+        LoginModal
     },
     data () {
         return {
@@ -87,6 +92,28 @@ export default {
     created: async function () {
     },
     methods: {
+        redirect (product) {
+            switch (product) {
+            case 'wrapErc20':
+                if (!this.$store.state.address) {
+                    this.$store.state.redirectTo = 'wrap'
+                    this.$refs.loginModal.show()
+                } else {
+                    this.$router.push({ path: 'wrap' })
+                }
+                break
+            case 'unwrapErc20':
+                if (!this.$store.state.address) {
+                    this.$store.state.redirectTo = 'unwrap'
+                    this.$refs.loginModal.show()
+                } else {
+                    this.$router.push({ path: 'unwrap' })
+                }
+                break
+            default:
+                break
+            }
+        }
     }
 }
 </script>

@@ -87,6 +87,7 @@
         &:last-child {
             border-bottom: 1px solid #f2f2f2;
         }
+
         .logo-icon {
             height: 40px;
         }
@@ -135,4 +136,93 @@
 
 .st-ul {
     padding-left: 20px;
+}
+
+.tomo-footer-product {
+
+    @include fsz(13);
+
+    @include media-breakpoint-down(sm) {
+        text-align: center;
+    }
+
+    .tomo-meta-links {
+        ul {
+            @include media-breakpoint-down(md) {
+                margin: 0 -10px;
+            }
+
+            li {
+                display: inline-block;
+                padding-right: 10px;
+                margin-right: 10px;
+                position: relative;
+
+                @media (min-width: 1025px) and (max-width: 1365px) {
+                    padding-right: 7px;
+                    margin-right: 7px;
+                }
+
+                @media screen and (max-width: 320px) {
+                    padding-right: 4px;
+                    margin-right: 4px;
+                }
+
+                &::after {
+                    content: "";
+                    background: rgba(#888, .3);
+                    width: 1px;
+                    height: 12px;
+                    position: absolute;
+                    right: 0;
+                    margin-top: 6px;
+
+                    @include media-breakpoint-down(md) {
+                        height: 10px;
+                    }
+                }
+
+                &:last-child {
+                    padding-right: 0;
+                    margin-right: 0;
+
+                    &::after {
+                        display: none;
+                    }
+                }
+
+                a {
+                    // color: #242428;
+                    color: #888;
+                    text-decoration: none;
+
+                    &:hover {
+                        color: #069c7c;
+                    }
+                }
+            }
+        }
+    }
+
+    .tomob {
+        ul {
+            text-align: right;
+
+            @include media-breakpoint-down(md) {
+                text-align: center;
+            }
+
+            li {
+                display: inline-block;
+                padding: 3px;
+
+                a {
+                    align-items: center;
+                    justify-content: center;
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+        }
+    }
 }
