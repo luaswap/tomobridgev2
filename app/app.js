@@ -8,11 +8,13 @@ import Vuex from 'vuex'
 import Toasted from 'vue-toasted'
 import VueI18n from 'vue-i18n'
 import Web3 from 'web3'
+import localStorage from 'store'
 
 import routes from './routes'
 
 import Helper from './utils'
 
+import ERC20Abi from '../abis/ERC20.json'
 import TomoBridgeTokenAbi from '../abis/TomoBridgeWrapToken.json'
 
 import en from './assets/translation/en.json'
@@ -55,11 +57,15 @@ const store = new Vuex.Store({
         address: '',
         network: '',
         provider: '',
-        redirectTo: ''
+        redirectTo: '',
+        config: {},
+        balance: 0
     },
     getters: {
         address: state => state.address,
-        network: state => state.network
+        network: state => state.network,
+        config: state => state.config,
+        balance: state => state.balance
     }
 })
 
@@ -68,6 +74,9 @@ Vue.prototype.setupProvider = async function (provider, wjs) {
     if (wjs instanceof Web3) {
         Vue.prototype.web3 = wjs
         Vue.prototype.TomoBridgeTokenAbi = TomoBridgeTokenAbi
+        Vue.prototype.ERC20Abi = ERC20Abi
+        let config = localStorage.get('configBridge')
+        Vue.prototype.ethWeb3 = new Web3(new Web3.providers.HttpProvider(config.etherChain.rpc))
     }
 }
 
@@ -104,6 +113,9 @@ Vue.prototype.getAccount = async function (resolve, reject) {
 Vue.prototype.getChainId = Helper.getChainId
 
 Vue.prototype.truncate = Helper.truncate
+
+Vue.prototype.appConfig = Helper.getConfig
+Vue.prototype.getBalance = Helper.getBalance
 
 const EventBus = new Vue()
 

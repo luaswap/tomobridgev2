@@ -53,12 +53,14 @@
                         <div
                             v-if="address"
                             id="networkDiv"
-                            class="btn-token network ml-3">{{ network }}</div>
+                            class="btn-token network ml-3">{{ network.name }}</div>
                         <b-tooltip
                             v-if="address"
                             target="networkDiv">
-                            <a href="https://docs.tomochain.com/general/how-to-connect-to-tomochain-network/metamask"><u>Switch Networks</u></a>
-                            between Ethereum & TomoChain to access different trading pools
+                            <a
+                                href="https://docs.tomochain.com/general/how-to-connect-to-tomochain-network/metamask"
+                                target="_blank"><u>Switch Networks</u></a>
+                            between Ethereum & TomoChain to wrap and unwrap tokens
                         </b-tooltip>
                         <b-dropdown
                             :text="selectedLanguage"
@@ -66,12 +68,12 @@
                             <b-dropdown-item
                                 class="current-lang"
                                 @click="changeLang('english')">English</b-dropdown-item>
-                            <b-dropdown-item
+                            <!-- <b-dropdown-item
                                 @click="changeLang('turkish')">Türk</b-dropdown-item>
                             <b-dropdown-item
                                 @click="changeLang('japanese')">日本語</b-dropdown-item>
                             <b-dropdown-item
-                                @click="changeLang('chinese')">简体中文</b-dropdown-item>
+                                @click="changeLang('chinese')">简体中文</b-dropdown-item> -->
                         </b-dropdown>
                     </div>
                 </b-collapse>
@@ -124,6 +126,7 @@
 </template>
 
 <script>
+import Helper from './utils'
 import LoginModal from './components/modals/Login'
 export default {
     name: 'App',
@@ -133,7 +136,6 @@ export default {
     data () {
         return {
             selectedLanguage: this.$store.state.language || 'English',
-            // address: this.$store.state.address,
             provider: ''
         }
     },
@@ -150,6 +152,12 @@ export default {
             },
             set () {}
         },
+        balance: {
+            get () {
+                return this.$store.getters.balance
+            },
+            set () {}
+        },
         mobileCheck () {
             if (window.web3 && window.web3.currentProvider &&
                 window.web3.currentProvider.isTomoWallet) {
@@ -157,10 +165,36 @@ export default {
             } else return false
         }
     },
+    watch: {
+        network: async function (newVal, oldVal) {
+            if (newVal.name !== oldVal.name) {
+                if (this.address) {
+                    this.getBalance(this.address).then(data => {
+                        if (data) {
+                            this.$store.state.balance = data.toFixed(5)
+                        }
+                    })
+                }
+            }
+        }
+    },
     async updated () {
+        if (this.$store.state.address && this.$store.state.network) {
+            if (window.ethereum) {
+                window.ethereum.on('chainChanged', async (chainId) => {
+                    this.$store.state.network = Helper.networks[parseInt(chainId, 16)] || { name: 'Unknown', chainId: 0 }
+                    this.balance = (await this.getBalance(this.address)).toFixed(5)
+                })
+            }
+        }
     },
     destroyed () { },
     created: async function () {
+        this.appConfig().then(data => {
+            this.$store.state.config = data
+        }).catch(error => {
+            this.$toasted.show(error.message ? error.message : error, { type: 'error' })
+        })
     },
     methods: {
         openLoginModal () {
@@ -169,9 +203,11 @@ export default {
         signOut () {
             this.$store.state.address = ''
             this.$store.state.network = ''
-            // this.$router.go({
-            //     path: '/'
-            // })
+            if (this.$route.path !== '/select') {
+                this.$router.push({
+                    path: '/select'
+                })
+            }
         }
     }
 }

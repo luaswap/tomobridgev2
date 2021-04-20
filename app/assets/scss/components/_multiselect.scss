@@ -92,7 +92,8 @@ input[type=text], input[type=password] {
     padding: 0;
     position: absolute;
     top: 100%;
-    width: 200px;
+    // width: 200px;
+    width: 100%;
     z-index: 99;
 
     @include media-breakpoint-up(xxl) {

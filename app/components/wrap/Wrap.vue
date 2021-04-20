@@ -11,19 +11,27 @@
                     :show-labels="false"
                     :allow-empty="false"
                     :close-on-select="true"
-                    track-by="name">
+                    track-by="symbol"
+                    @select="getTokenBalance">
                     <template
                         slot="singleLabel"
                         slot-scope="props">
-                        <img
-                            v-if="props.option.image"
-                            :src="props.option.image"
-                            class="multiselect__img">
-                        <span class="multiselect__name">{{ props.option.name }}</span>
-                        <i
-                            v-if="(verifiedList.indexOf((props.option.wrapperAddress || '').toLowerCase()) > 0)
-                                || props.option.name === 'BTC' || props.option.name === 'ETH'"
-                            class="tb-check-circle-o multiselect_greentick"/>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <img
+                                    v-if="props.option.image"
+                                    :src="props.option.image"
+                                    class="multiselect__img">
+                                <span class="multiselect__name">{{ props.option.symbol }}</span>
+                                <i
+                                    v-if="(verifiedList.indexOf((props.option.wrapperAddress || '').toLowerCase()) > 0)
+                                        || props.option.symbol === 'BTC' || props.option.symbol === 'ETH'"
+                                    class="tb-check-circle-o multiselect_greentick"/>
+                            </div>
+                            <div
+                                v-if="tokenBalanceToFixed > 0"
+                                class="text-right">({{ tokenBalanceToFixed }})</div>
+                        </div>
                     </template>
                     <template
                         slot="option"
@@ -32,10 +40,10 @@
                             v-if="props.option.image"
                             :src="props.option.image"
                             class="multiselect__img">
-                        <span class="multiselect__name">{{ props.option.name }}</span>
+                        <span class="multiselect__name">{{ props.option.symbol }}</span>
                         <i
                             v-if="(verifiedList.indexOf((props.option.wrapperAddress || '').toLowerCase()) > 0)
-                                || props.option.name === 'BTC' || props.option.name === 'ETH'"
+                                || props.option.symbol === 'BTC' || props.option.symbol === 'ETH'"
                             class="tb-check-circle-o multiselect_greentick"/>
                     </template>
                 </multiselect>
@@ -43,7 +51,7 @@
         </b-row>
 
         <div class="text-center my-5">
-            <p>You are converting ERC-20 XXX to TomoChain wrapped XXX</p>
+            <p>You are converting ERC-20 {{ fromWrapSelected.symbol }} to TomoChain wrapped {{ fromWrapSelected.symbol }}</p>
         </div>
         <b-row>
             <b-col cols="6">
@@ -54,9 +62,9 @@
                     <li>
                         <span class="font-weight-bold">Estimated conversion transaction fee</span>
                         <div class="d-flex flex-column mt-4">
-                            <div v-if="!isApproved">Approve: 1 XXX</div>
-                            <div>Swap: 1 XXX</div>
-                            <div class="text-danger font-weight-bold">Total: 1 XXX</div>
+                            <div v-if="!isApproved">Approve: 1 ETH</div>
+                            <div>Swap: 1 ETH</div>
+                            <div class="text-danger font-weight-bold">Total: 1 ETH</div>
                         </div>
                     </li>
                 </ul>
@@ -71,8 +79,9 @@
                         type="text"
                         placeholder="Deposit amount"/>
                     <b-button
-                        class="add-address"
-                        variant="success">
+                        class="token-max"
+                        variant="success"
+                        @click="maxToken">
                         Max
                     </b-button>
                 </b-form-group>
@@ -84,6 +93,12 @@
                         v-model="recAddress"
                         type="text"
                         placeholder="Please use only TomoChain network address"/>
+                    <b-button
+                        class="add-address"
+                        variant="success"
+                        @click="useAddress">
+                        Address
+                    </b-button>
                 </b-form-group>
             </b-col>
         </b-row>
@@ -137,6 +152,7 @@
 </template>
 
 <script>
+import BigNumber from 'bignumber.js'
 import Multiselect from 'vue-multiselect'
 export default {
     name: 'App',
@@ -156,23 +172,78 @@ export default {
             recAddress: '',
             fromData: [
                 { name: 'Ethereum', symbol: 'ETH', image: '' }
-            ]
+            ],
+            config: this.$store.state.config,
+            tokenBalanceToFixed: 0,
+            tokenBalance: ''
         }
     },
     computed: {
+        address: {
+            get () {
+                return this.$store.getters.address
+            },
+            set () {}
+        }
     },
     async updated () {
     },
     destroyed () { },
     created: async function () {
+        this.$store.state.redirectTo = ''
+        if (!this.$store.state.address) {
+            this.$router.push({
+                path: '/select'
+            })
+        }
+        this.fromData = this.config.swapCoin || []
         this.fromWrapSelected = this.fromData[0]
+        this.getTokenBalance(this.fromWrapSelected)
     },
     methods: {
-        customLabel ({ name }) {
-            return `${name}`
+        customLabel ({ symbol }) {
+            return `${symbol}`
         },
         back () {
             this.$router.go(-1)
+        },
+        useAddress () {
+            this.recAddress = this.address
+        },
+        async maxToken () {
+            const token = this.fromWrapSelected
+            switch (token.symbol) {
+            case 'ETH':
+                const balanceEthBN = await this.ethWeb3.eth.getBalance(this.address)
+                this.depAmount = new BigNumber(balanceEthBN).div(10 ** 18).toString(10)
+                break
+            case 'BTC':
+                this.depAmount = 0
+                break
+            default:
+                this.depAmount = new BigNumber(this.tokenBalance).div(10 ** this.fromWrapSelected.decimals).toString(10)
+                break
+            }
+        },
+        async getTokenBalance (token) {
+            switch (token.symbol) {
+            case 'ETH':
+                this.tokenBalanceToFixed = this.$store.state.balance
+                break
+            case 'BTC':
+                this.tokenBalanceToFixed = 0
+                break
+            default:
+                const contract = new this.ethWeb3.eth.Contract(
+                    this.ERC20Abi.abi,
+                    token.tokenAddress
+                )
+                const tokenDecimals = await contract.methods.decimals().call()
+                let balanceBN = await contract.methods.balanceOf(this.address).call()
+                this.tokenBalance = balanceBN
+                this.tokenBalanceToFixed = new BigNumber(balanceBN).div(10 ** tokenDecimals).toFixed(5)
+                break
+            }
         }
     }
 }

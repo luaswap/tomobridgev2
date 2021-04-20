@@ -1,7 +1,18 @@
 import BigNumber from 'bignumber.js'
 import Vue from 'vue'
+import axios from 'axios'
+import * as localStorage from 'store'
 
 const Helper = {
+    networks: {
+        1: { name: 'Ethereum', chainId: 1 },
+        3: { name: 'Ropsten', chainId: 3 },
+        4: { name: 'Rinkeby', chainId: 4 },
+        5: { name: 'Goerly', chainid: 5 },
+        88: { name: 'TomoChain', chainId: 88 },
+        89: { name: 'TomoTestnet', chainId: 89 },
+        99: { name: 'TomoDevnet', chainId: 99 }
+    },
     getCurrencySymbol () {
         return 'TOMO'
     },
@@ -91,14 +102,28 @@ const Helper = {
         const chainId = await web3.eth.getId()
         return chainId
     },
-    networks: {
-        1: 'Ethereum',
-        3: 'Ropsten',
-        4: 'Rinkeby',
-        5: 'Goerly',
-        88: 'TomoChain',
-        89: 'Testnet',
-        99: 'Devnet'
+    async getConfig () {
+        let config = await axios.get('/api/config')
+        config.data.objSwapCoin = {}
+        config.data.swapCoin.forEach(c => {
+            config.data.objSwapCoin[c.symbol.toLowerCase()] = c
+        })
+        localStorage.set('configBridge', config.data)
+
+        return config.data
+    },
+    async getBalance (address) {
+        try {
+            if (Vue.prototype.web3) {
+                const web3 = Vue.prototype.web3
+                const balanceBN = await web3.eth.getBalance(address)
+                const balance = new BigNumber(balanceBN).div(10 ** 18)
+                return balance
+            }
+        } catch (error) {
+            console.log(error)
+            this.$toasted.show(error.message ? error.message : error, { type: 'error' })
+        }
     }
 }
 

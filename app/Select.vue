@@ -82,9 +82,23 @@ export default {
     },
     data () {
         return {
+            ethIds: [1, 3, 4, 5],
+            tomoIds: [88, 89, 99]
         }
     },
     computed: {
+        address: {
+            get () {
+                return this.$store.getters.address
+            },
+            set () {}
+        },
+        network: {
+            get () {
+                return this.$store.getters.network
+            },
+            set () {}
+        }
     },
     async updated () {
     },
@@ -94,20 +108,24 @@ export default {
     methods: {
         redirect (product) {
             switch (product) {
-            case 'wrapErc20':
-                if (!this.$store.state.address) {
-                    this.$store.state.redirectTo = 'wrap'
-                    this.$refs.loginModal.show()
-                } else {
-                    this.$router.push({ path: 'wrap' })
-                }
-                break
             case 'unwrapErc20':
                 if (!this.$store.state.address) {
                     this.$store.state.redirectTo = 'unwrap'
                     this.$refs.loginModal.show()
                 } else {
-                    this.$router.push({ path: 'unwrap' })
+                    if (this.tomoIds.indexOf(this.network.chainId) > -1) {
+                        this.$router.push({ path: 'unwrap' })
+                    } else { this.$toasted.show('Need TomoChain network to unwrap', { type: 'error' }) }
+                }
+                break
+            case 'wrapErc20':
+                if (!this.$store.state.address) {
+                    this.$store.state.redirectTo = 'wrap'
+                    this.$refs.loginModal.show()
+                } else {
+                    if (this.ethIds.indexOf(this.network.chainId) > -1) {
+                        this.$router.push({ path: 'wrap' })
+                    } else { this.$toasted.show('Need Ethereum network to wrap', { type: 'error' }) }
                 }
                 break
             default:
