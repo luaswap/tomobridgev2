@@ -68,7 +68,7 @@ const store = new Vuex.Store({
         balance: state => state.balance
     }
 })
-
+Vue.prototype.ethWeb3 = ''
 Vue.prototype.setupProvider = async function (provider, wjs) {
     Vue.prototype.NetworkProvider = provider
     if (wjs instanceof Web3) {

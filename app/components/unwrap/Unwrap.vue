@@ -12,7 +12,7 @@
                     :allow-empty="false"
                     :close-on-select="true"
                     track-by="name"
-                    @select="getTokenBalance">
+                    @select="selectToken">
                     <template
                         slot="singleLabel"
                         slot-scope="props">
@@ -30,7 +30,7 @@
                             </div>
                             <div
                                 v-if="tokenBalanceToFixed > 0"
-                                class="">({{ tokenBalanceToFixed }})</div>
+                                class="mr-3">({{ tokenBalanceToFixed }})</div>
                         </div>
                     </template>
                     <template
@@ -57,7 +57,7 @@
             <b-col cols="6">
                 <ul class="st-ul">
                     <li
-                        v-if="fromWrapSelected.symbol !== 'BTC' || fromWrapSelected.symbol !== 'ETH'">
+                        v-if="fromWrapSelected.symbol !== 'BTC' && fromWrapSelected.symbol !== 'ETH'">
                         View Wrapped Token address on
                         <a
                             :href="etherScanUrl"
@@ -66,9 +66,9 @@
                     <li>
                         <span class="font-weight-bold">Estimated conversion transaction fee</span>
                         <div class="d-flex flex-column mt-4">
-                            <div v-if="!isApproved">Approve: 1 TOMO</div>
-                            <div>Swap: 1 TOMO</div>
-                            <div class="text-danger font-weight-bold">Total: 1 TOMO</div>
+                            <!-- <div v-if="!isApproved">Approve: 1 TOMO</div> -->
+                            <div>Swap: {{ fee }} Wrapped {{ fromWrapSelected.symbol }}</div>
+                            <div class="text-danger font-weight-bold">Total: {{ fee }} Wrapped {{ fromWrapSelected.symbol }}</div>
                         </div>
                     </li>
                 </ul>
@@ -77,9 +77,9 @@
                 <b-form-group
                     class="mb-4"
                     label="Amount"
-                    label-for="withdrawAmount">
+                    label-for="amount">
                     <b-form-input
-                        v-model="withdrawAmount"
+                        v-model="amount"
                         type="text"
                         placeholder="Deposit amount"/>
                     <b-button
@@ -144,7 +144,8 @@
                 Back
             </b-button>
             <b-button
-                class="btn--big st-next">
+                class="btn--big st-next"
+                @click="unwrapToken">
                 Next
                 <b-icon
                     class="light-h"
@@ -159,6 +160,7 @@
 import urljoin from 'url-join'
 import BigNumber from 'bignumber.js'
 import Multiselect from 'vue-multiselect'
+import WAValidator from 'wallet-address-validator'
 export default {
     name: 'App',
     components: {
@@ -167,7 +169,7 @@ export default {
     data () {
         return {
             verifiedList: [],
-            withdrawAmount: '',
+            amount: '',
             isApproved: false,
             agreeEx: false,
             agreePk: false,
@@ -181,7 +183,13 @@ export default {
             config: this.$store.state.config,
             etherScanUrl: '',
             tokenBalanceToFixed: 0,
-            tokenBalance: ''
+            tokenBalance: '',
+            isAddress: true,
+            tomoFeeMode: false,
+            fee: 0,
+            contract: '',
+            contractAddress: '',
+            isNativeToken: false
         }
     },
     computed: {
@@ -193,11 +201,6 @@ export default {
         }
     },
     async updated () {
-        this.etherScanUrl = urljoin(
-            this.fromWrapSelected.explorerUrl,
-            'token',
-            this.fromWrapSelected.tokenAddress
-        )
     },
     destroyed () { },
     created: async function () {
@@ -206,10 +209,28 @@ export default {
             this.$router.push({
                 path: '/select'
             })
+        } else {
+            this.fromData = this.config.swapCoin || []
+            this.fromWrapSelected = this.fromData[0]
+
+            this.etherScanUrl = urljoin(
+                this.fromWrapSelected.explorerUrl,
+                'token',
+                this.fromWrapSelected.tokenAddress
+            )
+
+            const { contract, contractAddress } = await this.getContract()
+            this.contract = contract
+            this.contractAddress = contractAddress
+            this.getTokenBalance(this.fromWrapSelected)
+            this.contract.methods.TOMO_FEE_MODE.call()
+                .then(data => {
+                    this.tomoFeeMode = data
+                    this.getWithdrawFee()
+                }).catch(error => {
+                    this.$toasted.show(error, { type: 'error' })
+                })
         }
-        this.fromData = this.config.swapCoin || []
-        this.fromWrapSelected = this.fromData[0]
-        this.getTokenBalance(this.fromWrapSelected)
     },
     methods: {
         customLabel ({ name }) {
@@ -223,7 +244,29 @@ export default {
         },
         maxToken () {
             const token = this.fromWrapSelected
-            this.withdrawAmount = new BigNumber(this.tokenBalance).div(10 ** token.decimals).toString()
+            this.amount = new BigNumber(this.tokenBalance).div(10 ** token.decimals).toString()
+        },
+        async selectToken (token) {
+            this.etherScanUrl = urljoin(
+                token.explorerUrl,
+                'token',
+                token.tokenAddress
+            )
+            await this.getContract()
+            this.getTokenBalance(token)
+            this.tomoFeeMode = await this.contract.methods.TOMO_FEE_MODE.call()
+            this.getWithdrawFee()
+        },
+        getContract () {
+            let id = this.fromWrapSelected
+            let swapCoin = this.config.objSwapCoin
+            let tokenSymbol = id.symbol.toLowerCase()
+            let contract = new this.web3.eth.Contract(
+                // this.WrapperAbi.abi,
+                this.TomoBridgeTokenAbi.abi,
+                swapCoin[tokenSymbol].wrapperAddress.toLowerCase()
+            )
+            return { contract, contractAddress: swapCoin[tokenSymbol].wrapperAddress }
         },
         async getTokenBalance (token) {
             const contract = new this.web3.eth.Contract(
@@ -233,6 +276,64 @@ export default {
             const balanceBN = await contract.methods.balanceOf(this.address).call()
             this.tokenBalance = balanceBN
             this.tokenBalanceToFixed = new BigNumber(balanceBN).div(10 ** token.decimals).toFixed(5)
+        },
+        async getWithdrawFee () {
+            const coin = this.fromWrapSelected
+            let feeBN
+            if (this.tomoFeeMode) {
+                feeBN = await this.contract.methods.WITHDRAW_FEE_TOMO().call()
+                this.fee = new BigNumber(feeBN).div(10 ** 18).toString(10)
+                this.feeAmount = new BigNumber(feeBN).toString(10)
+            } else {
+                feeBN = await this.contract.methods.WITHDRAW_FEE().call()
+                this.fee = new BigNumber(feeBN).div(10 ** coin.decimals).toString(10)
+            }
+        },
+        isValidAddresss () {
+            const address = this.withdrawAddress
+            const config = this.config
+            // Check network
+            const network = config.blockchain.networkId === 88 ? 'prod' : 'testnet'
+            switch (this.fromWrapSelected.network.toLowerCase()) {
+            case 'bitcoin':
+                return WAValidator.validate(address, 'BTC', network)
+            case 'ethereum':
+                return this.web3.utils.isAddress(address)
+            default:
+                return false
+            }
+        },
+        checkMinimumWithdrawAmount () {
+            const coin = this.fromWrapSelected
+            if (new BigNumber(this.amount || 0).isLessThan(new BigNumber(coin.minimumWithdrawal))) {
+                return false
+            }
+            return true
+        },
+        unwrapToken () {
+            const coin = this.fromWrapSelected
+            this.isAddress = this.isValidAddresss()
+            if (this.isAddress) {
+                if (!this.agreeAll || !this.agreeEx || !this.agreePk) {
+                    this.$toasted.show('Confirmation required', { type: 'error' })
+                    // this.allChecked = true
+                } else if (!this.checkMinimumWithdrawAmount()) {
+                    this.$toasted.show(`Minimum Withdrawal is ${coin.minimumWithdrawal} ${coin.symbol}`)
+                } else if (new BigNumber(this.amount).isLessThan(this.fee)) {
+                    this.$toasted.show('Withdraw amount must be greater than withdraw fee', { type: 'error' })
+                } else {
+                    this.$router.push({
+                        name: 'UnwrapExecution',
+                        params: {
+                            withdrawAddress: this.withdrawAddress,
+                            amount: this.amount,
+                            fromWrapSelected: this.fromWrapSelected
+                        }
+                    })
+                }
+            } else {
+                this.$toasted.show('Invalid recipient address', { type: 'error' })
+            }
         }
     }
 }

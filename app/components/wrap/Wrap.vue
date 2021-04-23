@@ -12,7 +12,7 @@
                     :allow-empty="false"
                     :close-on-select="true"
                     track-by="symbol"
-                    @select="getTokenBalance">
+                    @select="selectToken">
                     <template
                         slot="singleLabel"
                         slot-scope="props">
@@ -30,7 +30,7 @@
                             </div>
                             <div
                                 v-if="tokenBalanceToFixed > 0"
-                                class="text-right">({{ tokenBalanceToFixed }})</div>
+                                class="text-right mr-3">({{ tokenBalanceToFixed }})</div>
                         </div>
                     </template>
                     <template
@@ -51,13 +51,17 @@
         </b-row>
 
         <div class="text-center my-5">
-            <p>You are converting ERC-20 {{ fromWrapSelected.symbol }} to TomoChain wrapped {{ fromWrapSelected.symbol }}</p>
+            <p>You are converting {{ fromWrapSelected.symbol !== 'ETH' && fromWrapSelected.symbol !== 'BTC' ? 'ERC-20' : '' }}
+                {{ fromWrapSelected.symbol }} to TomoChain wrapped {{ fromWrapSelected.symbol }}</p>
         </div>
         <b-row>
             <b-col cols="6">
                 <ul class="st-ul">
-                    <li>View Wrapped Token address on
-                        <a href="#">TomoScan</a>
+                    <li>
+                        View Wrapped Token address on
+                        <a
+                            :href="tomoScanUrl"
+                            target="_blank">TomoScan</a>
                     </li>
                     <li>
                         <span class="font-weight-bold">Estimated conversion transaction fee</span>
@@ -140,7 +144,8 @@
                 Back
             </b-button>
             <b-button
-                class="btn--big st-next">
+                class="btn--big st-next"
+                @click="wrapToken">
                 Next
                 <b-icon
                     class="light-h"
@@ -154,6 +159,8 @@
 <script>
 import BigNumber from 'bignumber.js'
 import Multiselect from 'vue-multiselect'
+import urljoin from 'url-join'
+import WAValidator from 'wallet-address-validator'
 export default {
     name: 'App',
     components: {
@@ -175,7 +182,9 @@ export default {
             ],
             config: this.$store.state.config,
             tokenBalanceToFixed: 0,
-            tokenBalance: ''
+            tokenBalance: '',
+            tomoScanUrl: '',
+            minimumDeposit: 0
         }
     },
     computed: {
@@ -195,10 +204,20 @@ export default {
             this.$router.push({
                 path: '/select'
             })
+        } else {
+            const config = this.config
+            this.fromData = this.config.swapCoin || []
+            this.fromWrapSelected = this.fromData[0]
+
+            this.minimumDeposit = this.fromWrapSelected.minimumWithdrawal
+
+            this.tomoScanUrl = urljoin(
+                config.tomoscanUrl,
+                'tokens',
+                this.fromWrapSelected.wrapperAddress
+            )
+            this.getTokenBalance(this.fromWrapSelected)
         }
-        this.fromData = this.config.swapCoin || []
-        this.fromWrapSelected = this.fromData[0]
-        this.getTokenBalance(this.fromWrapSelected)
     },
     methods: {
         customLabel ({ symbol }) {
@@ -243,6 +262,59 @@ export default {
                 this.tokenBalance = balanceBN
                 this.tokenBalanceToFixed = new BigNumber(balanceBN).div(10 ** tokenDecimals).toFixed(5)
                 break
+            }
+        },
+        checkminimumDeposit () {
+            if (
+                new BigNumber(this.depAmount || 0).isLessThan(this.minimumDeposit)
+            ) {
+                return false
+            } else { return true }
+        },
+        async selectToken (token) {
+            const config = this.config
+            this.tomoScanUrl = urljoin(
+                config.tomoscanUrl,
+                'tokens',
+                token.wrapperAddress
+            )
+            this.getTokenBalance(token)
+        },
+        isValidAddresss () {
+            const address = this.recAddress
+            const config = this.config
+            // Check network
+            const network = config.blockchain.networkId === 88 ? 'prod' : 'testnet'
+            switch (this.fromWrapSelected.network.toLowerCase()) {
+            case 'bitcoin':
+                return WAValidator.validate(address, 'BTC', network)
+            case 'ethereum':
+                return this.web3.utils.isAddress(address)
+            default:
+                return false
+            }
+        },
+        wrapToken () {
+            const coin = this.fromWrapSelected
+            this.isAddress = this.isValidAddresss()
+            if (this.isAddress) {
+                if (!this.agreeAll || !this.agreeEx || !this.agreePk) {
+                    this.$toasted.show('Confirmation required', { type: 'error' })
+                    // this.allChecked = true
+                } else if (!this.checkminimumDeposit()) {
+                    this.$toasted.show(`Minimum deposit is ${coin.minimumWithdrawal} ${coin.symbol}`)
+                } else {
+                    this.$router.push({
+                        name: 'WrapExecution',
+                        params: {
+                            receiveAddress: this.recAddress,
+                            fromWrapToken: this.fromWrapSelected,
+                            depAmount: this.depAmount
+                        }
+                    })
+                }
+            } else {
+                this.$toasted.show('Invalid recipient address', { type: 'error' })
             }
         }
     }

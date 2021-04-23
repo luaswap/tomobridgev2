@@ -57,7 +57,7 @@ export default {
     },
     data () {
         return {
-            step: 3,
+            step: 1,
             fromWrapToken: {},
             toWrapToken: {},
             receiveAddress: this.$route.params.receiveAddress || '',
