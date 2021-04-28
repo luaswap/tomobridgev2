@@ -50,7 +50,7 @@
         width: 100%;
         // margin: 0 0 0 0;
         box-shadow: 0px 3px 8px rgba(#000, 0.5);
-        transition: all .3s;
+        transition: all 0s;
 
         @include media-breakpoint-down(sm) {
             padding: 10px 15px;
@@ -195,6 +195,7 @@
                     // color: #242428;
                     color: #888;
                     text-decoration: none;
+                    transition: all 0s ease;
 
                     &:hover {
                         color: #069c7c;

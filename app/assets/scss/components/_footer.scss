@@ -64,6 +64,7 @@
 
                 a {
                     color: $color-dark;
+                    transition: all 0s ease;
 
                     &:hover {
                         color: $color-text;

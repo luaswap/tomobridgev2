@@ -150,6 +150,7 @@
         background-color: #00e9b4!important;
         color: #000 !important;
         font-weight: bold !important;
+        display: inline-table;
     }
 }
 
@@ -157,4 +158,8 @@
     background-color: transparent!important;
     border: 0;
     color: #fff;
+}
+
+.info-wallet {
+    font-size: 16px;
 }

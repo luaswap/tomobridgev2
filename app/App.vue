@@ -20,36 +20,38 @@
                 <b-collapse
                     id="nav-collapse"
                     is-nav>
-                    <div class="ml-auto navbar-buttons d-flex">
+                    <div class="ml-auto navbar-buttons d-flex align-content-center">
                         <b-button
                             v-if="!address"
                             class="btn-token"
                             @click="openLoginModal">Connect Wallets</b-button>
-                        <b-nav-item-dropdown
-                            v-if="address"
-                            class=""
-                            offset="25"
-                            no-caret
-                            right>
-                            <template
-                                slot="button-content"
-                                class="tmp-btn-transparent">
-                                <i class="tm-icon-wallet"/>
-                                {{ truncate(address, 16) }}
-                            </template>
-                            <b-dropdown-text
-                                class="flex_box">
-                                <span>Balance:</span>
-                                <strong>{{ balance }} TOMO</strong>
-                            </b-dropdown-text>
-                            <b-dropdown-divider/>
-                            <b-dropdown-item
-                                v-if="!mobileCheck"
-                                class="sign_out"
-                                @click="signOut">
-                                Sign out
-                            </b-dropdown-item>
-                        </b-nav-item-dropdown>
+                        <b-navbar-nav>
+                            <b-nav-item-dropdown
+                                v-if="address"
+                                class="info-wallet"
+                                offset="25"
+                                no-caret
+                                right>
+                                <template
+                                    slot="button-content"
+                                    class="tmp-btn-transparent">
+                                    <i class="tm-icon-wallet"/>
+                                    {{ truncate(address, 16) }}
+                                </template>
+                                <b-dropdown-item
+                                    class="flex_box">
+                                    <span>Balance:</span>
+                                    <strong>{{ balance }} TOMO</strong>
+                                </b-dropdown-item>
+                                <b-dropdown-divider/>
+                                <b-dropdown-item
+                                    v-if="!mobileCheck"
+                                    class="sign_out"
+                                    @click="signOut">
+                                    Sign out
+                                </b-dropdown-item>
+                            </b-nav-item-dropdown>
+                        </b-navbar-nav>
                         <div
                             v-if="address"
                             id="networkDiv"
