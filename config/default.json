@@ -9,10 +9,30 @@
     "cors": [
         "https://swagger.tomochain.com"
     ],
+    "etherChain": {
+        "rpc": "",
+        "networkId": 1,
+        "etherScanURL": "https://etherscan.io/"
+    },
     "blockchain": {
-        "rpc": "https://rpc.tomochain.com",
-        "ws": "wss://rpc.tomochain.com/ws",
-        "networkId": 88,
-        "gas": 2000000
+        "rpc": "https://rpc.devnet.tomochain.com",
+        "ws": "wss://rpc.devnet.tomochain.com/ws",
+        "networkId": 99,
+        "gas": 2000000,
+        "contractBridgeEth": ""
+    },
+    "tomoscanUrl": "https://scan.devnet.tomochain.com",
+    "tomoscanAPI": "https://scan.devnet.tomochain.com",
+    "serverAPI": "https://bridge.devnet.tomochain.com",
+    "serverAPI1": "https://bridge.tomochain.com",
+    "tokenListAPI": "https://raw.githubusercontent.com/tomochain/tokens/master/tokens",
+    "verifiedListAPI": "https://raw.githubusercontent.com/tomochain/tokens/master/verifiedlist.json",
+    "db": {
+        "uri": "mongodb://mongodb:27017/tomobridge"
+    },
+    "GA": "UA-160923475-1",
+    "truffle": {
+        "privateKey": "",
+        "minCapacity": "10"
     }
 }

@@ -68,7 +68,6 @@ export default {
         hide () {},
         async loginMetamask () {
             try {
-                const parent = this.parent
                 if (window.ethereum) {
                     this.loading = true
                     const walletProvider = window.ethereum
@@ -79,18 +78,17 @@ export default {
                     this.$store.state.network = Helper.networks[data] || { name: 'Unknown', chainId: 0 }
                     this.address = await this.getAccount()
 
-                    // this.balance = (await this.getBalance(this.address)).toFixed(5)
-
                     this.getBalance(this.address).then(data => {
                         if (data) {
                             this.$store.state.balance = data.toFixed(5)
                         }
-                    })
+                    }).catch(error => console.log(error))
 
                     parent.address = this.address
                     this.$store.state.address = this.address
                     this.$store.state.provider = 'metamask'
                     this.loading = false
+
                     this.$refs.loginModal.hide()
                     if (this.$store.state.redirectTo) {
                         if (this.checkNetworkBeforeRedirect()) {
@@ -115,7 +113,7 @@ export default {
                     await this.setupProvider('pantograph', wjs)
                     this.getChainId().then(data => {
                         this.$store.state.network = Helper.networks[data] || { name: 'Unknown', chainId: 0 }
-                    })
+                    }).catch(error => console.log(error))
                     this.address = await this.getAccount()
 
                     parent.address = this.address

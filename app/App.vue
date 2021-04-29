@@ -194,6 +194,7 @@ export default {
     created: async function () {
         this.appConfig().then(data => {
             this.$store.state.config = data
+            this.config = data
         }).catch(error => {
             this.$toasted.show(error.message ? error.message : error, { type: 'error' })
         })

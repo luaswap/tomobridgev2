@@ -15,6 +15,7 @@ import routes from './routes'
 import Helper from './utils'
 
 import ERC20Abi from '../abis/ERC20.json'
+import ContractBridgeEth from '../abis/ContractBridgeEth.json'
 import TomoBridgeTokenAbi from '../abis/TomoBridgeWrapToken.json'
 
 import en from './assets/translation/en.json'
@@ -68,15 +69,16 @@ const store = new Vuex.Store({
         balance: state => state.balance
     }
 })
-Vue.prototype.ethWeb3 = ''
+Vue.prototype.web3Eth = ''
 Vue.prototype.setupProvider = async function (provider, wjs) {
     Vue.prototype.NetworkProvider = provider
     if (wjs instanceof Web3) {
         Vue.prototype.web3 = wjs
         Vue.prototype.TomoBridgeTokenAbi = TomoBridgeTokenAbi
         Vue.prototype.ERC20Abi = ERC20Abi
+        Vue.prototype.ContractBridgeEthAbi = ContractBridgeEth
         let config = localStorage.get('configBridge')
-        Vue.prototype.ethWeb3 = new Web3(new Web3.providers.HttpProvider(config.etherChain.rpc))
+        Vue.prototype.web3Eth = new Web3(new Web3.providers.HttpProvider(config.etherChain.rpc))
     }
 }
 
