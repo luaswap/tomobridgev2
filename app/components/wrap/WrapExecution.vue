@@ -8,7 +8,7 @@
                         'steps__col--active' : step >= 1,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Send Request {{ fromWrapToken.name || '' }}</p>
+                    <p class="steps__name">Send Request {{ fromWrapSelected.name || '' }}</p>
                     <p class="steps__number"><span>1</span></p>
                 </b-col>
                 <b-col
@@ -26,7 +26,7 @@
                         'steps__col--active' : step >= 3,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Send TomoChain wrapped USDT {{ toWrapToken.name || '' }} {{ fromWrapToken.name || '' }}</p>
+                    <p class="steps__name">Send TomoChain wrapped {{ fromWrapSelected.name || '' }}</p>
                     <p class="steps__number"><span>3</span></p>
                 </b-col>
             </b-row>
@@ -58,12 +58,15 @@ export default {
     data () {
         return {
             step: 1,
-            fromWrapToken: {},
-            toWrapToken: {},
+            fromWrapSelected: this.$store.state.fromWrapSelected || {},
             receiveAddress: this.$route.params.receiveAddress || '',
-            config: {},
-            expireTime: ''
+            config: this.$store.state.config || {},
+            depAmount: this.$route.params.depAmount || {},
+            expireTime: '',
+            address: this.$store.state.address
         }
+    },
+    computed: {
     },
     async updated () {
     },

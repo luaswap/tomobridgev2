@@ -12,7 +12,7 @@
                     :allow-empty="false"
                     :close-on-select="true"
                     track-by="symbol"
-                    @select="selectToken">
+                    @input="selectToken">
                     <template
                         slot="singleLabel"
                         slot-scope="props">
@@ -66,9 +66,9 @@
                     <li>
                         <span class="font-weight-bold">Estimated conversion transaction fee</span>
                         <div class="d-flex flex-column mt-4">
-                            <div v-if="!isApproved">Approve: 1 ETH</div>
-                            <div>Swap: 1 ETH</div>
-                            <div class="text-danger font-weight-bold">Total: 1 ETH</div>
+                            <div v-if="fromWrapSelected.symbol !== 'ETH' && !isApproved">Approve: ~{{ estimateApprovement }} ETH</div>
+                            <div>Swap: ~{{ estimateSwap }} ETH</div>
+                            <div class="text-danger font-weight-bold">Total: ~{{ estimateTotal }} ETH</div>
                         </div>
                     </li>
                 </ul>
@@ -145,14 +145,16 @@
             </b-button>
             <b-button
                 class="btn--big st-next"
-                @click="wrapToken">
-                Next
+                @click="redirectFunction">
+                {{ wrapButtonTitle }}
                 <b-icon
                     class="light-h"
                     icon="arrow-right-short"
                     font-scale="1.5"/>
             </b-button>
         </div>
+        <div
+            :class="(loading ? 'tomo-loading' : '')"/>
     </b-container>
 </template>
 
@@ -170,7 +172,7 @@ export default {
         return {
             verifiedList: [],
             depAmount: '',
-            isApproved: false,
+            isApproved: true,
             agreeEx: false,
             agreePk: false,
             agreeAll: false,
@@ -184,7 +186,13 @@ export default {
             tokenBalanceToFixed: 0,
             tokenBalance: '',
             tomoScanUrl: '',
-            minimumDeposit: 0
+            minimumDeposit: 0,
+            estimateApprovement: '',
+            estimateSwap: '',
+            estimateTotal: '',
+            ethGasPrice: '',
+            wrapButtonTitle: 'Next',
+            loading: false
         }
     },
     computed: {
@@ -210,6 +218,11 @@ export default {
             this.fromWrapSelected = this.fromData[0]
 
             this.minimumDeposit = this.fromWrapSelected.minimumWithdrawal
+            this.web3Eth.eth.getGasPrice()
+                .then(data => {
+                    this.ethGasPrice = data
+                })
+                .catch(error => console.log(error))
 
             this.tomoScanUrl = urljoin(
                 config.tomoscanUrl,
@@ -217,6 +230,7 @@ export default {
                 this.fromWrapSelected.wrapperAddress
             )
             this.getTokenBalance(this.fromWrapSelected)
+            this.checkApprove()
         }
     },
     methods: {
@@ -233,7 +247,7 @@ export default {
             const token = this.fromWrapSelected
             switch (token.symbol) {
             case 'ETH':
-                const balanceEthBN = await this.ethWeb3.eth.getBalance(this.address)
+                const balanceEthBN = await this.web3Eth.eth.getBalance(this.address)
                 this.depAmount = new BigNumber(balanceEthBN).div(10 ** 18).toString(10)
                 break
             case 'BTC':
@@ -253,7 +267,7 @@ export default {
                 this.tokenBalanceToFixed = 0
                 break
             default:
-                const contract = new this.ethWeb3.eth.Contract(
+                const contract = new this.web3Eth.eth.Contract(
                     this.ERC20Abi.abi,
                     token.tokenAddress
                 )
@@ -266,19 +280,30 @@ export default {
         },
         checkminimumDeposit () {
             if (
-                new BigNumber(this.depAmount || 0).isLessThan(this.minimumDeposit)
+                new BigNumber(this.depAmount || 0).isLessThan(new BigNumber(this.fromWrapSelected.minimumWithdrawal))
             ) {
                 return false
             } else { return true }
         },
         async selectToken (token) {
+            this.estimateTotal = ''
+            this.estimateSwap = ''
+            this.fromWrapSelected = token
             const config = this.config
             this.tomoScanUrl = urljoin(
                 config.tomoscanUrl,
                 'tokens',
                 token.wrapperAddress
             )
-            this.getTokenBalance(token)
+            if (token.symbol === 'ETH') {
+                this.wrapButtonTitle = 'Next'
+                this.isApproved = true
+            } else {
+                this.isApproved = false
+            }
+            await this.checkApprove(token)
+            await this.getTokenBalance(token)
+            this.estimateGasSwap(token)
         },
         isValidAddresss () {
             const address = this.recAddress
@@ -294,6 +319,114 @@ export default {
                 return false
             }
         },
+        async checkApprove (token = this.fromWrapSelected) {
+            try {
+                const config = this.config
+                if (token.tokenAddress) {
+                    const contract = new this.web3.eth.Contract(
+                        this.ERC20Abi.abi,
+                        token.tokenAddress
+                    )
+
+                    const allowance = await contract.methods.allowance(this.address, config.blockchain.contractBridgeEth).call()
+
+                    if (new BigNumber(allowance).isLessThanOrEqualTo(0)) {
+                        this.isApproved = false
+                        this.wrapButtonTitle = 'Approve'
+                        contract.methods.approve(
+                            config.blockchain.contractBridgeEth,
+                            new BigNumber(2).exponentiatedBy(256).minus(1).toString(10)
+                        ).estimateGas({
+                            from: this.address
+                        }).then(data => {
+                            this.estimateApprovement = new BigNumber(data).multipliedBy(this.ethGasPrice)
+                                .div(10 ** 18).toNumber()
+                            this.estimateTotal += this.estimateApprovement
+                        })
+                    } else {
+                        this.isApproved = true
+                        this.wrapButtonTitle = 'Next'
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+                this.$toasted.show(`Estimate approvement fee error: ${error.message ? error.message : error}`, { type: 'error' })
+            }
+        },
+        async estimateGasSwap (token = this.fromWrapSelected) {
+            try {
+                const config = this.config
+                let price
+                const contract = new this.web3Eth.eth.Contract(
+                    this.ContractBridgeEthAbi.abi,
+                    config.blockchain.contractBridgeEth
+                )
+                if (token.tokenAddress && this.isApproved) {
+                    const estimateGas = await contract.methods.swapErc20(
+                        token.tokenAddress,
+                        this.recAddress || this.address,
+                        this.depAmount || this.tokenBalance.toString(10)
+                    ).estimateGas({
+                        from: this.address
+                    })
+                    price = new BigNumber(estimateGas).multipliedBy(this.ethGasPrice).div(10 ** 18)
+                } else if (token.symbol === 'ETH') {
+                    const estimateGas = await contract.methods.swapEth(
+                        this.recAddress || this.address
+                    ).estimateGas({
+                        from: this.address,
+                        value: 12
+                    })
+                    price = new BigNumber(estimateGas).multipliedBy(this.ethGasPrice).div(10 ** 18)
+                }
+                if (price) {
+                    this.estimateSwap = price
+                    this.estimateTotal += price.toNumber()
+                }
+            } catch (error) {
+                console.log(error)
+                this.$toasted.show(`Estimate swap fee error: ${error.message ? error.message : error}`, { type: 'error' })
+            }
+        },
+        async approveContract () {
+            try {
+                this.loading = true
+                const config = this.config
+                const contract = new this.web3.eth.Contract(
+                    this.ERC20Abi.abi,
+                    this.fromWrapSelected.tokenAddress
+                )
+                await contract.methods.approve(
+                    config.blockchain.contractBridgeEth,
+                    // new BigNumber(100000).multipliedBy(10 ** this.fromWrapSelected.decimals).toString(10)
+                    new BigNumber(2).exponentiatedBy(256).minus(1).toString(10)
+                ).send({ from: this.address }).on('transactionHash', async txHash => {
+                    let check = true
+                    while (check) {
+                        const receipt = await this.web3.eth.getTransactionReceipt(txHash)
+                        if (receipt) {
+                            this.isApproved = true
+                            this.loading = false
+                            check = false
+                            this.selectToken(this.fromWrapSelected)
+                        }
+                    }
+                }).catch(error => {
+                    console.log(error)
+                    this.$toasted.show(error.message ? error.message : error, { type: 'error' })
+                })
+            } catch (error) {
+                console.log(error)
+                this.$toasted.show('Approvement error:', error.message ? error.message : error, { type: 'error' })
+            }
+        },
+        redirectFunction () {
+            if (this.isApproved) {
+                this.wrapToken()
+            } else {
+                this.approveContract()
+            }
+        },
         wrapToken () {
             const coin = this.fromWrapSelected
             this.isAddress = this.isValidAddresss()
@@ -303,12 +436,14 @@ export default {
                     // this.allChecked = true
                 } else if (!this.checkminimumDeposit()) {
                     this.$toasted.show(`Minimum deposit is ${coin.minimumWithdrawal} ${coin.symbol}`)
+                } else if (new BigNumber(this.depAmount).multipliedBy(10 ** coin.decimals).isGreaterThan(this.tokenBalance)) {
+                    this.$toasted.show(`Not enough ${coin.symbol}`, { type: 'error' })
                 } else {
                     this.$router.push({
                         name: 'WrapExecution',
                         params: {
                             receiveAddress: this.recAddress,
-                            fromWrapToken: this.fromWrapSelected,
+                            fromWrapSelected: this.fromWrapSelected,
                             depAmount: this.depAmount
                         }
                     })
