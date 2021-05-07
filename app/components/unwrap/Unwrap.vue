@@ -67,8 +67,12 @@
                         <span class="font-weight-bold">Estimated conversion transaction fee</span>
                         <div class="d-flex flex-column mt-4">
                             <!-- <div v-if="!isApproved">Approve: 1 TOMO</div> -->
-                            <div>Swap: {{ fee }} Wrapped {{ fromWrapSelected.symbol }}</div>
-                            <div class="text-danger font-weight-bold">Total: {{ fee }} Wrapped {{ fromWrapSelected.symbol }}</div>
+                            <div>
+                                Swap: {{ fee }} Wrapped {{ tomoFeeMode ? 'TOMO' : fromWrapSelected.symbol }}
+                            </div>
+                            <div class="text-danger font-weight-bold">
+                                Total: {{ fee }} Wrapped {{ tomoFeeMode ? 'TOMO' : fromWrapSelected.symbol }}
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -80,8 +84,9 @@
                     label-for="amount">
                     <b-form-input
                         v-model="amount"
-                        type="text"
-                        placeholder="Deposit amount"/>
+                        :placeholder="fromWrapSelected.minimumWithdrawal ?
+                            `Deposit amount(Min: ${fromWrapSelected.minimumWithdrawal} ${fromWrapSelected.symbol})` : 'Deposit amount'"
+                        type="text"/>
                     <b-button
                         class="token-max"
                         variant="success"
@@ -247,26 +252,25 @@ export default {
             this.amount = new BigNumber(this.tokenBalance).div(10 ** token.decimals).toString()
         },
         async selectToken (token) {
+            this.fromWrapSelected = token
             this.etherScanUrl = urljoin(
                 token.explorerUrl,
                 'token',
                 token.tokenAddress
             )
-            await this.getContract()
+            await this.getContract(token)
             this.getTokenBalance(token)
             this.tomoFeeMode = await this.contract.methods.TOMO_FEE_MODE.call()
-            this.getWithdrawFee()
+            await this.getWithdrawFee(token)
         },
-        getContract () {
-            let id = this.fromWrapSelected
-            let swapCoin = this.config.objSwapCoin
-            let tokenSymbol = id.symbol.toLowerCase()
-            let contract = new this.web3.eth.Contract(
+        getContract (token = this.fromWrapSelected) {
+            console.log(token.wrapperAddress)
+            this.contract = new this.web3.eth.Contract(
                 // this.WrapperAbi.abi,
                 this.TomoBridgeTokenAbi.abi,
-                swapCoin[tokenSymbol].wrapperAddress.toLowerCase()
+                token.wrapperAddress.toLowerCase()
             )
-            return { contract, contractAddress: swapCoin[tokenSymbol].wrapperAddress }
+            return { contract: this.contract, contractAddress: token.wrapperAddress }
         },
         async getTokenBalance (token) {
             const contract = new this.web3.eth.Contract(
@@ -277,16 +281,14 @@ export default {
             this.tokenBalance = balanceBN
             this.tokenBalanceToFixed = new BigNumber(balanceBN).div(10 ** token.decimals).toFixed(5)
         },
-        async getWithdrawFee () {
-            const coin = this.fromWrapSelected
+        async getWithdrawFee (token = this.fromWrapSelected) {
             let feeBN
             if (this.tomoFeeMode) {
                 feeBN = await this.contract.methods.WITHDRAW_FEE_TOMO().call()
                 this.fee = new BigNumber(feeBN).div(10 ** 18).toString(10)
-                this.feeAmount = new BigNumber(feeBN).toString(10)
             } else {
                 feeBN = await this.contract.methods.WITHDRAW_FEE().call()
-                this.fee = new BigNumber(feeBN).div(10 ** coin.decimals).toString(10)
+                this.fee = new BigNumber(feeBN).div(10 ** token.decimals).toString(10)
             }
         },
         isValidAddresss () {

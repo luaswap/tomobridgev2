@@ -175,7 +175,7 @@ export default {
                         if (data) {
                             this.$store.state.balance = data.toFixed(5)
                         }
-                    })
+                    }).catch(error => console.log(error))
                 }
             }
         }

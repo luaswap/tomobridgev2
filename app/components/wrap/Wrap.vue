@@ -231,6 +231,7 @@ export default {
             )
             this.getTokenBalance(this.fromWrapSelected)
             this.checkApprove()
+            this.estimateGasSwap()
         }
     },
     methods: {
@@ -321,6 +322,7 @@ export default {
         },
         async checkApprove (token = this.fromWrapSelected) {
             try {
+                console.log(token)
                 const config = this.config
                 if (token.tokenAddress) {
                     const contract = new this.web3.eth.Contract(
@@ -342,6 +344,8 @@ export default {
                             this.estimateApprovement = new BigNumber(data).multipliedBy(this.ethGasPrice)
                                 .div(10 ** 18).toNumber()
                             this.estimateTotal += this.estimateApprovement
+                        }).catch(error => {
+                            this.$toasted.show('Check approvement error: ', error.message ? error.message : error, { type: 'error' })
                         })
                     } else {
                         this.isApproved = true
