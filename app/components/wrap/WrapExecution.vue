@@ -58,12 +58,13 @@ export default {
     data () {
         return {
             step: 1,
-            fromWrapSelected: this.$store.state.fromWrapSelected || {},
-            receiveAddress: this.$route.params.receiveAddress || '',
+            fromWrapSelected: this.$route.params.fromWrapSelected || {},
+            recAddress: this.$route.params.recAddress || '',
             config: this.$store.state.config || {},
             depAmount: this.$route.params.depAmount || {},
             expireTime: '',
-            address: this.$store.state.address
+            address: this.$store.state.address,
+            transactionHash: ''
         }
     },
     computed: {

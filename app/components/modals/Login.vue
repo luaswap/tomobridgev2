@@ -22,7 +22,7 @@
                         src="/app/assets/images/metamask.png"
                         alt="Metamask">
                 </b-button>
-                <b-button
+                <!-- <b-button
                     class="d-flex"
                     @click="loginPantograph">
                     <span>
@@ -31,7 +31,7 @@
                     <img
                         src="/app/assets/images/pantograph.png"
                         alt="Metamask">
-                </b-button>
+                </b-button> -->
             </div>
         </b-container>
     </b-modal>

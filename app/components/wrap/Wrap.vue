@@ -369,7 +369,7 @@ export default {
                     const estimateGas = await contract.methods.swapErc20(
                         token.tokenAddress,
                         this.recAddress || this.address,
-                        this.depAmount || this.tokenBalance.toString(10)
+                        new BigNumber(this.depAmount || 1).multipliedBy(10 ** token.decimals).toString(10)
                     ).estimateGas({
                         from: this.address
                     })
@@ -440,7 +440,7 @@ export default {
                     // this.allChecked = true
                 } else if (!this.checkminimumDeposit()) {
                     this.$toasted.show(`Minimum deposit is ${coin.minimumWithdrawal} ${coin.symbol}`)
-                } else if (new BigNumber(this.depAmount).multipliedBy(10 ** coin.decimals).isGreaterThan(this.tokenBalance)) {
+                } else if (new BigNumber(this.depAmount).isGreaterThan(this.tokenBalance)) {
                     this.$toasted.show(`Not enough ${coin.symbol}`, { type: 'error' })
                 } else {
                     this.$router.push({
