@@ -13,12 +13,22 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: 'App',
     components: {
     },
     data () {
         return {
+            recAddress: this.parent.recAddress || '',
+            fromWrapSelected: this.parent.fromWrapSelected || '',
+            config: this.$store.state.config || {},
+            depAmount: this.parent.depAmount || 0,
+            address: this.parent.address,
+            interval: '',
+            requiredConfirm: 30,
+            confirmation: 0,
+            txHash: ''
         }
     },
     async updated () {
@@ -26,7 +36,36 @@ export default {
     destroyed () {
     },
     created: async function () {
+        const parent = this.parent
+        this.config = parent.config
+        this.txHash = parent.transactionHash
+        this.requiredConfirm = parent.fromWrapSelected.confirmations
+        const receipt = await this.web3.eth.getTransactionReceipt(this.txHash)
+        const signedBlock = receipt.blockNumber
+
+        this.interval = setInterval(async () => {
+            const currentBlock = await this.web3.eth.getBlockNumber()
+            this.confirmation = currentBlock - signedBlock
+            if (this.confirmation >= this.requiredConfirm) {
+                setTimeout(() => {
+                    clearInterval(this.interval)
+                    parent.step++
+                }, 2000)
+            }
+        }, 5000)
     },
-    methods: {}
+    methods: {
+        async scanTX () {
+            const parent = this.parent
+            const address = this.$store.state.address || ''
+            const symbol = parent.fromWrapSelected.symbol
+            const txData = await axios.get(
+                `/api/wrap/getTransaction/withdraw/${symbol}/${address}`
+            )
+            if (txData && txData.data) {
+                return txData.data
+            }
+        }
+    }
 }
 </script>

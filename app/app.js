@@ -118,6 +118,7 @@ Vue.prototype.truncate = Helper.truncate
 
 Vue.prototype.appConfig = Helper.getConfig
 Vue.prototype.getBalance = Helper.getBalance
+Vue.prototype.string2byte = Helper.string2byte
 
 const EventBus = new Vue()
 

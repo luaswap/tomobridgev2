@@ -124,6 +124,14 @@ const Helper = {
             console.log(error)
             this.$toasted.show(error.message ? error.message : error, { type: 'error' })
         }
+    },
+    string2byte (str) {
+        let byteArray = []
+        for (let j = 0; j < str.length; j++) {
+            byteArray.push(str.charCodeAt(j))
+        }
+
+        return byteArray
     }
 }
 

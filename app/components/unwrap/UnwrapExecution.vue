@@ -66,7 +66,8 @@ export default {
             receiveAddress: this.$route.params.receiveAddress || '',
             config: {},
             expireTime: '',
-            loading: false
+            loading: false,
+            transactionHash: ''
         }
     },
     async updated () {
