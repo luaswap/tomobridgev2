@@ -38,7 +38,6 @@ router.get('/getTransaction/:txType/:wrapCoin/:receiveAddress', [
         return next(errors.array())
     }
     try {
-        console.log(111)
         const wrapCoin = req.params.wrapCoin
         const receiveAddress = req.params.receiveAddress
         const txType = req.params.txType

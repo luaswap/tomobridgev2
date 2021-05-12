@@ -26,11 +26,7 @@ export default {
     },
     data () {
         return {
-            recAddress: this.parent.recAddress || '',
-            fromWrapSelected: this.parent.fromWrapSelected || '',
             config: this.$store.state.config || {},
-            depAmount: this.parent.depAmount || 0,
-            address: this.parent.address,
             interval: '',
             requiredConfirm: 30,
             confirmation: 0,
@@ -65,20 +61,14 @@ export default {
     },
     methods: {
         async scanTX () {
-            const address = this.address
-            const token = this.fromWrapSelected
+            const parent = this.parent
+            const address = parent.address
+            const token = parent.fromWrapSelected
             const txData = await axios.get(
                 `/api/wrap/getTransaction/deposit/${token.symbol}/${address}`
             )
             if (txData && txData.data) {
                 return txData.data
-            }
-        },
-        calculatePercentage (current, total) {
-            if (current >= total) {
-                return 100
-            } else {
-                return Math.floor((current * 100) / total)
             }
         }
     }
