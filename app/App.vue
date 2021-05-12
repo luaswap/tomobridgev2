@@ -41,7 +41,7 @@
                                 <b-dropdown-item
                                     class="flex_box">
                                     <span>Balance:</span>
-                                    <strong>{{ balance }} TOMO</strong>
+                                    <strong>{{ balance }} {{ tomoIds.indexOf(network.chainId || '') > -1 ? 'TOMO' : 'ETH' }}</strong>
                                 </b-dropdown-item>
                                 <b-dropdown-divider/>
                                 <b-dropdown-item
@@ -138,7 +138,9 @@ export default {
     data () {
         return {
             selectedLanguage: this.$store.state.language || 'English',
-            provider: ''
+            provider: '',
+            isTomoChain: '',
+            tomoIds: [88, 89, 99]
         }
     },
     computed: {
@@ -186,7 +188,21 @@ export default {
                 window.ethereum.on('chainChanged', async (chainId) => {
                     this.$store.state.network = Helper.networks[parseInt(chainId, 16)] || { name: 'Unknown', chainId: 0 }
                     this.balance = (await this.getBalance(this.address)).toFixed(5)
+                    this.web3.eth.getId().then(data => console.log(data))
+                    // const walletProvider = window.ethereum
+                    // const wjs = new Web3(walletProvider)
+
+                    // await this.setupProvider('pantograph', wjs)
+                    // this.setupProvider()
                 })
+                // window.ethereum.on('accountsChanged', async (accounts) => {
+                //     console.log(accounts)
+                //     await this.getAccount()
+                //     console.log('address', this.address)
+                //     this.$store.state.address = accounts[0]
+                //     // console.log(this.address)
+                //     this.balance = (await this.getBalance(accounts[0]) || 0).toFixed(5)
+                // })
             }
         }
     },

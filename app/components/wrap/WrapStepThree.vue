@@ -29,7 +29,7 @@ export default {
         return {
             transactionHash: '',
             explorerUrl: '#',
-            config: this.$store.state.config || {},
+            config: this.$store.state.config || {}
         }
     },
     async updated () {

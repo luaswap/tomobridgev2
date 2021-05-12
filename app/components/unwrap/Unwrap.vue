@@ -97,9 +97,9 @@
                 <b-form-group
                     class="mb-4"
                     label="Recipient Address"
-                    label-for="withdrawAddress">
+                    label-for="recAddress">
                     <b-form-input
-                        v-model="withdrawAddress"
+                        v-model="recAddress"
                         type="text"
                         placeholder="Please use only TomoChain network address"/>
                     <b-button
@@ -181,7 +181,7 @@ export default {
             agreeAll: false,
             allChecked: false,
             fromWrapSelected: {},
-            withdrawAddress: '',
+            recAddress: '',
             fromData: [
                 { name: 'Ethereum', symbol: 'ETH', image: '' }
             ],
@@ -245,7 +245,7 @@ export default {
             this.$router.go(-1)
         },
         useAddress () {
-            this.withdrawAddress = this.address
+            this.recAddress = this.address
         },
         maxToken () {
             const token = this.fromWrapSelected
@@ -264,7 +264,6 @@ export default {
             await this.getWithdrawFee(token)
         },
         getContract (token = this.fromWrapSelected) {
-            console.log(token.wrapperAddress)
             this.contract = new this.web3.eth.Contract(
                 // this.WrapperAbi.abi,
                 this.TomoBridgeTokenAbi.abi,
@@ -292,7 +291,7 @@ export default {
             }
         },
         isValidAddresss () {
-            const address = this.withdrawAddress
+            const address = this.recAddress
             const config = this.config
             // Check network
             const network = config.blockchain.networkId === 88 ? 'prod' : 'testnet'
@@ -327,7 +326,7 @@ export default {
                     this.$router.push({
                         name: 'UnwrapExecution',
                         params: {
-                            withdrawAddress: this.withdrawAddress,
+                            recAddress: this.recAddress,
                             amount: this.amount,
                             fromWrapSelected: this.fromWrapSelected
                         }

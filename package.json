@@ -38,6 +38,7 @@
     "express": "^4.16.4",
     "express-validator": "^5.3.1",
     "lodash.map": "^4.6.0",
+    "mongoose": "^5.12.8",
     "morgan": "^1.10.0",
     "store": "^2.0.12",
     "url-join": "^4.0.1",

@@ -9,7 +9,7 @@
                     }"
                     class="steps__col">
                     <p class="steps__name">
-                        Send Request {{ fromWrapToken.name || '' }} {{ toWrapToken.name || '' }}</p>
+                        Send Request</p>
                     <p class="steps__number"><span>1</span></p>
                 </b-col>
                 <b-col
@@ -27,7 +27,7 @@
                         'steps__col--active' : step >= 3,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Send ERC-20 XXX {{ toWrapToken.name || '' }}</p>
+                    <p class="steps__name">Send ERC-20 {{ fromWrapSelected.symbol || '' }}</p>
                     <p class="steps__number"><span>3</span></p>
                 </b-col>
             </b-row>
@@ -60,11 +60,12 @@ export default {
     },
     data () {
         return {
-            step: 1,
-            fromWrapToken: {},
-            toWrapToken: {},
-            receiveAddress: this.$route.params.receiveAddress || '',
-            config: {},
+            step: 2,
+            fromWrapSelected: this.$route.params.fromWrapSelected || {},
+            recAddress: this.$route.params.recAddress || '',
+            config: this.$store.state.config || {},
+            amount: this.$route.params.amount || {},
+            address: this.$store.state.address || '',
             expireTime: '',
             loading: false,
             transactionHash: ''

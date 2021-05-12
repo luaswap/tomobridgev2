@@ -1,7 +1,7 @@
 <template>
     <b-container class="step-one text-center">
         <p class="text-danger">You need to sign the request on MetaMask to activate the withdrawal request</p>
-        <p>Your withdrawal request has been successfully approved</p>
+        <!-- <p>Your withdrawal request has been successfully approved</p> -->
         <div class="mt-5">
             <p>Please keep this window open</p>
             <div class="text-center">
@@ -33,14 +33,15 @@ export default {
             recAddress: this.parent.recAddress || '',
             fromWrapSelected: this.parent.fromWrapSelected || '',
             config: this.$store.state.config || {},
-            depAmount: this.parent.depAmount || 0,
+            amount: this.parent.amount || 0,
             address: this.parent.address,
             gasPrice: '',
             loading: false,
             feeAmount: 0,
             tomoFeeMode : false,
             contract: {},
-            fee: 0
+            fee: 0,
+            isSigned: false
         }
     },
     async updated () { },
@@ -67,9 +68,7 @@ export default {
     },
     methods: {
         convertWithdrawAmount (amount) {
-            let tokenSymbol = this.toWrapToken.name.toLowerCase()
-
-            let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
+            let decimals = parseInt(this.fromWrapSelected.decimals)
             return (new BigNumber(amount).multipliedBy(10 ** decimals)).toString(10)
         },
         async getWithdrawFee () {
@@ -99,7 +98,7 @@ export default {
 
                 await this.contract.methods.burn(
                     this.convertWithdrawAmount(this.amount),
-                    this.string2byte(this.receiveAddress)
+                    this.string2byte(this.recAddress)
                 ).send(txParams)
                     .on('transactionHash', async (txHash) => {
                         parent.transactionHash = txHash
