@@ -41,8 +41,8 @@ export default {
         this.transactionHash = parent.transactionHash
         this.explorerUrl = urljoin(
             this.config.tomoscanUrl,
-            'address',
-            parent.address
+            'txs',
+            this.transactionHash
         )
     },
     methods: {}
