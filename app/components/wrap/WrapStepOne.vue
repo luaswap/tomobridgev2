@@ -36,7 +36,8 @@ export default {
             depAmount: this.parent.depAmount || 0,
             address: this.parent.address,
             ethGasPrice: '',
-            loading: false
+            loading: false,
+            ethIds: [1, 3, 4, 5]
         }
     },
     computed: {
