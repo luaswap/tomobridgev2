@@ -41,7 +41,7 @@ export default {
             tomoFeeMode : false,
             contract: {},
             fee: 0,
-            isSigned: false
+            tomoIds: [88, 89, 99]
         }
     },
     async updated () { },
@@ -85,37 +85,39 @@ export default {
         },
         async withdraw () {
             try {
-                this.loading = true
-                const config = this.config
-                const chainConfig = config.blockchain
-                const parent = this.parent
-                let txParams = {
-                    value: this.tomoFeeMode ? this.web3.utils.toHex(this.feeAmount) : this.web3.utils.toHex(0),
-                    from: this.address,
-                    gasPrice: this.web3.utils.toHex(this.gasPrice),
-                    gas: this.web3.utils.toHex(chainConfig.gas)
-                }
+                if (this.tomoIds.indexOf(this.network.chainId) > -1) {
+                    this.loading = true
+                    const config = this.config
+                    const chainConfig = config.blockchain
+                    const parent = this.parent
+                    let txParams = {
+                        value: this.tomoFeeMode ? this.web3.utils.toHex(this.feeAmount) : this.web3.utils.toHex(0),
+                        from: this.address,
+                        gasPrice: this.web3.utils.toHex(this.gasPrice),
+                        gas: this.web3.utils.toHex(chainConfig.gas)
+                    }
 
-                await this.contract.methods.burn(
-                    this.convertWithdrawAmount(this.amount),
-                    this.string2byte(this.recAddress)
-                ).send(txParams)
-                    .on('transactionHash', async (txHash) => {
-                        parent.transactionHash = txHash
-                        let check = true
-                        while (check) {
-                            const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                            if (receipt && receipt.status) {
-                                check = false
-                                this.loading = false
-                                parent.step++
+                    await this.contract.methods.burn(
+                        this.convertWithdrawAmount(this.amount),
+                        this.string2byte(this.recAddress)
+                    ).send(txParams)
+                        .on('transactionHash', async (txHash) => {
+                            parent.transactionHash = txHash
+                            let check = true
+                            while (check) {
+                                const receipt = await this.web3.eth.getTransactionReceipt(txHash)
+                                if (receipt && receipt.status) {
+                                    check = false
+                                    this.loading = false
+                                    parent.step++
+                                }
                             }
-                        }
-                    }).catch(error => {
-                        console.log(error)
-                        this.loading = false
-                        this.$toasted.show(error.message ? error.message : error, { type: 'error' })
-                    })
+                        }).catch(error => {
+                            console.log(error)
+                            this.loading = false
+                            this.$toasted.show(error.message ? error.message : error, { type: 'error' })
+                        })
+                } else { this.$toasted.show('Need TomoChain network to unwrap', { type: 'error' }) }
             } catch (error) {
                 console.log(error)
                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })

@@ -30,6 +30,7 @@
 
 <script>
 import axios from 'axios'
+import BigNumber from 'bignumber.js'
 export default {
     name: 'App',
     components: {
@@ -52,7 +53,6 @@ export default {
             confirmation: 0,
             txHash: '',
             isReadyToClaim: false,
-            interval: '',
             ethIds: [1, 3, 4, 5],
             loading: false,
             txObj: {}
@@ -75,7 +75,8 @@ export default {
             console.log(data)
             if (data) {
                 const outTx = data.transaction.OutTx
-                if (outTx.Status.toLowerCase() === 'signed_on_hub' && outTx.Signature) {
+                if (outTx.Hash === parent.transactionHash
+                    && outTx.Status.toLowerCase() === 'signed_on_hub' && outTx.Signature) {
                     this.isReadyToClaim = true
                     this.txObj = outTx
                     clearInterval(this.interval)
@@ -102,6 +103,7 @@ export default {
         },
         async estimateGas1 () {
             try {
+                const config = this.config
                 const token = this.fromWrapSelected
                 let estimateGas
                 const contract = new this.web3.eth.Contract(
@@ -109,22 +111,29 @@ export default {
                     config.blockchain.contractBridgeEth
                 )
                 if (token.symbol.toLowerCase() !== 'eth') {
-                    estimateGas = await this.contract.methods.swapErc20(
+                    estimateGas = await contract.methods.withdrawERC20(
                         token.tokenAddress,
                         this.recAddress || this.address,
-                        new BigNumber(this.depAmount).multipliedBy(10 ** token.decimals).toString(10)
+                        this.txObj.Amount,
+                        this.txObj.ScID,
+                        this.txObj.Hash,
+                        0,
+                        this.txObj.Signature
                     ).estimateGas({
                         from: this.address
                     })
                 } else {
-                    estimateGas = await this.contract.methods.swapEth(
-                        this.recAddress || this.address
+                    estimateGas = await contract.methods.withdrawEth(
+                        this.recAddress || this.address,
+                        this.txObj.Amount,
+                        this.txObj.ScID,
+                        this.txObj.Hash,
+                        0, // target_chain
+                        this.txObj.Signature
                     ).estimateGas({
-                        from: this.address,
-                        value: this.web3.utils.toWei(this.depAmount.toString(), 'ether')
+                        from: this.address
                     })
                 }
-                console.log(estimateGas)
                 return estimateGas
             } catch (error) {
                 console.log(error)
@@ -133,7 +142,7 @@ export default {
         async claimAsset () {
             try {
                 const config = this.config
-                // const parent = this.parent
+                const parent = this.parent
                 const token = this.fromWrapSelected
                 const chainId = await this.getChainId()
                 if (this.ethIds.indexOf(chainId) > -1) {
@@ -141,22 +150,26 @@ export default {
                         this.ContractBridgeEthAbi.abi,
                         config.blockchain.contractBridgeEth
                     )
+
+                    let estimateGas = await this.estimateGas1()
                     const txParams = {
                         from: this.address,
                         gas: estimateGas,
                         gasPrice: this.ethGasPrice,
                         nonce: await this.web3.eth.getTransactionCount(this.address)
                     }
-                    let estimateGas = await this.estimateGas1()
 
                     if (token.symbol.toLowerCase() !== 'eth') {
                         await contract.methods.withdrawERC20(
                             token.tokenAddress,
                             this.recAddress || this.address,
-                            new BigNumber(this.amount).multipliedBy(10 ** token.decimals).toString(10)
+                            this.txObj.Amount,
+                            this.txObj.ScID,
+                            this.txObj.Hash,
+                            0,
+                            this.txObj.Signature
                         ).send(txParams)
                             .on('transactionHash', async txHash => {
-                                // parent.transactionHash = txHash
                                 let check = true
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
@@ -173,14 +186,13 @@ export default {
                     } else {
                         await contract.methods.withdrawEth(
                             this.recAddress || this.address,
-                            this.web3.utils.toWei(this.amount.toString(), 'ether'),
+                            this.txObj.Amount,
                             this.txObj.ScID,
                             this.txObj.Hash,
-                            '1', // target_chain
-                            '0x' + this.txObj.Signature
+                            0, // target_chain
+                            this.txObj.Signature
                         ).send(txParams)
                             .on('transactionHash', async txHash => {
-                                parent.transactionHash = txHash
                                 let check = true
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)

@@ -15,6 +15,13 @@ import urljoin from 'url-join'
 export default {
     name: 'App',
     components: {
+        
+    },
+    props: {
+        parent: {
+            type: Object,
+            default: () => {}
+        }
     },
     data () {
         return {
@@ -32,8 +39,8 @@ export default {
         const config = this.config
         this.explorerUrl = urljoin(
             config.etherChain.etherScanURL,
-            'tx',
-            parent.transactionHash
+            'address',
+            parent.address
         )
     },
     methods: {}

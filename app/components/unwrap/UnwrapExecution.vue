@@ -60,7 +60,7 @@ export default {
     },
     data () {
         return {
-            step: 2,
+            step: 1,
             fromWrapSelected: this.$route.params.fromWrapSelected || {},
             recAddress: this.$route.params.recAddress || '',
             config: this.$store.state.config || {},

@@ -65,58 +65,65 @@ export default {
     },
     methods: {
         async deposit () {
-            this.loading = true
-            const parent = this.parent
-            const token = this.fromWrapSelected
+            try {
+                if (this.ethIds.indexOf(this.network.chainId) > -1) {
+                    this.loading = true
+                    const parent = this.parent
+                    const token = this.fromWrapSelected
 
-            let estimateGas = await this.estimateGas1()
-            const txParams = {
-                from: this.address,
-                gas: estimateGas,
-                gasPrice: this.ethGasPrice,
-                nonce: await this.web3.eth.getTransactionCount(this.address)
-            }
-            if (token.symbol.toLowerCase() !== 'eth') {
-                await this.contract.methods.swapErc20(
-                    token.tokenAddress,
-                    this.recAddress || this.address,
-                    new BigNumber(this.depAmount).multipliedBy(10 ** token.decimals).toString(10)
-                ).send(txParams)
-                    .on('transactionHash', async txHash => {
-                        parent.transactionHash = txHash
-                        let check = true
-                        while (check) {
-                            const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                            if (receipt) {
-                                this.loading = false
-                                check = false
-                                parent.step++
-                            }
-                        }
-                    }).catch(error => {
-                        console.log(error)
-                        this.$toasted.show(error.message ? error.message : error, { type: 'error' })
-                    })
-            } else {
-                txParams.value = this.web3.utils.toWei(this.depAmount.toString(), 'ether')
-                await this.contract.methods.swapEth(
-                    this.recAddress || this.address
-                ).send(txParams)
-                    .on('transactionHash', async txHash => {
-                        parent.transactionHash = txHash
-                        let check = true
-                        while (check) {
-                            const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                            if (receipt) {
-                                this.loading = false
-                                check = false
-                                parent.step++
-                            }
-                        }
-                    }).catch(error => {
-                        console.log(error)
-                        this.$toasted.show(error.message ? error.message : error, { type: 'error' })
-                    })
+                    let estimateGas = await this.estimateGas1()
+                    const txParams = {
+                        from: this.address,
+                        gas: estimateGas,
+                        gasPrice: this.ethGasPrice,
+                        nonce: await this.web3.eth.getTransactionCount(this.address)
+                    }
+                    if (token.symbol.toLowerCase() !== 'eth') {
+                        await this.contract.methods.swapErc20(
+                            token.tokenAddress,
+                            this.recAddress || this.address,
+                            new BigNumber(this.depAmount).multipliedBy(10 ** token.decimals).toString(10)
+                        ).send(txParams)
+                            .on('transactionHash', async txHash => {
+                                parent.transactionHash = txHash
+                                let check = true
+                                while (check) {
+                                    const receipt = await this.web3.eth.getTransactionReceipt(txHash)
+                                    if (receipt) {
+                                        this.loading = false
+                                        check = false
+                                        parent.step++
+                                    }
+                                }
+                            }).catch(error => {
+                                console.log(error)
+                                this.$toasted.show(error.message ? error.message : error, { type: 'error' })
+                            })
+                    } else {
+                        txParams.value = this.web3.utils.toWei(this.depAmount.toString(), 'ether')
+                        await this.contract.methods.swapEth(
+                            this.recAddress || this.address
+                        ).send(txParams)
+                            .on('transactionHash', async txHash => {
+                                parent.transactionHash = txHash
+                                let check = true
+                                while (check) {
+                                    const receipt = await this.web3.eth.getTransactionReceipt(txHash)
+                                    if (receipt) {
+                                        this.loading = false
+                                        check = false
+                                        parent.step++
+                                    }
+                                }
+                            }).catch(error => {
+                                console.log(error)
+                                this.$toasted.show(error.message ? error.message : error, { type: 'error' })
+                            })
+                    }
+                } else { this.$toasted.show('Need Ethereum network to wrap', { type: 'error' }) }
+            } catch (error) {
+                console.log(error)
+                this.$toasted.show(error.message ? error.message : error, { type: 'error' })
             }
         },
         async estimateGas1 () {
@@ -139,7 +146,6 @@ export default {
                         value: this.web3.utils.toWei(this.depAmount.toString(), 'ether')
                     })
                 }
-                console.log(estimateGas)
                 return estimateGas
             } catch (error) {
                 console.log(error)

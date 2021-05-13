@@ -187,22 +187,7 @@ export default {
             if (window.ethereum) {
                 window.ethereum.on('chainChanged', async (chainId) => {
                     this.$store.state.network = Helper.networks[parseInt(chainId, 16)] || { name: 'Unknown', chainId: 0 }
-                    this.balance = (await this.getBalance(this.address)).toFixed(5)
-                    this.web3.eth.getId().then(data => console.log(data))
-                    // const walletProvider = window.ethereum
-                    // const wjs = new Web3(walletProvider)
-
-                    // await this.setupProvider('pantograph', wjs)
-                    // this.setupProvider()
                 })
-                // window.ethereum.on('accountsChanged', async (accounts) => {
-                //     console.log(accounts)
-                //     await this.getAccount()
-                //     console.log('address', this.address)
-                //     this.$store.state.address = accounts[0]
-                //     // console.log(this.address)
-                //     this.balance = (await this.getBalance(accounts[0]) || 0).toFixed(5)
-                // })
             }
         }
     },
