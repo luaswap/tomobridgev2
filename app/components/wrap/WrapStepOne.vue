@@ -41,7 +41,12 @@ export default {
         }
     },
     computed: {
-
+        network: {
+            get () {
+                return this.$store.getters.network
+            },
+            set () {}
+        }
     },
     async updated () { },
     destroyed () { },

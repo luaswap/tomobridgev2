@@ -44,6 +44,14 @@ export default {
             tomoIds: [88, 89, 99]
         }
     },
+    computed: {
+        network: {
+            get () {
+                return this.$store.getters.network
+            },
+            set () {}
+        }
+    },
     async updated () { },
     destroyed () { },
     created: async function () {
