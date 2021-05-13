@@ -136,13 +136,14 @@ export default {
         checkNetworkBeforeRedirect () {
             const network = this.$store.state.network
             if (this.tomoIds.indexOf(network.chainId) > -1) {
+                console.log(redirectTo, 111)
                 if (this.$store.state.redirectTo === 'unwrap') {
                     return true
                 }
                 this.$toasted.show('Need TomoChain network to unwrap', { type: 'error' })
                 return false
-            }
-            if (this.ethIds.indexOf(network.chainId) > -1) {
+            } else if (this.ethIds.indexOf(network.chainId) > -1) {
+                console.log(222)
                 if (this.$store.state.redirectTo === 'wrap') {
                     return true
                 }
