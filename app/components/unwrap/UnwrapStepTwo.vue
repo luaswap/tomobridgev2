@@ -30,7 +30,7 @@
 
 <script>
 import axios from 'axios'
-import BigNumber from 'bignumber.js'
+// import BigNumber from 'bignumber.js'
 export default {
     name: 'App',
     components: {
@@ -75,8 +75,8 @@ export default {
             console.log(data)
             if (data) {
                 const outTx = data.transaction.OutTx
-                if (outTx.Hash === parent.transactionHash
-                    && outTx.Status.toLowerCase() === 'signed_on_hub' && outTx.Signature) {
+                if (outTx.Hash === parent.transactionHash &&
+                    outTx.Status.toLowerCase() === 'signed_on_hub' && outTx.Signature) {
                     this.isReadyToClaim = true
                     this.txObj = outTx
                     clearInterval(this.interval)

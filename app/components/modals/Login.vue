@@ -135,20 +135,20 @@ export default {
         },
         checkNetworkBeforeRedirect () {
             const network = this.$store.state.network
-            if (this.tomoIds.indexOf(network.chainId) > -1) {
-                console.log(redirectTo, 111)
-                if (this.$store.state.redirectTo === 'unwrap') {
+            if (this.$store.state.redirectTo === 'unwrap') {
+                if (this.tomoIds.indexOf(network.chainId) > -1) {
                     return true
-                }
-                this.$toasted.show('Need TomoChain network to unwrap', { type: 'error' })
-                return false
-            } else if (this.ethIds.indexOf(network.chainId) > -1) {
-                console.log(222)
-                if (this.$store.state.redirectTo === 'wrap') {
+                } else {
+                    this.$toasted.show('Need TomoChain network to unwrap', { type: 'error' })
+                    return false
+                }    
+            } else {
+                if (this.ethIds.indexOf(network.chainId) > -1) {
                     return true
+                } else {
+                    this.$toasted.show('Need Ethereum network to wrap', { type: 'error' })
+                    return false
                 }
-                this.$toasted.show('Need Ethereum network to wrap', { type: 'error' })
-                return false
             }
         }
     }

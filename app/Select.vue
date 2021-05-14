@@ -31,7 +31,7 @@
                             <div class="col-5 px-0 text-center">
                                 <p>
                                     <img
-                                        src="/app/assets/images/logo-ether.png"
+                                        src="/app/assets/images/ethereum.svg"
                                         class="logo-icon">
                                 </p>
                                 <span>ERC-20 Tokens</span>
@@ -43,7 +43,7 @@
                             <div class="col-5 px-0 text-center">
                                 <p>
                                     <img
-                                        src="/app/assets/images/logo-ether.png"
+                                        src="/app/assets/images/ethereum.svg"
                                         class="logo-icon">
                                 </p>
                                 <span>ERC-20 Tokens</span>

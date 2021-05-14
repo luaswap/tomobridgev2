@@ -15,7 +15,6 @@ import urljoin from 'url-join'
 export default {
     name: 'App',
     components: {
-        
     },
     props: {
         parent: {
