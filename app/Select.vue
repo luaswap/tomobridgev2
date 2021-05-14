@@ -20,7 +20,7 @@
                                         src="/app/assets/images/logo-tomochain.png"
                                         class="logo-icon">
                                 </p>
-                                <span>TomoChain Wrapped Tokens</span>
+                                <span>Wrapped Tokens on TomoChain</span>
                             </div>
                             <div class="col-2 text-center">
                                 <b-icon
@@ -34,7 +34,7 @@
                                         src="/app/assets/images/ethereum.svg"
                                         class="logo-icon">
                                 </p>
-                                <span>ERC-20 Tokens</span>
+                                <span>ERC-20 Tokens on Ethereum</span>
                             </div>
                         </a>
                         <a

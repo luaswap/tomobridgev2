@@ -93,6 +93,9 @@
                     <div class="row">
                         <ul class="">
                             <li>
+                                <a href="#">Tutorial</a>
+                            </li>
+                            <li>
                                 <a
                                     :target="provider === 'tomowallet' ? '' : '_blank'"
                                     href="https://forms.gle/cU1XU3b8EUMxB6yA6">
@@ -104,7 +107,7 @@
                                     href="https://docs.tomochain.com/tomobridge/faq">
                                     FAQ</a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a
                                     :target="provider === 'tomowallet' ? '' : '_blank'"
                                     href="https://docs.tomochain.com/tomobridge/fee-structure">
@@ -115,7 +118,7 @@
                                     :target="provider === 'tomowallet' ? '' : '_blank'"
                                     href="https://docs.tomochain.com/tomobridge/trc21-wrapped-token-information">
                                     TRC21 Wrapped Tokens</a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
