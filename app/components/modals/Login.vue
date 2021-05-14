@@ -141,7 +141,7 @@ export default {
                 } else {
                     this.$toasted.show('Need TomoChain network to unwrap', { type: 'error' })
                     return false
-                }    
+                }
             } else {
                 if (this.ethIds.indexOf(network.chainId) > -1) {
                     return true

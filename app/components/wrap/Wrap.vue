@@ -51,7 +51,8 @@
         </b-row>
 
         <div class="text-center my-5">
-            <p>You are converting {{ fromWrapSelected.symbol !== 'ETH' && fromWrapSelected.symbol !== 'BTC' ? 'ERC-20' : '' }}
+            <p class="font-weight-bold">
+                You are converting {{ fromWrapSelected.symbol !== 'ETH' && fromWrapSelected.symbol !== 'BTC' ? 'ERC-20' : '' }}
                 {{ fromWrapSelected.symbol }} to TomoChain wrapped {{ fromWrapSelected.symbol }}</p>
         </div>
         <b-row>
@@ -75,7 +76,7 @@
             </b-col>
             <b-col cols="6">
                 <b-form-group
-                    class="mb-4"
+                    class="mb-4 font-weight-bold"
                     label="Amount"
                     label-for="depAmount">
                     <b-form-input
@@ -90,7 +91,7 @@
                     </b-button>
                 </b-form-group>
                 <b-form-group
-                    class="mb-4"
+                    class="mb-4 font-weight-bold"
                     label="Recipient Address"
                     label-for="recAddress">
                     <b-form-input

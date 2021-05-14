@@ -28,14 +28,14 @@
                         <b-navbar-nav>
                             <b-nav-item-dropdown
                                 v-if="address"
-                                class="info-wallet"
+                                class="info-wallet btn-token-dropdown"
                                 offset="25"
                                 no-caret
                                 right>
                                 <template
                                     slot="button-content"
-                                    class="tmp-btn-transparent">
-                                    <i class="tm-icon-wallet"/>
+                                    class="tmp-btn-transparent ">
+                                    <i class="icon tb-wallet"/>
                                     {{ truncate(address, 16) }}
                                 </template>
                                 <b-dropdown-item
@@ -56,14 +56,14 @@
                             v-if="address"
                             id="networkDiv"
                             class="btn-token network ml-3">{{ network.name }}</div>
-                        <b-tooltip
+                        <!-- <b-tooltip
                             v-if="address"
                             target="networkDiv">
                             <a
                                 href="https://docs.tomochain.com/general/how-to-connect-to-tomochain-network/metamask"
                                 target="_blank"><u>Switch Networks</u></a>
                             between Ethereum & TomoChain to wrap and unwrap tokens
-                        </b-tooltip>
+                        </b-tooltip> -->
                         <b-dropdown
                             :text="selectedLanguage"
                             class="nav-item btn-language ml-2">
