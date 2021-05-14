@@ -1,6 +1,6 @@
 <template>
     <b-container class="step-one text-center">
-        <p class="text-danger">You need to sign the request on MetaMask to activate the withdrawal request</p>
+        <p class="text-danger font-weight-bold">You need to sign the request on MetaMask to activate the withdrawal request</p>
         <!-- <p>Your withdrawal request has been successfully approved</p> -->
         <div class="mt-5">
             <p>Please keep this window open</p>
