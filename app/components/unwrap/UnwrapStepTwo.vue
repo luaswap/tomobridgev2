@@ -21,10 +21,10 @@
                     {{ confirmation }}/{{ requiredConfirm }} Confirmations
                 </b-button>
                 <b-button
-                    :disabled="!isReadyToClaim"
+                    v-else
                     class="btn--big st-next m-auto"
                     @click="claimAsset">
-                    {{ isReadyToClaim ? `Claim ${fromWrapSelected.symbol}` : 'Transaction Pending' }}
+                    Claim {{ fromWrapSelected.symbol }}
                 </b-button>
             </div>
         </div>

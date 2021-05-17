@@ -93,6 +93,7 @@
             <router-view/>
         </div>
         <footer
+            v-if="$route.path !== '/'"
             class="tomo-footer footer">
             <div
                 class="container ">
