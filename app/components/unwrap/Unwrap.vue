@@ -30,7 +30,7 @@
                             </div>
                             <div
                                 v-if="tokenBalanceToFixed > 0"
-                                class="mr-3">({{ tokenBalanceToFixed }})</div>
+                                class="mr-3">{{ tokenBalanceToFixed }}</div>
                         </div>
                     </template>
                     <template
