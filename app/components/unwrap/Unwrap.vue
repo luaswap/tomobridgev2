@@ -58,14 +58,16 @@
                 <ul class="st-ul">
                     <li
                         v-if="fromWrapSelected.symbol !== 'BTC' && fromWrapSelected.symbol !== 'ETH'">
-                        View Wrapped Token address on
-                        <a
-                            :href="etherScanUrl"
-                            target="_blank">Etherscan</a>
+                        <div class="li-span">
+                            View Wrapped Token address on
+                            <a
+                                :href="etherScanUrl"
+                                target="_blank">Etherscan</a>
+                        </div>
                     </li>
                     <li>
-                        <span class="font-weight-bold">Estimated conversion transaction fee</span>
-                        <div class="d-flex flex-column mt-4">
+                        <div class="font-weight-bold li-span">Estimated conversion transaction fee</div>
+                        <div class="d-flex flex-column mt-4 li-span">
                             <!-- <div v-if="!isApproved">Approve: 1 TOMO</div> -->
                             <div>
                                 Swap: {{ fee }} Wrapped {{ tomoFeeMode ? 'TOMO' : fromWrapSelected.symbol }}

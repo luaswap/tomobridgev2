@@ -135,7 +135,14 @@
 }
 
 .st-ul {
-    padding-left: 20px;
+    padding-left: 25px;
+    list-style: square;
+    font-size: 28px;
+    color: $color-primary;
+    .li-span {
+        font-size: 18px;
+        color: $color-text;
+    }
 }
 
 .tomo-footer-product {

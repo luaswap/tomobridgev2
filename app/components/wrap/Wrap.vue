@@ -59,14 +59,16 @@
             <b-col cols="6">
                 <ul class="st-ul">
                     <li>
-                        View Wrapped Token address on
-                        <a
-                            :href="tomoScanUrl"
-                            target="_blank">TomoScan</a>
+                        <div class="li-span">
+                            View Wrapped Token address on
+                            <a
+                                :href="tomoScanUrl"
+                                target="_blank">TomoScan</a>
+                        </div>
                     </li>
                     <li>
-                        <span class="font-weight-bold">Estimated conversion transaction fee</span>
-                        <div class="d-flex flex-column mt-4">
+                        <span class="font-weight-bold li-span">Estimated conversion transaction fee</span>
+                        <div class="d-flex flex-column mt-4 li-span">
                             <div v-if="fromWrapSelected.symbol !== 'ETH' && !isApproved">Approve: ~{{ estimateApprovement }} ETH</div>
                             <div>Swap: ~{{ estimateSwap }} ETH</div>
                             <div class="text-danger font-weight-bold">Total: ~{{ estimateTotal }} ETH</div>

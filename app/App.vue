@@ -44,6 +44,12 @@
                                     <span>Balance:</span>
                                     <strong>{{ balance }} {{ tomoIds.indexOf(network.chainId || '') > -1 ? 'TOMO' : 'ETH' }}</strong>
                                 </b-dropdown-item>
+                                <b-dropdown-item
+                                    :href="scanUrl"
+                                    class="flex_box"
+                                    target="_blank">
+                                    Transaction History
+                                </b-dropdown-item>
                                 <b-dropdown-divider/>
                                 <b-dropdown-item
                                     v-if="!mobileCheck"
@@ -132,6 +138,7 @@
 </template>
 
 <script>
+import urljoin from 'url-join'
 import Helper from './utils'
 import LoginModal from './components/modals/Login'
 export default {
@@ -144,7 +151,9 @@ export default {
             selectedLanguage: this.$store.state.language || 'English',
             provider: '',
             isTomoChain: '',
-            tomoIds: [88, 89, 99]
+            tomoIds: [88, 89, 99],
+            config: {},
+            scanUrl: '#'
         }
     },
     computed: {
@@ -184,6 +193,9 @@ export default {
                     }).catch(error => console.log(error))
                 }
             }
+        },
+        address: function (value) {
+            this.scanUrl = urljoin(this.config.tomoscanUrl, 'address', value)
         }
     },
     async updated () {
