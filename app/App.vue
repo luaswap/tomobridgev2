@@ -34,8 +34,9 @@
                                 right>
                                 <template
                                     slot="button-content"
-                                    class="tmp-btn-transparent ">
-                                    <i class="icon tb-wallet"/>
+                                    class="tmp-btn-transparent">
+                                    <!-- <b-icon-wallet2/> -->
+                                    <i class="tb-wallet"/>
                                     {{ truncate(address, 16) }}
                                 </template>
                                 <b-dropdown-item

@@ -16,7 +16,7 @@
                     <template
                         slot="singleLabel"
                         slot-scope="props">
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <img
                                     v-if="props.option.image"
