@@ -16,6 +16,11 @@
             <p>Please keep this window open</p>
             <div class="text-center">
                 <b-button
+                    v-if="!isReadyToClaim"
+                    class="btn--big st-next m-auto">
+                    {{ confirmation }}/{{ requiredConfirm }} Confirmations
+                </b-button>
+                <b-button
                     :disabled="!isReadyToClaim"
                     class="btn--big st-next m-auto"
                     @click="claimAsset">
@@ -55,7 +60,8 @@ export default {
             isReadyToClaim: false,
             ethIds: [1, 3, 4, 5],
             loading: false,
-            txObj: {}
+            txObj: {},
+            interval1: ''
         }
     },
     async updated () {
@@ -68,9 +74,19 @@ export default {
     created: async function () {
         const parent = this.parent
         this.config = parent.config
-        this.requiredConfirm = parent.fromWrapSelected.confirmations
-
+        const receipt = await this.web3.eth.getTransactionReceipt(parent.transactionHash)
+        const signedBlock = receipt.blockNumber
         this.interval = setInterval(async () => {
+            const currentBlock = await this.web3.eth.getBlockNumber()
+            this.confirmation = currentBlock - signedBlock
+            if (this.confirmation >= this.requiredConfirm) {
+                setTimeout(() => {
+                    clearInterval(this.interval)
+                }, 2000)
+            }
+        }, 5000)
+
+        this.interval1 = setInterval(async () => {
             const data = await this.scanTX()
             console.log(data)
             if (data) {
@@ -79,7 +95,7 @@ export default {
                     outTx.Status.toLowerCase() === 'signed_on_hub' && outTx.Signature) {
                     this.isReadyToClaim = true
                     this.txObj = outTx
-                    clearInterval(this.interval)
+                    clearInterval(this.interval1)
                 }
             }
         }, 5000)
