@@ -27,7 +27,9 @@
                         'steps__col--active' : step >= 3,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Send ERC-20 {{ fromWrapSelected.symbol || '' }}</p>
+                    <p class="steps__name">
+                        Send {{ fromWrapSelected.symbol.toLowerCase() !== 'eth' ? `ERC-20 ${fromWrapSelected.symbol}` : 'ETH native' }}
+                    </p>
                     <p class="steps__number"><span>3</span></p>
                 </b-col>
             </b-row>

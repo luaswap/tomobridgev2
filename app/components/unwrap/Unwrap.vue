@@ -30,7 +30,7 @@
                             </div>
                             <div
                                 v-if="tokenBalanceToFixed > 0"
-                                class="mr-3">{{ tokenBalanceToFixed }}</div>
+                                class="mr-4">{{ tokenBalanceToFixed }}</div>
                         </div>
                     </template>
                     <template
@@ -151,6 +151,7 @@
                 Back
             </b-button>
             <b-button
+                :disabled="!agreeAll || !agreeEx || !agreeEx || !amount || !recAddress"
                 class="btn--big st-next"
                 @click="unwrapToken">
                 Next
@@ -345,7 +346,7 @@ export default {
                 } else {
                     this.$toasted.show('Invalid recipient address', { type: 'error' })
                 }
-            } else { this.$toasted.show('Need TomoChain network to unwrap', { type: 'error' }) }
+            } else { this.$toasted.show('Set your Metamask network to TomoChain', { type: 'error' }) }
         }
     }
 }

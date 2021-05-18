@@ -30,7 +30,7 @@
                             </div>
                             <div
                                 v-if="tokenBalanceToFixed > 0"
-                                class="text-right mr-3">{{ tokenBalanceToFixed }}</div>
+                                class="text-right mr-4">{{ tokenBalanceToFixed }}</div>
                         </div>
                     </template>
                     <template
@@ -147,6 +147,7 @@
                 Back
             </b-button>
             <b-button
+                :disabled="!agreeAll || !agreeEx || !agreeEx || !depAmount || !recAddress"
                 class="btn--big st-next"
                 @click="redirectFunction">
                 {{ wrapButtonTitle }}
@@ -189,7 +190,6 @@ export default {
             tokenBalanceToFixed: 0,
             tokenBalance: '',
             tomoScanUrl: '',
-            minimumDeposit: 0,
             estimateApprovement: '',
             estimateSwap: '',
             estimateTotal: '',
@@ -227,7 +227,6 @@ export default {
             this.fromData = this.config.swapCoin || []
             this.fromWrapSelected = this.fromData[0]
 
-            this.minimumDeposit = this.fromWrapSelected.minimumWithdrawal
             this.web3Eth.eth.getGasPrice()
                 .then(data => {
                     this.ethGasPrice = data
@@ -288,13 +287,6 @@ export default {
                 this.tokenBalanceToFixed = new BigNumber(balanceBN).div(10 ** tokenDecimals).toFixed(5)
                 break
             }
-        },
-        checkminimumDeposit () {
-            if (
-                new BigNumber(this.depAmount || 0).isLessThan(new BigNumber(this.fromWrapSelected.minimumWithdrawal))
-            ) {
-                return false
-            } else { return true }
         },
         async selectToken (token) {
             this.estimateTotal = ''
@@ -449,8 +441,6 @@ export default {
                     if (!this.agreeAll || !this.agreeEx || !this.agreePk) {
                         this.$toasted.show('Confirmation required', { type: 'error' })
                         // this.allChecked = true
-                    } else if (!this.checkminimumDeposit()) {
-                        this.$toasted.show(`Minimum deposit is ${coin.minimumWithdrawal} ${coin.symbol}`)
                     } else if (new BigNumber(this.depAmount).isGreaterThan(this.tokenBalance)) {
                         this.$toasted.show(`Not enough ${coin.symbol}`, { type: 'error' })
                     } else {
@@ -466,7 +456,7 @@ export default {
                 } else {
                     this.$toasted.show('Invalid recipient address', { type: 'error' })
                 }
-            } else { this.$toasted.show('Need Ethereum network to wrap', { type: 'error' }) }
+            } else { this.$toasted.show('Set your Metamask network to Ethereum', { type: 'error' }) }
         }
     }
 }

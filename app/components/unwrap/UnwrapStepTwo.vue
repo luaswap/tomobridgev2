@@ -18,7 +18,14 @@
                 <b-button
                     v-if="!isReadyToClaim"
                     class="btn--big st-next m-auto">
-                    {{ confirmation }}/{{ requiredConfirm }} Confirmations
+                    <div
+                        v-if="confirmation < requiredConfirm">
+                        {{ confirmation }}/{{ requiredConfirm }} Confirmations
+                    </div>
+                    <div
+                        v-else>
+                        We are verifying the burning transaction
+                    </div>
                 </b-button>
                 <b-button
                     v-else
@@ -80,6 +87,7 @@ export default {
             const currentBlock = await this.web3.eth.getBlockNumber()
             this.confirmation = currentBlock - signedBlock
             if (this.confirmation >= this.requiredConfirm) {
+                this.confirmation = this.requiredConfirm
                 setTimeout(() => {
                     clearInterval(this.interval)
                 }, 2000)
@@ -88,7 +96,6 @@ export default {
 
         this.interval1 = setInterval(async () => {
             const data = await this.scanTX()
-            console.log(data)
             if (data) {
                 const outTx = data.transaction.OutTx
                 if (outTx.Hash === parent.transactionHash &&

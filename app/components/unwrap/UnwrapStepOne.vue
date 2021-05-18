@@ -125,9 +125,10 @@ export default {
                             this.loading = false
                             this.$toasted.show(error.message ? error.message : error, { type: 'error' })
                         })
-                } else { this.$toasted.show('Need TomoChain network to unwrap', { type: 'error' }) }
+                } else { this.$toasted.show('Set your Metamask network to TomoChain', { type: 'error' }) }
             } catch (error) {
                 console.log(error)
+                this.loading = false
                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
             }
         }

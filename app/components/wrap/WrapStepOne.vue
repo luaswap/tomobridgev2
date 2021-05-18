@@ -1,13 +1,20 @@
 <template>
     <b-container class="step-one text-center">
-        <p class="text-danger font-weight-bold">You need to sign the request on MetaMask to activate the withdrawal request</p>
+        <p class="text-danger font-weight-bold">You need to approve the request on Metamask to complete the transaction</p>
         <!-- <p>Your withdrawal request has been successfully approved</p> -->
         <div class="mt-5">
             <p>Please keep this window open</p>
             <div class="text-center">
                 <b-button
+                    v-if="isSigned"
                     class="btn--big st-next m-auto">
                     Transaction pending
+                </b-button>
+                <b-button
+                    v-else
+                    class="btn--big st-next m-auto"
+                    @click="deposit">
+                    Approve request
                 </b-button>
             </div>
         </div>
@@ -37,7 +44,8 @@ export default {
             address: this.parent.address,
             ethGasPrice: '',
             loading: false,
-            ethIds: [1, 3, 4, 5]
+            ethIds: [1, 3, 4, 5],
+            isSigned: false
         }
     },
     computed: {
@@ -70,6 +78,31 @@ export default {
         }
     },
     methods: {
+        async estimateGas1 () {
+            try {
+                const token = this.fromWrapSelected
+                let estimateGas
+                if (token.symbol.toLowerCase() !== 'eth') {
+                    estimateGas = await this.contract.methods.swapErc20(
+                        token.tokenAddress,
+                        this.recAddress || this.address,
+                        new BigNumber(this.depAmount).multipliedBy(10 ** token.decimals).toString(10)
+                    ).estimateGas({
+                        from: this.address
+                    })
+                } else {
+                    estimateGas = await this.contract.methods.swapEth(
+                        this.recAddress || this.address
+                    ).estimateGas({
+                        from: this.address,
+                        value: this.web3.utils.toWei(this.depAmount.toString(), 'ether')
+                    })
+                }
+                return estimateGas
+            } catch (error) {
+                console.log(error)
+            }
+        },
         async deposit () {
             try {
                 if (this.ethIds.indexOf(this.network.chainId) > -1) {
@@ -103,6 +136,7 @@ export default {
                                 }
                             }).catch(error => {
                                 console.log(error)
+                                this.loading = false
                                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
                             })
                     } else {
@@ -111,6 +145,7 @@ export default {
                             this.recAddress || this.address
                         ).send(txParams)
                             .on('transactionHash', async txHash => {
+                                this.isSigned = true
                                 parent.transactionHash = txHash
                                 let check = true
                                 while (check) {
@@ -123,38 +158,17 @@ export default {
                                 }
                             }).catch(error => {
                                 console.log(error)
+                                this.loading = false
+                                this.isSigned = false
                                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
                             })
                     }
-                } else { this.$toasted.show('Need Ethereum network to wrap', { type: 'error' }) }
+                } else { this.$toasted.show('Set your Metamask network to Ethereum', { type: 'error' }) }
             } catch (error) {
                 console.log(error)
+                this.loading = false
+                this.isSigned = false
                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
-            }
-        },
-        async estimateGas1 () {
-            try {
-                const token = this.fromWrapSelected
-                let estimateGas
-                if (token.symbol.toLowerCase() !== 'eth') {
-                    estimateGas = await this.contract.methods.swapErc20(
-                        token.tokenAddress,
-                        this.recAddress || this.address,
-                        new BigNumber(this.depAmount).multipliedBy(10 ** token.decimals).toString(10)
-                    ).estimateGas({
-                        from: this.address
-                    })
-                } else {
-                    estimateGas = await this.contract.methods.swapEth(
-                        this.recAddress || this.address
-                    ).estimateGas({
-                        from: this.address,
-                        value: this.web3.utils.toWei(this.depAmount.toString(), 'ether')
-                    })
-                }
-                return estimateGas
-            } catch (error) {
-                console.log(error)
             }
         }
     }
