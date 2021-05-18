@@ -196,13 +196,20 @@ export default {
             fee: 0,
             contract: '',
             contractAddress: '',
-            isNativeToken: false
+            isNativeToken: false,
+            tomoIds: [88, 89, 99]
         }
     },
     computed: {
         address: {
             get () {
                 return this.$store.getters.address
+            },
+            set () {}
+        },
+        network: {
+            get () {
+                return this.$store.getters.network
             },
             set () {}
         }
@@ -314,29 +321,31 @@ export default {
             return true
         },
         unwrapToken () {
-            const coin = this.fromWrapSelected
-            this.isAddress = this.isValidAddresss()
-            if (this.isAddress) {
-                if (!this.agreeAll || !this.agreeEx || !this.agreePk) {
-                    this.$toasted.show('Confirmation required', { type: 'error' })
-                    // this.allChecked = true
-                } else if (!this.checkMinimumWithdrawAmount()) {
-                    this.$toasted.show(`Minimum Withdrawal is ${coin.minimumWithdrawal} ${coin.symbol}`)
-                } else if (new BigNumber(this.amount).isLessThan(this.fee)) {
-                    this.$toasted.show('Withdraw amount must be greater than withdraw fee', { type: 'error' })
+            if (this.tomoIds.indexOf(this.network.chainId) > -1) {
+                const coin = this.fromWrapSelected
+                this.isAddress = this.isValidAddresss()
+                if (this.isAddress) {
+                    if (!this.agreeAll || !this.agreeEx || !this.agreePk) {
+                        this.$toasted.show('Confirmation required', { type: 'error' })
+                        // this.allChecked = true
+                    } else if (!this.checkMinimumWithdrawAmount()) {
+                        this.$toasted.show(`Minimum Withdrawal is ${coin.minimumWithdrawal} ${coin.symbol}`)
+                    } else if (new BigNumber(this.amount).isLessThan(this.fee)) {
+                        this.$toasted.show('Withdraw amount must be greater than withdraw fee', { type: 'error' })
+                    } else {
+                        this.$router.push({
+                            name: 'UnwrapExecution',
+                            params: {
+                                recAddress: this.recAddress,
+                                amount: this.amount,
+                                fromWrapSelected: this.fromWrapSelected
+                            }
+                        })
+                    }
                 } else {
-                    this.$router.push({
-                        name: 'UnwrapExecution',
-                        params: {
-                            recAddress: this.recAddress,
-                            amount: this.amount,
-                            fromWrapSelected: this.fromWrapSelected
-                        }
-                    })
+                    this.$toasted.show('Invalid recipient address', { type: 'error' })
                 }
-            } else {
-                this.$toasted.show('Invalid recipient address', { type: 'error' })
-            }
+            } else { this.$toasted.show('Need TomoChain network to unwrap', { type: 'error' }) }
         }
     }
 }

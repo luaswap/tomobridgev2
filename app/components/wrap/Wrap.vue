@@ -195,13 +195,20 @@ export default {
             estimateTotal: '',
             ethGasPrice: '',
             wrapButtonTitle: 'Next',
-            loading: false
+            loading: false,
+            ethIds: [1, 3, 4, 5]
         }
     },
     computed: {
         address: {
             get () {
                 return this.$store.getters.address
+            },
+            set () {}
+        },
+        network: {
+            get () {
+                return this.$store.getters.network
             },
             set () {}
         }
@@ -435,29 +442,31 @@ export default {
             }
         },
         wrapToken () {
-            const coin = this.fromWrapSelected
-            this.isAddress = this.isValidAddresss()
-            if (this.isAddress) {
-                if (!this.agreeAll || !this.agreeEx || !this.agreePk) {
-                    this.$toasted.show('Confirmation required', { type: 'error' })
-                    // this.allChecked = true
-                } else if (!this.checkminimumDeposit()) {
-                    this.$toasted.show(`Minimum deposit is ${coin.minimumWithdrawal} ${coin.symbol}`)
-                } else if (new BigNumber(this.depAmount).isGreaterThan(this.tokenBalance)) {
-                    this.$toasted.show(`Not enough ${coin.symbol}`, { type: 'error' })
+            if (this.ethIds.indexOf(this.network.chainId) > -1) {
+                const coin = this.fromWrapSelected
+                this.isAddress = this.isValidAddresss()
+                if (this.isAddress) {
+                    if (!this.agreeAll || !this.agreeEx || !this.agreePk) {
+                        this.$toasted.show('Confirmation required', { type: 'error' })
+                        // this.allChecked = true
+                    } else if (!this.checkminimumDeposit()) {
+                        this.$toasted.show(`Minimum deposit is ${coin.minimumWithdrawal} ${coin.symbol}`)
+                    } else if (new BigNumber(this.depAmount).isGreaterThan(this.tokenBalance)) {
+                        this.$toasted.show(`Not enough ${coin.symbol}`, { type: 'error' })
+                    } else {
+                        this.$router.push({
+                            name: 'WrapExecution',
+                            params: {
+                                receiveAddress: this.recAddress,
+                                fromWrapSelected: this.fromWrapSelected,
+                                depAmount: this.depAmount
+                            }
+                        })
+                    }
                 } else {
-                    this.$router.push({
-                        name: 'WrapExecution',
-                        params: {
-                            receiveAddress: this.recAddress,
-                            fromWrapSelected: this.fromWrapSelected,
-                            depAmount: this.depAmount
-                        }
-                    })
+                    this.$toasted.show('Invalid recipient address', { type: 'error' })
                 }
-            } else {
-                this.$toasted.show('Invalid recipient address', { type: 'error' })
-            }
+            } else { this.$toasted.show('Need Ethereum network to wrap', { type: 'error' }) }
         }
     }
 }

@@ -129,7 +129,7 @@
                                         href="https://docs.tomochain.com/tomobridge/faq">
                                         FAQ</a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a
                                         :target="mobileCheck ? '' : '_blank'"
                                         href="https://docs.tomochain.com/tomobridge/fee-structure">
@@ -140,7 +140,7 @@
                                         :target="mobileCheck ? '' : '_blank'"
                                         href="https://docs.tomochain.com/tomobridge/trc21-wrapped-token-information">
                                         Token Information</a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
