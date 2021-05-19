@@ -1,5 +1,10 @@
 <template>
     <b-container class="step-one text-center">
+        <div>
+            <a
+                :href="txUrl"
+                target="_blank">Deposit transaction hash</a>
+        </div>
         <div class="mt-5">
             <p>Please keep this window open</p>
             <div class="text-center">
@@ -13,6 +18,7 @@
 </template>
 
 <script>
+import urljoin from 'url-join'
 import axios from 'axios'
 export default {
     name: 'App',
@@ -30,7 +36,8 @@ export default {
             interval: '',
             requiredConfirm: 30,
             confirmation: 0,
-            txHash: ''
+            txHash: '',
+            txUrl: ''
         }
     },
     async updated () {
@@ -42,8 +49,13 @@ export default {
     },
     created: async function () {
         const parent = this.parent
-        this.config = parent.config
+        const config = parent.config
         this.txHash = parent.transactionHash
+        this.txUrl = urljoin(
+            config.etherChain.etherScanURL,
+            'tx',
+            this.txHash
+        )
         this.requiredConfirm = parent.fromWrapSelected.confirmations
         const receipt = await this.web3.eth.getTransactionReceipt(this.txHash)
         const signedBlock = receipt.blockNumber

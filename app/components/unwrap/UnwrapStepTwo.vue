@@ -1,5 +1,10 @@
 <template>
     <b-container class="step-one text-center">
+        <div>
+            <a
+                :href="txUrl"
+                target="_blank">Burning transaction hash</a>
+        </div>
         <div class="mt-5">
             <div
                 v-if="isReadyToClaim"
@@ -42,6 +47,7 @@
 
 <script>
 import axios from 'axios'
+import urljoin from 'url-join'
 // import BigNumber from 'bignumber.js'
 export default {
     name: 'App',
@@ -68,7 +74,8 @@ export default {
             ethIds: [1, 3, 4, 5],
             loading: false,
             txObj: {},
-            interval1: ''
+            interval1: '',
+            txUrl: ''
         }
     },
     async updated () {
@@ -80,8 +87,14 @@ export default {
     },
     created: async function () {
         const parent = this.parent
-        this.config = parent.config
+        const config = this.config
+        console.log(config)
         const receipt = await this.web3.eth.getTransactionReceipt(parent.transactionHash)
+        this.txUrl = urljoin(
+            config.tomoscanUrl,
+            'txs',
+            parent.transactionHash
+        )
         const signedBlock = receipt.blockNumber
         this.interval = setInterval(async () => {
             const currentBlock = await this.web3.eth.getBlockNumber()
