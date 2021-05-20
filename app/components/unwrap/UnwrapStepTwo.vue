@@ -5,16 +5,22 @@
                 :href="txUrl"
                 target="_blank">Burning transaction hash</a>
         </div>
-        <div class="mt-5">
+        <div class="">
             <div
                 v-if="isReadyToClaim"
-                class="align-items-center steps__row">
-                <ul class="ml-5 text-left">
-                    <li class="text-danger">
-                        Now you need to set Metamask Network to Ethereum
+                class="steps__row justify-content-center">
+                <ul class="my-4 ml-5 text-left st-ul d-inline-block">
+                    <li class="">
+                        <div class="text-danger li-span">Set your Metamask network to Ethereum to continue</div>
                     </li>
-                    <li>
-                        Then you need to approve the request on Metamask to complete the transaction
+                    <li class="">
+                        <div class="text-danger li-span">Make sure you have enough ETH on your Ethereum network</div>
+                    </li>
+                    <li class="">
+                        <div class="text-danger li-span">Click on "Claim {{ fromWrapSelected.symbol }}"</div>
+                    </li>
+                    <li class="">
+                        <div class="text-danger li-span">Approve the request on Metamask to complete the transaction</div>
                     </li>
                 </ul>
             </div>
@@ -70,7 +76,7 @@ export default {
             requiredConfirm: 30,
             confirmation: 0,
             txHash: '',
-            isReadyToClaim: false,
+            isReadyToClaim: true,
             ethIds: [1, 3, 4, 5],
             loading: false,
             txObj: {},
