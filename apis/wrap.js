@@ -56,4 +56,26 @@ router.get('/getTransaction/:txType/:wrapCoin/:receiveAddress', [
     }
 })
 
+router.get('/checkUnClaim/:address', [
+    check('address').exists().isLength({ min: 42, max: 42 }).withMessage("'address' is incorrect.")
+], async function (req, res, next) {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return next(errors.array())
+    }
+    try {
+        const address = req.params.address
+
+        const url = urljoin(
+            config.get('serverAPI'),
+            '/transactions/',
+            address
+        )
+        const result = await axios.get(url)
+        return res.send(result.data)
+    } catch (error) {
+        return res.send('Cannot find tx')
+    }
+})
+
 module.exports = router

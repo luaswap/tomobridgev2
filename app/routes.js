@@ -1,4 +1,3 @@
-// import Home from './components/Home.vue'
 import Product from './components/Product.vue'
 import Wrap from './components/wrap/Wrap.vue'
 import Unwrap from './components/unwrap/Unwrap.vue'
