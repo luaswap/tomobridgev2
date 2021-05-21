@@ -271,7 +271,9 @@ export default {
         async getTokenBalance (token) {
             switch (token.symbol) {
             case 'ETH':
-                this.tokenBalanceToFixed = this.$store.state.balance
+                let bl = await this.web3Eth.eth.getBalance(this.address)
+                console.log(bl)
+                this.tokenBalanceToFixed = new BigNumber(bl).div(10 ** 18).toFixed(5)
                 break
             case 'BTC':
                 this.tokenBalanceToFixed = 0
@@ -419,10 +421,12 @@ export default {
                     }
                 }).catch(error => {
                     console.log(error)
+                    this.loading = false
                     this.$toasted.show(error.message ? error.message : error, { type: 'error' })
                 })
             } catch (error) {
                 console.log(error)
+                this.loading = false
                 this.$toasted.show('Approvement error:', error.message ? error.message : error, { type: 'error' })
             }
         },
