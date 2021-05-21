@@ -70,7 +70,8 @@ export default {
             address: this.$store.state.address || '',
             expireTime: '',
             loading: false,
-            transactionHash: ''
+            transactionHash: '',
+            claimTxHash: ''
         }
     },
     async updated () {

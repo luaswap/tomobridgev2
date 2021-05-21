@@ -10,7 +10,14 @@
             <div class="text-center">
                 <b-button
                     class="btn--big st-next m-auto">
-                    {{ confirmation }}/{{ requiredConfirm }} Confirmations
+                    <div
+                        v-if="confirmation < requiredConfirm">
+                        {{ confirmation }}/{{ requiredConfirm }} Confirmations
+                    </div>
+                    <div
+                        v-else>
+                        We are verifying the burning transaction
+                    </div>
                 </b-button>
             </div>
         </div>
@@ -34,10 +41,13 @@ export default {
         return {
             config: this.$store.state.config || {},
             interval: '',
+            interval1: '',
             requiredConfirm: 30,
             confirmation: 0,
             txHash: '',
-            txUrl: ''
+            txUrl: '',
+            isMint: false,
+            outtxObj: {}
         }
     },
     async updated () {
@@ -64,10 +74,25 @@ export default {
             const currentBlock = await this.web3.eth.getBlockNumber()
             this.confirmation = currentBlock - signedBlock
             if (this.confirmation >= this.requiredConfirm) {
+                this.confirmation = this.requiredConfirm
                 setTimeout(() => {
                     clearInterval(this.interval)
-                    parent.step++
                 }, 2000)
+            }
+        }, 5000)
+
+        this.interval1 = setInterval(async () => {
+            const data = await this.scanTX()
+            if (data) {
+                const inTx = data.transaction.InTx
+                const outTx = data.transaction.OutTx
+                if (inTx.Hash === parent.transactionHash &&
+                    outTx.Status.toLowerCase() === 'mint') {
+                    this.outtxObj = outTx
+                    this.isMint = true
+                    parent.step++
+                    clearInterval(this.interval1)
+                }
             }
         }, 5000)
     },

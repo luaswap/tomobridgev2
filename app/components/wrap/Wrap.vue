@@ -147,10 +147,21 @@
                 Back
             </b-button>
             <b-button
+                v-if='!isApproved'
+                class="btn--big st-next"
+                @click="approveContract">
+                Approve
+                <b-icon
+                    class="light-h"
+                    icon="arrow-right-short"
+                    font-scale="1.5"/>
+            </b-button>
+            <b-button
+                v-else
                 :disabled="!agreeAll || !agreeEx || !agreeEx || !depAmount || !recAddress"
                 class="btn--big st-next"
-                @click="redirectFunction">
-                {{ wrapButtonTitle }}
+                @click="wrapToken">
+                Next
                 <b-icon
                     class="light-h"
                     icon="arrow-right-short"
@@ -427,13 +438,6 @@ export default {
                 console.log(error)
                 this.loading = false
                 this.$toasted.show('Approvement error:', error.message ? error.message : error, { type: 'error' })
-            }
-        },
-        redirectFunction () {
-            if (this.isApproved) {
-                this.wrapToken()
-            } else {
-                this.approveContract()
             }
         },
         wrapToken () {

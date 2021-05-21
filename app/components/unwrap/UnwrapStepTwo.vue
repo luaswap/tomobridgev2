@@ -213,6 +213,7 @@ export default {
                         ).send(txParams)
                             .on('transactionHash', async txHash => {
                                 let check = true
+                                parent.claimTxHash = txHash
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                     if (receipt) {
@@ -237,6 +238,7 @@ export default {
                         ).send(txParams)
                             .on('transactionHash', async txHash => {
                                 let check = true
+                                parent.claimTxHash = txHash
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                     if (receipt) {

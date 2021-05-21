@@ -24,7 +24,6 @@ export default {
     },
     data () {
         return {
-            transactionHash: '',
             explorerUrl: '#',
             config: this.$store.state.config || {}
         }
@@ -38,8 +37,8 @@ export default {
         const config = this.config
         this.explorerUrl = urljoin(
             config.etherChain.etherScanURL,
-            'address',
-            parent.address
+            'tx',
+            parent.claimTxHash
         )
     },
     methods: {}

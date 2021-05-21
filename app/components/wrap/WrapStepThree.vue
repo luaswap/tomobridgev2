@@ -27,7 +27,6 @@ export default {
     },
     data () {
         return {
-            transactionHash: '',
             explorerUrl: '#',
             config: this.$store.state.config || {}
         }
@@ -38,11 +37,10 @@ export default {
     },
     created: async function () {
         const parent = this.parent
-        this.transactionHash = parent.transactionHash
         this.explorerUrl = urljoin(
             this.config.tomoscanUrl,
             'txs',
-            this.transactionHash
+            parent.outtxObj.Hash || ''
         )
     },
     methods: {}
