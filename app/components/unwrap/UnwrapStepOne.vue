@@ -6,8 +6,15 @@
             <p>Please keep this window open</p>
             <div class="text-center">
                 <b-button
+                    v-if="isSigned"
                     class="btn--big st-next m-auto">
                     Transaction pending
+                </b-button>
+                <b-button
+                    v-else
+                    class="btn--big st-next m-auto"
+                    @click="withdraw">
+                    Approve request
                 </b-button>
             </div>
         </div>
@@ -41,7 +48,8 @@ export default {
             tomoFeeMode : false,
             contract: {},
             fee: 0,
-            tomoIds: [88, 89, 99]
+            tomoIds: [88, 89, 99],
+            isSigned: false
         }
     },
     computed: {
@@ -110,6 +118,7 @@ export default {
                         this.string2byte(this.recAddress)
                     ).send(txParams)
                         .on('transactionHash', async (txHash) => {
+                            this.isSigned = true
                             parent.transactionHash = txHash
                             let check = true
                             while (check) {
@@ -123,12 +132,14 @@ export default {
                         }).catch(error => {
                             console.log(error)
                             this.loading = false
+                            this.isSigned = false
                             this.$toasted.show(error.message ? error.message : error, { type: 'error' })
                         })
                 } else { this.$toasted.show('Set your Metamask network to TomoChain', { type: 'error' }) }
             } catch (error) {
                 console.log(error)
                 this.loading = false
+                this.isSigned = false
                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
             }
         }
