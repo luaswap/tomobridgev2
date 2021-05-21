@@ -272,7 +272,6 @@ export default {
             switch (token.symbol) {
             case 'ETH':
                 let bl = await this.web3Eth.eth.getBalance(this.address)
-                console.log(bl)
                 this.tokenBalanceToFixed = new BigNumber(bl).div(10 ** 18).toFixed(5)
                 break
             case 'BTC':

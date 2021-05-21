@@ -223,6 +223,7 @@ export default {
                                 }
                             }).catch(error => {
                                 console.log(error)
+                                this.loading = false
                                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
                             })
                     } else {
@@ -246,12 +247,14 @@ export default {
                                 }
                             }).catch(error => {
                                 console.log(error)
+                                this.loading = false
                                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
                             })
                     }
                 } else { this.$toasted.show('Need Ethereum network to claim', { type: 'error' }) }
             } catch (error) {
                 console.log(error)
+                this.loading = false
                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
             }
         }
