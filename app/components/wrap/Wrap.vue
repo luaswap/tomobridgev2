@@ -147,7 +147,7 @@
                 Back
             </b-button>
             <b-button
-                v-if='!isApproved'
+                v-if="!isApproved"
                 class="btn--big st-next"
                 @click="approveContract">
                 Approve

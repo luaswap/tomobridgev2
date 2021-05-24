@@ -1,6 +1,6 @@
 <template>
     <b-container class="step-one text-center">
-        <div>
+        <div class="mb-3">
             <a
                 :href="txUrl"
                 target="_blank">Burning transaction hash</a>
@@ -76,7 +76,7 @@ export default {
             requiredConfirm: 30,
             confirmation: 0,
             txHash: '',
-            isReadyToClaim: true,
+            isReadyToClaim: false,
             ethIds: [1, 3, 4, 5],
             loading: false,
             txObj: {},

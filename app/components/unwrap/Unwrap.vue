@@ -70,10 +70,10 @@
                         <div class="d-flex flex-column mt-4 li-span">
                             <!-- <div v-if="!isApproved">Approve: 1 TOMO</div> -->
                             <div>
-                                Swap: {{ fee }} Wrapped {{ tomoFeeMode ? 'TOMO' : fromWrapSelected.symbol }}
+                                Swap: {{ fee }} ETH
                             </div>
                             <div class="text-danger font-weight-bold">
-                                Total: {{ fee }} Wrapped {{ tomoFeeMode ? 'TOMO' : fromWrapSelected.symbol }}
+                                Total: {{ fee }} ETH
                             </div>
                         </div>
                     </li>
@@ -241,6 +241,7 @@ export default {
             this.contract.methods.TOMO_FEE_MODE.call()
                 .then(data => {
                     this.tomoFeeMode = data
+                    // this.estimateGasClaim(this.fromWrapSelected)
                     this.getWithdrawFee()
                 }).catch(error => {
                     this.$toasted.show(error, { type: 'error' })
@@ -271,6 +272,7 @@ export default {
             await this.getContract(token)
             this.getTokenBalance(token)
             this.tomoFeeMode = await this.contract.methods.TOMO_FEE_MODE.call()
+            // await this.estimateGasClaim(token)
             await this.getWithdrawFee(token)
         },
         getContract (token = this.fromWrapSelected) {
@@ -291,14 +293,22 @@ export default {
             this.tokenBalanceToFixed = new BigNumber(balanceBN).div(10 ** token.decimals).toFixed(5)
         },
         async getWithdrawFee (token = this.fromWrapSelected) {
-            let feeBN
-            if (this.tomoFeeMode) {
-                feeBN = await this.contract.methods.WITHDRAW_FEE_TOMO().call()
-                this.fee = new BigNumber(feeBN).div(10 ** 18).toString(10)
+            // let feeBN
+            const config = this.config
+            const gasPrice = await this.web3Eth.eth.getGasPrice()
+            if (token.symbol.toLowerCase() !== 'eth') {
+                this.fee = new BigNumber(config.etherChain.tokenClaimGas).multipliedBy(gasPrice).div(10 ** 18).toString(10)
+                
             } else {
-                feeBN = await this.contract.methods.WITHDRAW_FEE().call()
-                this.fee = new BigNumber(feeBN).div(10 ** token.decimals).toString(10)
+                this.fee = new BigNumber(config.etherChain.ethClaimGas).multipliedBy(gasPrice).div(10 ** 18).toString(10)
             }
+            // if (this.tomoFeeMode) {
+            //     feeBN = await this.contract.methods.WITHDRAW_FEE_TOMO().call()
+            //     this.fee = new BigNumber(feeBN).div(10 ** 18).toString(10)
+            // } else {
+            //     feeBN = await this.contract.methods.WITHDRAW_FEE().call()
+            //     this.fee = new BigNumber(feeBN).div(10 ** token.decimals).toString(10)
+            // }
         },
         isValidAddresss () {
             const address = this.recAddress

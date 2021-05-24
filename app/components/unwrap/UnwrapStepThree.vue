@@ -4,7 +4,8 @@
             <h4>You have successfully converted your assets!</h4>
             <div class="text-center mt-3">
                 <b-link
-                    :href="explorerUrl">View on Etherscan</b-link>
+                    :href="explorerUrl"
+                    target="_blank">View on Etherscan</b-link>
             </div>
         </div>
     </b-container>
