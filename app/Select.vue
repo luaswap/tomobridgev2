@@ -63,6 +63,18 @@
                                 <span>TomoChain Wrapped Tokens</span>
                             </div>
                         </a>
+                        <a
+                            class="row btn-tm mt-5"
+                            @click="redirect('detectNetwork')">
+                            Gộp
+                            <div class="col-2 text-center">
+                                <b-icon
+                                    class="light-h"
+                                    icon="arrow-right-short"
+                                    font-scale="3"/>
+                            </div>
+                            Luôn
+                        </a>
                     </div>
                 </div>
             </b-col>
@@ -126,6 +138,21 @@ export default {
                     if (this.ethIds.indexOf(this.network.chainId) > -1) {
                         this.$router.push({ path: 'wrap' })
                     } else { this.$toasted.show('Need Ethereum network to wrap', { type: 'error' }) }
+                }
+                break
+            case 'detectNetwork':
+                if (!this.$store.state.address) {
+                    this.$store.state.redirectTo = 'detectNetwork'
+                    this.$refs.loginModal.show()
+                } else {
+                    if (this.tomoIds.indexOf(this.network.chainId) > -1) {
+                        this.$router.push({ path: 'unwrap' })
+                    } else if (this.ethIds.indexOf(this.network.chainId) > -1) {
+                        this.$router.push({ path: 'wrap' })
+                    } else {
+                        this.$toasted.show('Unkown network', { type: 'error' })
+                    }
+                    break
                 }
                 break
             default:

@@ -40,6 +40,7 @@
 <script>
 import Web3 from 'web3'
 import Helper from '../../utils'
+import axios from 'axios'
 export default {
     name: 'App',
     components: { },
@@ -134,21 +135,61 @@ export default {
             }
         },
         checkNetworkBeforeRedirect () {
+            const redirectTo = this.$store.state.redirectTo
             const network = this.$store.state.network
-            if (this.$store.state.redirectTo === 'unwrap') {
+            console.log(redirectTo)
+            switch (redirectTo) {
+            case 'unwrap':
                 if (this.tomoIds.indexOf(network.chainId) > -1) {
-                    return true
+                    this.$router.push({ path: redirectTo })
                 } else {
                     this.$toasted.show('Need TomoChain network to unwrap', { type: 'error' })
-                    return false
                 }
-            } else {
+                break
+            case 'wrap':
                 if (this.ethIds.indexOf(network.chainId) > -1) {
-                    return true
+                    this.$router.push({ path: redirectTo })
                 } else {
                     this.$toasted.show('Need Ethereum network to wrap', { type: 'error' })
-                    return false
                 }
+                break
+            case 'detectNetwork':
+                if (this.tomoIds.indexOf(network.chainId) > -1) {
+                    this.$router.push({ path: 'unwrap' })
+                } else if (this.ethIds.indexOf(network.chainId) > -1) {
+                    this.$router.push({ path: 'wrap' })
+                } else {
+                    this.$toasted.show('Unkown network', { type: 'error' })
+                }
+                break
+            default:
+                break;
+            }
+            // if (this.$store.state.redirectTo === 'unwrap') {
+            //     if (this.tomoIds.indexOf(network.chainId) > -1) {
+            //         return true
+            //     } else {
+            //         this.$toasted.show('Need TomoChain network to unwrap', { type: 'error' })
+            //         return false
+            //     }
+            // } else {
+            //     if (this.ethIds.indexOf(network.chainId) > -1) {
+            //         return true
+            //     } else {
+            //         this.$toasted.show('Need Ethereum network to wrap', { type: 'error' })
+            //         return false
+            //     }
+            // }
+        },
+        async checkUnclaimTx () {
+            try {
+                const { data } = await axios.get('/api/getUnclaimTx/' + this.address)
+                if (data) {
+                    return data
+                }
+            } catch (error) {
+                console.log(error)
+                this.$toasted.show(error.message ? error.message : error, { type: 'error ' })
             }
         }
     }

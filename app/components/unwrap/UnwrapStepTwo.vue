@@ -90,6 +90,9 @@ export default {
         if (this.interval) {
             clearInterval(this.interval)
         }
+        if (this.interval1) {
+            clearInterval(this.interval1)
+        }
     },
     created: async function () {
         const parent = this.parent
