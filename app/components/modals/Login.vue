@@ -34,6 +34,11 @@
                 </b-button> -->
             </div>
         </b-container>
+        <ClaimTokenModal
+            ref="claimTokenModal"
+            :parent="this"/>
+        <div
+            :class="(loading ? 'tomo-loading' : '')"/>
     </b-modal>
 </template>
 
@@ -41,9 +46,12 @@
 import Web3 from 'web3'
 import Helper from '../../utils'
 import axios from 'axios'
+import ClaimTokenModal from './ClaimToken'
 export default {
     name: 'App',
-    components: { },
+    components: {
+        ClaimTokenModal
+    },
     mixins: [],
     props: {
         parent: {
@@ -54,7 +62,8 @@ export default {
     data () {
         return {
             ethIds: [1, 3, 4, 5],
-            tomoIds: [88, 89, 99]
+            tomoIds: [88, 89, 99],
+            loading: false
         }
     },
     validations: { },
@@ -68,7 +77,9 @@ export default {
         },
         hide () {},
         async loginMetamask () {
+            const parent = this.parent
             try {
+                this.loading = true
                 if (window.ethereum) {
                     this.loading = true
                     const walletProvider = window.ethereum
@@ -89,11 +100,19 @@ export default {
                     this.$store.state.address = this.address
                     this.$store.state.provider = 'metamask'
                     this.loading = false
-
-                    this.$refs.loginModal.hide()
-                    if (this.$store.state.redirectTo) {
-                        if (this.checkNetworkBeforeRedirect()) {
-                            this.$router.push({ path: this.$store.state.redirectTo })
+                    const data1 = await this.checkUnclaimTx()
+                    if (data1 && data1.length > 0) {
+                        this.$store.state.unClaimTx = data1
+                        this.loading = false
+                        this.$refs.loginModal.hide()
+                        parent.$refs.claimModal.show()
+                    } else {
+                        this.loading = false
+                        this.$refs.loginModal.hide()
+                        if (this.$store.state.redirectTo) {
+                            if (this.checkNetworkBeforeRedirect()) {
+                                this.$router.push({ path: this.$store.state.redirectTo })
+                            }
                         }
                     }
                 }
@@ -153,40 +172,14 @@ export default {
                     this.$toasted.show('Need Ethereum network to wrap', { type: 'error' })
                 }
                 break
-            case 'detectNetwork':
-                if (this.tomoIds.indexOf(network.chainId) > -1) {
-                    this.$router.push({ path: 'unwrap' })
-                } else if (this.ethIds.indexOf(network.chainId) > -1) {
-                    this.$router.push({ path: 'wrap' })
-                } else {
-                    this.$toasted.show('Unkown network', { type: 'error' })
-                }
-                break
             default:
-                break;
+                break
             }
-            // if (this.$store.state.redirectTo === 'unwrap') {
-            //     if (this.tomoIds.indexOf(network.chainId) > -1) {
-            //         return true
-            //     } else {
-            //         this.$toasted.show('Need TomoChain network to unwrap', { type: 'error' })
-            //         return false
-            //     }
-            // } else {
-            //     if (this.ethIds.indexOf(network.chainId) > -1) {
-            //         return true
-            //     } else {
-            //         this.$toasted.show('Need Ethereum network to wrap', { type: 'error' })
-            //         return false
-            //     }
-            // }
         },
         async checkUnclaimTx () {
             try {
-                const { data } = await axios.get('/api/getUnclaimTx/' + this.address)
-                if (data) {
-                    return data
-                }
+                const { data } = await axios.get('/api/account/getUnclaimTx/' + this.address)
+                return data
             } catch (error) {
                 console.log(error)
                 this.$toasted.show(error.message ? error.message : error, { type: 'error ' })

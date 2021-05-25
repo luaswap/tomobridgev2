@@ -25,6 +25,7 @@
 
 <script>
 import BigNumber from 'bignumber.js'
+import axios from 'axios'
 export default {
     name: 'App',
     components: {
@@ -124,6 +125,14 @@ export default {
                             while (check) {
                                 const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                 if (receipt && receipt.status) {
+                                    console.log(receipt)
+                                    axios.post('/api/account/updateTx', {
+                                        address: this.address,
+                                        burnTx: txHash,
+                                        coin: this.fromWrapSelected.symbol.toLowerCase(),
+                                        isClaim: false,
+                                        burningTime: new Date()
+                                    })
                                     check = false
                                     this.loading = false
                                     parent.step++
