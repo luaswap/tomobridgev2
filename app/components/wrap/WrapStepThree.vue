@@ -40,7 +40,7 @@ export default {
         this.explorerUrl = urljoin(
             this.config.tomoscanUrl,
             'txs',
-            parent.outtxObj.Hash || ''
+            parent.outTx.Hash || ''
         )
     },
     methods: {}

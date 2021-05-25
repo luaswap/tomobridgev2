@@ -91,7 +91,7 @@ export default {
                 const outTx = data.transaction.OutTx
                 if (inTx.Hash === parent.transactionHash &&
                     outTx.Status.toLowerCase() === 'mint') {
-                    this.outtxObj = outTx
+                    parent.outTx = outTx
                     this.isMint = true
                     parent.step++
                     clearInterval(this.interval1)

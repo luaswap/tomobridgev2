@@ -64,7 +64,8 @@ export default {
             depAmount: this.$route.params.depAmount || {},
             expireTime: '',
             address: this.$store.state.address,
-            transactionHash: ''
+            transactionHash: '',
+            outTx: {}
         }
     },
     computed: {
