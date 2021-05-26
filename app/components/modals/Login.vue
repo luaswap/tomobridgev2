@@ -100,21 +100,29 @@ export default {
                     this.$store.state.address = this.address
                     this.$store.state.provider = 'metamask'
                     this.loading = false
-                    const data1 = await this.checkUnclaimTx()
-                    if (data1) {
-                        this.$store.state.unClaimTx = data1
-                        this.loading = false
-                        this.$refs.loginModal.hide()
-                        parent.$refs.claimModal.show()
-                    } else {
-                        this.loading = false
-                        this.$refs.loginModal.hide()
-                        if (this.$store.state.redirectTo) {
-                            if (this.checkNetworkBeforeRedirect()) {
-                                this.$router.push({ path: this.$store.state.redirectTo })
-                            }
+                    this.$refs.loginModal.hide()
+                    if (this.$store.state.redirectTo) {
+                        if (this.checkNetworkBeforeRedirect()) {
+                            this.$router.push({ path: this.$store.state.redirectTo })
                         }
                     }
+
+                    // const data1 = await this.checkUnclaimTx()
+                    // if (data1) {
+                    //     this.$store.state.unClaimTx = data1
+                    //     console.log(this.$store.state.unClaimTx)
+                    //     this.loading = false
+                    //     this.$refs.loginModal.hide()
+                    //     parent.$refs.claimModal.show()
+                    // } else {
+                    //     this.loading = false
+                    //     this.$refs.loginModal.hide()
+                    //     if (this.$store.state.redirectTo) {
+                    //         if (this.checkNetworkBeforeRedirect()) {
+                    //             this.$router.push({ path: this.$store.state.redirectTo })
+                    //         }
+                    //     }
+                    // }
                 }
             } catch (error) {
                 this.loading = false

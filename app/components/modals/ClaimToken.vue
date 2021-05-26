@@ -12,7 +12,7 @@
         <b-container>
             {{ unClaimTx }}
             <div>
-                Burning TX: {{ unClaimTx.burnTx || '' }}
+                Burning TX: {{ unClaimTx }}
             </div>
         </b-container>
     </b-modal>
@@ -43,7 +43,6 @@ export default {
     },
     validations: { },
     async updated () {
-        console.log(this.unClaimTx)
     },
     destroyed () { },
     created: async function () {

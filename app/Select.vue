@@ -111,7 +111,7 @@ export default {
     destroyed () { },
     created: async function () {
         if (this.address) {
-            const data = this.checkUnclaimTx()
+            const data = await this.checkUnclaimTx()
             console.log(data)
         }
     },

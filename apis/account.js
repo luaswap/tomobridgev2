@@ -38,7 +38,7 @@ router.post('/updateTx', [
     try {
         const address = req.body.address
         const burnTx = req.body.burnTx
-        const claimTx = req.body.claimTx
+        const claimTx = req.body.claimTx || ''
         const coin = req.body.coin
         const burningTime = req.body.burningTime
         let data = {

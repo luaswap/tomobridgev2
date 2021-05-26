@@ -11,16 +11,16 @@
                 class="steps__row justify-content-center">
                 <ul class="my-4 ml-5 text-left st-ul d-inline-block">
                     <li class="">
-                        <div class="text-danger li-span">Set your Metamask network to Ethereum to continue</div>
+                        <div class="li-span">Set your Metamask network to Ethereum to continue</div>
                     </li>
                     <li class="">
-                        <div class="text-danger li-span">Make sure you have enough ETH on your Ethereum network</div>
+                        <div class="li-span">Make sure you have enough ETH on your Ethereum network</div>
                     </li>
                     <li class="">
-                        <div class="text-danger li-span">Click on "Claim {{ fromWrapSelected.symbol }}"</div>
+                        <div class="li-span">Click on "Claim {{ fromWrapSelected.symbol }}"</div>
                     </li>
                     <li class="">
-                        <div class="text-danger li-span">Approve the request on Metamask to complete the transaction</div>
+                        <div class="li-span">Approve the request on Metamask to complete the transaction</div>
                     </li>
                 </ul>
             </div>
@@ -185,6 +185,7 @@ export default {
             }
         },
         async claimAsset () {
+            this.loading = true
             try {
                 const config = this.config
                 const parent = this.parent
@@ -220,6 +221,7 @@ export default {
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                     if (receipt) {
+                                        await this.updateTransaction()
                                         this.loading = false
                                         check = false
                                         parent.step++
@@ -245,6 +247,7 @@ export default {
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                     if (receipt) {
+                                        await this.updateTransaction()
                                         this.loading = false
                                         check = false
                                         parent.step++
@@ -260,6 +263,23 @@ export default {
             } catch (error) {
                 console.log(error)
                 this.loading = false
+                this.$toasted.show(error.message ? error.message : error, { type: 'error' })
+            }
+        },
+        async updateTransaction () {
+            console.log(1111)
+            const parent = this.parent
+            const token = this.fromWrapSelected
+            try {
+                axios.post('/api/account/updateTx', {
+                    address: this.address,
+                    burnTx: parent.transactionHash,
+                    coin: token.symbol.toLowerCase(),
+                    claimTx: parent.claimTxHash,
+                    isClaim: true
+                })
+            } catch (error) {
+                console.log(error)
                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
             }
         }
