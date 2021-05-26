@@ -13,7 +13,7 @@ router.get('/getUnclaimTx/:address', [], async function (req, res, next) {
     }
     try {
         const address = req.params.address
-        const result = await db.Transaction.find({
+        const result = await db.Transaction.findOne({
             signer: address.toLowerCase(),
             isClaim: false
         })

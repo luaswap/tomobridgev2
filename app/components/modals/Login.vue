@@ -101,7 +101,7 @@ export default {
                     this.$store.state.provider = 'metamask'
                     this.loading = false
                     const data1 = await this.checkUnclaimTx()
-                    if (data1 && data1.length > 0) {
+                    if (data1) {
                         this.$store.state.unClaimTx = data1
                         this.loading = false
                         this.$refs.loginModal.hide()
@@ -156,7 +156,6 @@ export default {
         checkNetworkBeforeRedirect () {
             const redirectTo = this.$store.state.redirectTo
             const network = this.$store.state.network
-            console.log(redirectTo)
             switch (redirectTo) {
             case 'unwrap':
                 if (this.tomoIds.indexOf(network.chainId) > -1) {

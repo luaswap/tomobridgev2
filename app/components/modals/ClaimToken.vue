@@ -7,20 +7,12 @@
         size="sm"
         hide-footer>
         <template #modal-title>
-            <div class="">Connect to a wallet</div>
+            <div class="">Claim token</div>
         </template>
         <b-container>
-            <div
-                class="login__buttons mt-3">
-                <b-button
-                    class="d-flex">
-                    <span>
-                        Metamask
-                    </span>
-                    <img
-                        src="/app/assets/images/metamask.png"
-                        alt="Metamask">
-                </b-button>
+            {{ unClaimTx }}
+            <div>
+                Burning TX: {{ unClaimTx.burnTx || '' }}
             </div>
         </b-container>
     </b-modal>
@@ -41,8 +33,18 @@ export default {
         return {
         }
     },
+    computed: {
+        unClaimTx: {
+            get () {
+                return this.$store.getters.unClaimTx || {}
+            },
+            set () {}
+        }
+    },
     validations: { },
-    async updated () { },
+    async updated () {
+        console.log(this.unClaimTx)
+    },
     destroyed () { },
     created: async function () {
     },
