@@ -135,17 +135,22 @@
         <LoginModal
             ref="loginModal"
             :parent="this"/>
+        <ClaimModal
+            ref="claimModal"
+            :parent="this"/>
     </div>
 </template>
 
 <script>
 import urljoin from 'url-join'
 import Helper from './utils'
-import LoginModal from './components/modals/Login'
+import LoginModal from './components/modals/Login.vue'
+import ClaimModal from './components/modals/ClaimToken.vue'
 export default {
     name: 'App',
     components: {
-        LoginModal
+        LoginModal,
+        ClaimModal
     },
     data () {
         return {
@@ -220,6 +225,10 @@ export default {
     methods: {
         openLoginModal () {
             this.$refs.loginModal.show()
+        },
+        openClaimTokenModal () {
+            console.log(this)
+            this.$refs.claimModal.show()
         },
         signOut () {
             this.$store.state.address = ''

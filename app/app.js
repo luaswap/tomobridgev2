@@ -60,13 +60,15 @@ const store = new Vuex.Store({
         provider: '',
         redirectTo: '',
         config: {},
-        balance: 0
+        balance: 0,
+        unClaimTx: {}
     },
     getters: {
         address: state => state.address,
         network: state => state.network,
         config: state => state.config,
-        balance: state => state.balance
+        balance: state => state.balance,
+        unClaimTx: state => state.unClaimTx
     }
 })
 Vue.prototype.web3Eth = ''

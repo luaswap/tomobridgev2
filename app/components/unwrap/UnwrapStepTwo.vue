@@ -11,16 +11,16 @@
                 class="steps__row justify-content-center">
                 <ul class="my-4 ml-5 text-left st-ul d-inline-block">
                     <li class="">
-                        <div class="text-danger li-span">Set your Metamask network to Ethereum to continue</div>
+                        <div class="li-span">Set your Metamask network to Ethereum to continue</div>
                     </li>
                     <li class="">
-                        <div class="text-danger li-span">Make sure you have enough ETH on your Ethereum network</div>
+                        <div class="li-span">Make sure you have enough ETH on your Ethereum network</div>
                     </li>
                     <li class="">
-                        <div class="text-danger li-span">Click on "Claim {{ fromWrapSelected.symbol }}"</div>
+                        <div class="li-span">Click on "Claim {{ fromWrapSelected.symbol }}"</div>
                     </li>
                     <li class="">
-                        <div class="text-danger li-span">Approve the request on Metamask to complete the transaction</div>
+                        <div class="li-span">Approve the request on Metamask to complete the transaction</div>
                     </li>
                 </ul>
             </div>
@@ -97,7 +97,6 @@ export default {
     created: async function () {
         const parent = this.parent
         const config = this.config
-        console.log(config)
         const receipt = await this.web3.eth.getTransactionReceipt(parent.transactionHash)
         this.txUrl = urljoin(
             config.tomoscanUrl,
@@ -158,7 +157,7 @@ export default {
                 if (token.symbol.toLowerCase() !== 'eth') {
                     estimateGas = await contract.methods.withdrawERC20(
                         token.tokenAddress,
-                        this.recAddress || this.address,
+                        this.recAddress,
                         this.txObj.Amount,
                         this.txObj.ScID,
                         this.txObj.Hash,
@@ -169,7 +168,7 @@ export default {
                     })
                 } else {
                     estimateGas = await contract.methods.withdrawEth(
-                        this.recAddress || this.address,
+                        this.recAddress,
                         this.txObj.Amount,
                         this.txObj.ScID,
                         this.txObj.Hash,
@@ -191,6 +190,7 @@ export default {
                 const token = this.fromWrapSelected
                 const chainId = await this.getChainId()
                 if (this.ethIds.indexOf(chainId) > -1) {
+                    this.loading = true
                     const contract = new this.web3.eth.Contract(
                         this.ContractBridgeEthAbi.abi,
                         config.blockchain.contractBridgeEth
@@ -207,7 +207,7 @@ export default {
                     if (token.symbol.toLowerCase() !== 'eth') {
                         await contract.methods.withdrawERC20(
                             token.tokenAddress,
-                            this.recAddress || this.address,
+                            this.recAddress || this.txObj.To,
                             this.txObj.Amount,
                             this.txObj.ScID,
                             this.txObj.Hash,
@@ -220,6 +220,7 @@ export default {
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                     if (receipt) {
+                                        await this.updateTransaction()
                                         this.loading = false
                                         check = false
                                         parent.step++
@@ -232,7 +233,7 @@ export default {
                             })
                     } else {
                         await contract.methods.withdrawEth(
-                            this.recAddress || this.address,
+                            this.recAddress || this.txObj.To,
                             this.txObj.Amount,
                             this.txObj.ScID,
                             this.txObj.Hash,
@@ -245,6 +246,7 @@ export default {
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                     if (receipt) {
+                                        await this.updateTransaction()
                                         this.loading = false
                                         check = false
                                         parent.step++
@@ -260,6 +262,24 @@ export default {
             } catch (error) {
                 console.log(error)
                 this.loading = false
+                this.$toasted.show(error.message ? error.message : error, { type: 'error' })
+            }
+        },
+        async updateTransaction () {
+            const parent = this.parent
+            const token = this.fromWrapSelected
+            const unClaimTx = this.$store.state.unClaimTx
+            try {
+                axios.post('/api/account/updateTx', {
+                    address: this.address,
+                    burnTx: parent.transactionHash,
+                    coin: token.symbol.toLowerCase(),
+                    claimTx: parent.claimTxHash,
+                    isClaim: true,
+                    burningTime: unClaimTx.burningTime
+                })
+            } catch (error) {
+                console.log(error)
                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
             }
         }

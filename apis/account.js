@@ -13,7 +13,7 @@ router.get('/getUnclaimTx/:address', [], async function (req, res, next) {
     }
     try {
         const address = req.params.address
-        const result = await db.Transaction.find({
+        const result = await db.Transaction.findOne({
             signer: address.toLowerCase(),
             isClaim: false
         })
@@ -27,6 +27,7 @@ router.post('/updateTx', [
     check('address').exists().isLength({ min: 42, max: 42 }).withMessage("'address' is incorrect."),
     check('coin').exists().withMessage("'coin' is required."),
     check('burnTx').exists().withMessage("'burnTx' is required.").isLength({ min: 66, max: 66 }).withMessage("'burnTx' is incorrect."),
+    // check('burningTime').optional().isDate().withMessage("'burningTime' must be datetime."),
     check('claimTx').optional().isLength({ min: 66, max: 66 }).withMessage("'claimTx' is incorrect."),
     check('isClaim').exists().isBoolean().withMessage("'isClaim' is required.")
 ], async function (req, res, next) {
@@ -36,14 +37,16 @@ router.post('/updateTx', [
     }
     try {
         const address = req.body.address
-        const burnTx = req.body.burnTx || ''
+        const burnTx = req.body.burnTx
         const claimTx = req.body.claimTx || ''
-        const coin = req.body.coin || ''
+        const coin = req.body.coin
+        const burningTime = req.body.burningTime
         let data = {
             signer: address.toLowerCase(),
             isClaim: req.body.isClaim,
             coin: coin.toLowerCase(),
-            burnTx
+            burnTx,
+            burningTime
         }
         if (claimTx) {
             data.claimTx = claimTx

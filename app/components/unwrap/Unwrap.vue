@@ -298,7 +298,6 @@ export default {
             const gasPrice = await this.web3Eth.eth.getGasPrice()
             if (token.symbol.toLowerCase() !== 'eth') {
                 this.fee = new BigNumber(config.etherChain.tokenClaimGas).multipliedBy(gasPrice).div(10 ** 18).toString(10)
-                
             } else {
                 this.fee = new BigNumber(config.etherChain.ethClaimGas).multipliedBy(gasPrice).div(10 ** 18).toString(10)
             }
