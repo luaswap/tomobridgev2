@@ -157,7 +157,7 @@ export default {
                 if (token.symbol.toLowerCase() !== 'eth') {
                     estimateGas = await contract.methods.withdrawERC20(
                         token.tokenAddress,
-                        this.recAddress || this.address,
+                        this.recAddress,
                         this.txObj.Amount,
                         this.txObj.ScID,
                         this.txObj.Hash,
@@ -168,7 +168,7 @@ export default {
                     })
                 } else {
                     estimateGas = await contract.methods.withdrawEth(
-                        this.recAddress || this.address,
+                        this.recAddress,
                         this.txObj.Amount,
                         this.txObj.ScID,
                         this.txObj.Hash,
@@ -184,13 +184,13 @@ export default {
             }
         },
         async claimAsset () {
-            this.loading = true
             try {
                 const config = this.config
                 const parent = this.parent
                 const token = this.fromWrapSelected
                 const chainId = await this.getChainId()
                 if (this.ethIds.indexOf(chainId) > -1) {
+                    this.loading = true
                     const contract = new this.web3.eth.Contract(
                         this.ContractBridgeEthAbi.abi,
                         config.blockchain.contractBridgeEth
@@ -207,7 +207,7 @@ export default {
                     if (token.symbol.toLowerCase() !== 'eth') {
                         await contract.methods.withdrawERC20(
                             token.tokenAddress,
-                            this.recAddress || this.address,
+                            this.recAddress || this.txObj.To,
                             this.txObj.Amount,
                             this.txObj.ScID,
                             this.txObj.Hash,
@@ -233,7 +233,7 @@ export default {
                             })
                     } else {
                         await contract.methods.withdrawEth(
-                            this.recAddress || this.address,
+                            this.recAddress || this.txObj.To,
                             this.txObj.Amount,
                             this.txObj.ScID,
                             this.txObj.Hash,
@@ -268,13 +268,15 @@ export default {
         async updateTransaction () {
             const parent = this.parent
             const token = this.fromWrapSelected
+            const unClaimTx = this.$store.state.unClaimTx
             try {
                 axios.post('/api/account/updateTx', {
                     address: this.address,
                     burnTx: parent.transactionHash,
                     coin: token.symbol.toLowerCase(),
                     claimTx: parent.claimTxHash,
-                    isClaim: true
+                    isClaim: true,
+                    burningTime: unClaimTx.burningTime
                 })
             } catch (error) {
                 console.log(error)

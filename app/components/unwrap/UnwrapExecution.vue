@@ -67,6 +67,7 @@ export default {
             recAddress: this.$route.params.recAddress || '',
             config: this.$store.state.config || {},
             amount: this.$route.params.amount || {},
+            isCLaimable: this.$route.params.amount || {},
             address: this.$store.state.address || '',
             expireTime: '',
             loading: false,
@@ -79,6 +80,11 @@ export default {
     destroyed () {
     },
     created: async function () {
+        if (this.isCLaimable) {
+            const unClaimTx = this.$store.state.unClaimTx
+            this.transactionHash = unClaimTx.burnTx
+            this.step = 2
+        }
     },
     methods: {}
 }

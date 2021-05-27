@@ -17,6 +17,9 @@
                     target="_blank">
                     {{ truncate(unClaimTx.burnTx || '', 20) }}
                 </a>
+
+                <b-button
+                    @click="claim">Claim</b-button>
             </div>
         </b-container>
     </b-modal>
@@ -36,7 +39,6 @@ export default {
     },
     data () {
         return {
-            config: this.$store.state.config,
             burnTxUrl: '#'
         }
     },
@@ -47,9 +49,9 @@ export default {
             },
             set () {}
         },
-        address: {
+        config: {
             get () {
-                return this.$store.getters.address
+                return this.$store.getters.config
             },
             set () {}
         }
@@ -59,16 +61,33 @@ export default {
     },
     destroyed () { },
     created: async function () {
-        const config = this.config
-        this.burnTxUrl = urljoin(
-            config.tomoscanUrl,
-            'txs',
-            this.unClaimTx.burnTx
-        )
+        if (this.unClaimTx && this.unClaimTx.burnTx) {
+            this.burnTxUrl = urljoin(
+                this.config.tomoscanUrl,
+                'txs',
+                this.unClaimTx.burnTx
+            )
+        }
     },
     methods: {
         show () {
             this.$refs.claimModal.show()
+        },
+        hide () {
+            this.$refs.claimModal.hide()
+        },
+        async claim () {
+            const coinObj = this.config.objSwapCoin
+            this.hide()
+            this.$router.push({
+                name: 'UnwrapExecution',
+                params: {
+                    recAddress: '',
+                    amount: 0,
+                    fromWrapSelected: coinObj[this.unClaimTx.coin],
+                    isClaimable: true
+                }
+            })
         }
     }
 }
