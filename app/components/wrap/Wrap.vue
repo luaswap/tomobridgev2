@@ -336,7 +336,6 @@ export default {
         },
         async checkApprove (token = this.fromWrapSelected) {
             try {
-                console.log(token)
                 const config = this.config
                 if (token.tokenAddress) {
                     const contract = new this.web3.eth.Contract(

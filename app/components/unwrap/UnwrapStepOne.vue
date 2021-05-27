@@ -125,7 +125,6 @@ export default {
                             while (check) {
                                 const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                 if (receipt && receipt.status) {
-                                    console.log(receipt)
                                     axios.post('/api/account/updateTx', {
                                         address: this.address,
                                         burnTx: txHash,

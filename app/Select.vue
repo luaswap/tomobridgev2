@@ -111,8 +111,11 @@ export default {
     destroyed () { },
     created: async function () {
         if (this.address) {
-            const data = await this.checkUnclaimTx()
-            console.log(data)
+            const data1 = await this.checkUnclaimTx()
+            if (data1) {
+                this.$store.state.unClaimTx = data1
+                this.$refs.claimModal.show()
+            }
         }
     },
     methods: {
