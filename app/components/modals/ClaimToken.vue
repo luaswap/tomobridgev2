@@ -5,20 +5,25 @@
         centered
         scrollable
         size="sm"
+        no-close-on-backdrop
+        hide-header
         hide-footer>
-        <template #modal-title>
-            <div class="">Claim token</div>
-        </template>
         <b-container>
-            {{ unClaimTx }}
-            <div>
-                Burning TX: {{ unClaimTx }}
+            <div class="mt-2 text-center">Claim token</div>
+            <div class="mt-4">
+                Burning TX:
+                <a
+                    :href="burnTxUrl"
+                    target="_blank">
+                    {{ truncate(unClaimTx.burnTx || '', 20) }}
+                </a>
             </div>
         </b-container>
     </b-modal>
 </template>
 
 <script>
+import urljoin from 'url-join'
 export default {
     name: 'App',
     components: { },
@@ -31,12 +36,20 @@ export default {
     },
     data () {
         return {
+            config: this.$store.state.config,
+            burnTxUrl: '#'
         }
     },
     computed: {
         unClaimTx: {
             get () {
                 return this.$store.getters.unClaimTx || {}
+            },
+            set () {}
+        },
+        address: {
+            get () {
+                return this.$store.getters.address
             },
             set () {}
         }
@@ -46,6 +59,12 @@ export default {
     },
     destroyed () { },
     created: async function () {
+        const config = this.config
+        this.burnTxUrl = urljoin(
+            config.tomoscanUrl,
+            'txs',
+            this.unClaimTx.burnTx
+        )
     },
     methods: {
         show () {

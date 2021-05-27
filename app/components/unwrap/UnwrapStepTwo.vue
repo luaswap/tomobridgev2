@@ -97,7 +97,6 @@ export default {
     created: async function () {
         const parent = this.parent
         const config = this.config
-        console.log(config)
         const receipt = await this.web3.eth.getTransactionReceipt(parent.transactionHash)
         this.txUrl = urljoin(
             config.tomoscanUrl,
@@ -267,7 +266,6 @@ export default {
             }
         },
         async updateTransaction () {
-            console.log(1111)
             const parent = this.parent
             const token = this.fromWrapSelected
             try {
