@@ -27,7 +27,6 @@ router.post('/updateTx', [
     check('address').exists().isLength({ min: 42, max: 42 }).withMessage("'address' is incorrect."),
     check('coin').exists().withMessage("'coin' is required."),
     check('burnTx').exists().withMessage("'burnTx' is required.").isLength({ min: 66, max: 66 }).withMessage("'burnTx' is incorrect."),
-    // check('burningTime').optional().isDate().withMessage("'burningTime' must be datetime."),
     check('claimTx').optional().isLength({ min: 66, max: 66 }).withMessage("'claimTx' is incorrect."),
     check('isClaim').exists().isBoolean().withMessage("'isClaim' is required.")
 ], async function (req, res, next) {
@@ -41,12 +40,14 @@ router.post('/updateTx', [
         const claimTx = req.body.claimTx || ''
         const coin = req.body.coin
         const burningTime = req.body.burningTime
+        const amount = req.body.amount
         let data = {
             signer: address.toLowerCase(),
             isClaim: req.body.isClaim,
             coin: coin.toLowerCase(),
             burnTx,
-            burningTime
+            burningTime,
+            amount
         }
         if (claimTx) {
             data.claimTx = claimTx

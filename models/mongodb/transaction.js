@@ -6,6 +6,7 @@ var Schema = mongoose.Schema
 var Transaction = new Schema({
     signer: { type: String, index: true },
     coin: String,
+    amount: String,
     burnTx: { type: String, index: true },
     claimTx: { type: String, index: true },
     burningTime: String,

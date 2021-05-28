@@ -70,11 +70,11 @@ export default {
             this.txHash
         )
         this.requiredConfirm = parent.fromWrapSelected.confirmations
-        const receipt = await this.web3.eth.getTransactionReceipt(this.txHash)
+        const receipt = await this.web3Eth.eth.getTransactionReceipt(this.txHash)
         const signedBlock = receipt.blockNumber
 
         this.interval = setInterval(async () => {
-            const currentBlock = await this.web3.eth.getBlockNumber()
+            const currentBlock = await this.web3Eth.eth.getBlockNumber()
             this.confirmation = currentBlock - signedBlock
             if (this.confirmation >= this.requiredConfirm) {
                 this.confirmation = this.requiredConfirm

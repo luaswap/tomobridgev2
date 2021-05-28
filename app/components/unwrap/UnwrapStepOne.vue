@@ -130,7 +130,8 @@ export default {
                                         burnTx: txHash,
                                         coin: this.fromWrapSelected.symbol.toLowerCase(),
                                         isClaim: false,
-                                        burningTime: new Date()
+                                        burningTime: new Date(),
+                                        amount: this.amount
                                     })
                                     check = false
                                     this.loading = false

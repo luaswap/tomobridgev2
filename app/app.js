@@ -81,6 +81,7 @@ Vue.prototype.setupProvider = async function (provider, wjs) {
         Vue.prototype.ContractBridgeEthAbi = ContractBridgeEth
         let config = localStorage.get('configBridge')
         Vue.prototype.web3Eth = new Web3(new Web3.providers.HttpProvider(config.etherChain.rpc))
+        Vue.prototype.web3Tomo = new Web3(new Web3.providers.HttpProvider(config.blockchain.rpc))
     }
 }
 

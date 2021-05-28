@@ -97,7 +97,7 @@ export default {
     created: async function () {
         const parent = this.parent
         const config = this.config
-        const receipt = await this.web3.eth.getTransactionReceipt(parent.transactionHash)
+        const receipt = await this.web3Tomo.eth.getTransactionReceipt(parent.transactionHash)
         this.txUrl = urljoin(
             config.tomoscanUrl,
             'txs',
@@ -105,7 +105,7 @@ export default {
         )
         const signedBlock = receipt.blockNumber
         this.interval = setInterval(async () => {
-            const currentBlock = await this.web3.eth.getBlockNumber()
+            const currentBlock = await this.web3Tomo.eth.getBlockNumber()
             this.confirmation = currentBlock - signedBlock
             if (this.confirmation >= this.requiredConfirm) {
                 this.confirmation = this.requiredConfirm
@@ -276,7 +276,8 @@ export default {
                     coin: token.symbol.toLowerCase(),
                     claimTx: parent.claimTxHash,
                     isClaim: true,
-                    burningTime: unClaimTx.burningTime
+                    burningTime: unClaimTx.burningTime,
+                    amount: unClaimTx.amount
                 })
             } catch (error) {
                 console.log(error)
