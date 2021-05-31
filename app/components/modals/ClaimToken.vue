@@ -9,15 +9,56 @@
         hide-header
         hide-footer>
         <b-container>
-            <div class="mt-2 text-center">Claim token</div>
-            <div class="mt-4">
-                Burning TX:
-                <a
-                    :href="burnTxUrl"
-                    target="_blank">
-                    {{ truncate(unClaimTx.burnTx || '', 20) }}
-                </a>
-
+            <div class="mt-2 text-center">You have a pending transaction!</div>
+            <b-row
+                class="mt-4 align-items-center"
+                style="border: 2px solid; border-radius: 25px; padding: 10px;">
+                <b-col
+                    class="text-left"
+                    cols="4"
+                    style="font-size: 14px; text-overflow: ">
+                    <div class="font-weight-bold">Approved burn TxHash</div>
+                </b-col>
+                <b-col
+                    cols="8">
+                    <a
+                        :href="burnTxUrl"
+                        target="_blank">
+                        {{ truncate(unClaimTx.burnTx || '', 20) }}
+                    </a>
+                </b-col>
+            </b-row>
+            <b-row
+                class="mt-4 d-flex align-items-center"
+                style="border: 2px solid; border-radius: 25px; padding: 10px;">
+                <b-col
+                    class="text-left"
+                    cols="4"
+                    style="font-size: 14px; text-overflow: ">
+                    <div class="font-weight-bold">Timestamp</div>
+                </b-col>
+                <b-col
+                    cols="8">
+                    {{ dateTime }}
+                </b-col>
+            </b-row>
+            <b-row
+                class="mt-4 d-flex align-items-center">
+                <b-col
+                    class="text-left"
+                    cols="4"
+                    style="border: 2px solid; border-radius: 25px; padding: 10px; font-size: 14px;">
+                    <div
+                        class="font-weight-bold">{{ unClaimTx.coin.toUpperCase() }}</div>
+                </b-col>
+                <b-col
+                    cols="8"
+                    style="border: 2px solid; border-radius: 25px; padding: 10px;">
+                    {{ unClaimTx.amount }}
+                </b-col>
+            </b-row>
+            <div
+                class="text-center mt-4">
                 <b-button
                     @click="claim">Claim</b-button>
             </div>
@@ -27,6 +68,7 @@
 
 <script>
 import urljoin from 'url-join'
+import moment from 'moment'
 export default {
     name: 'App',
     components: { },
@@ -39,7 +81,8 @@ export default {
     },
     data () {
         return {
-            burnTxUrl: '#'
+            burnTxUrl: '#',
+            dateTime: ''
         }
     },
     computed: {
@@ -67,6 +110,7 @@ export default {
                 'txs',
                 this.unClaimTx.burnTx
             )
+            this.dateTime = moment(this.unClaimTx.burningTime).format('DD/MM/YYYY')
         }
     },
     methods: {
