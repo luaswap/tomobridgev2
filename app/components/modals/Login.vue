@@ -105,6 +105,7 @@ export default {
                         this.$store.state.unClaimTx = data1
                         this.loading = false
                         this.$refs.loginModal.hide()
+                        this.$bus.$emit('reclaim')
                         parent.$refs.claimModal.show()
                     } else {
                         this.loading = false

@@ -45,7 +45,7 @@
                         class="modal-row"
                         cols="4">
                         <div
-                            class="font-weight-bold">{{ unClaimTx.coin.toUpperCase() }}</div>
+                            class="font-weight-bold">{{ (unClaimTx.coin || '').toUpperCase() }}</div>
                     </b-col>
                     <b-col
                         class="modal-row"
@@ -110,6 +110,16 @@ export default {
             )
             this.dateTime = moment(this.unClaimTx.burningTime).format('DD/MM/YYYY')
         }
+        this.$bus.$on('reclaim', () => {
+            if (this.unClaimTx && this.unClaimTx.burnTx) {
+                this.burnTxUrl = urljoin(
+                    this.config.tomoscanUrl,
+                    'txs',
+                    this.unClaimTx.burnTx
+                )
+                this.dateTime = moment(this.unClaimTx.burningTime).format('DD/MM/YYYY')
+            }
+        })
     },
     methods: {
         show () {
