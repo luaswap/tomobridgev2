@@ -1,7 +1,6 @@
 <template>
     <div id="app">
         <b-navbar
-            v-if="$route.path !== '/'"
             toggleable="lg"
             type="light"
             class="tomo-header"
@@ -85,6 +84,12 @@
                                 @click="changeLang('chinese')">简体中文</b-dropdown-item> -->
                         </b-dropdown>
                     </div>
+                    <b-nav>
+                        <b-nav-item active>Active</b-nav-item>
+                        <b-nav-item>Link</b-nav-item>
+                        <b-nav-item>Another Link</b-nav-item>
+                        <b-nav-item disabled>Disabled</b-nav-item>
+                    </b-nav>
                 </b-collapse>
             </section>
         </b-navbar>
