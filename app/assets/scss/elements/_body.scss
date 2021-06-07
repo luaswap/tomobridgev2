@@ -2,7 +2,7 @@ body {
   font-family: $global-fonts;
   font-size: $global-font-size-md;
   -webkit-font-smoothing: antialiased;
-
+  color: #C3C3C3;
   @include media-breakpoint-up(md) {
     font-size: $global-font-size-md;
   }

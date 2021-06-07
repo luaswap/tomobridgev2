@@ -3,17 +3,35 @@
         <b-container
             class="container-medium">
             <div class="open-product text-center">
-                <b-navbar-brand
-                    class="py-3"
-                    to="/">
-                    <img
-                        class="logo-bri"
-                        src="/app/assets/images/logo.svg"
-                        alt="TomoBridge">
-                </b-navbar-brand>
-                <h3 class="h3 pb-4 mb-2 text-center">
-                    Cross-chain portal to transfer assets <br class="d-none d-md-block">between TomoChain and other Blockchains
-                </h3>
+                <h1 class="title-tmp-large">
+                    SELECT A BRIDGE
+                </h1>
+                <p class="txt-dec">Cross-chain portal to transfer assets between TomoChain and other Blockchains</p>
+
+                <b-form-checkbox
+                    v-model="isAgreed"
+                    unchecked-value="not_accepted">
+                    I agree to the
+                    <b-link
+                        href="https://docs.tomochain.com/tomobridge/terms-of-use"
+                        class="text-blue">
+                        Terms of use
+                    </b-link>
+                    and
+                    <b-link
+                        href="https://docs.tomochain.com/tomobridge/privacy-policy"
+                        class="text-blue">
+                        Privacy policy
+                    </b-link>
+                </b-form-checkbox>
+                <p
+                    v-if="checkError"
+                    class="error my-2">
+                    <b-icon
+                        class="mr-2 m1 light-h"
+                        icon="exclamation-circle"
+                        font-scale="1"/>Please indicate that you have read and agreed to the Terms of Use and Privacy Policy
+                </p>
             </div>
             <div class="item-product">
                 <div class="box-btn">
@@ -83,70 +101,8 @@
                         </div>
                     </a>
                 </div>
-                <div>
-                    <b-form-checkbox
-                        v-model="isAgreed"
-                        class="mt-5 text-lg-center">
-                        I agree to the
-                        <a
-                            href="https://docs.tomochain.com/tomobridge/terms-of-use"
-                            target="_blank">
-                            Terms of Use
-                        </a>
-                        and the
-                        <a
-                            href="https://docs.tomochain.com/tomobridge/privacy-policy"
-                            target="_blank">
-                            Privacy Policy
-                        </a>
-                    </b-form-checkbox>
-                    <p
-                        v-if="checkError"
-                        class="error my-2">
-                        <b-icon
-                            class="mr-2 m1 light-h"
-                            icon="exclamation-circle"
-                            font-scale="1"/>Please indicate that you have read and agreed to the Terms of Use and Privacy Policy
-                    </p>
-                </div>
             </div>
         </b-container>
-        <div class="py-4">
-            <b-container>
-                <div class="row flex-row-reverse tomo-footer-product">
-                    <div class="col-12">
-                        <div class="tomo-meta-links text-center">
-                            <ul class="p-0 m-0">
-                                <li>
-                                    <a
-                                        :target="mobileCheck ? '' : '_blank'"
-                                        href="https://forms.gle/cU1XU3b8EUMxB6yA6">
-                                        Open a Support Ticket</a>
-                                </li>
-                                <li>
-                                    <a
-                                        :target="mobileCheck ? '' : '_blank'"
-                                        href="https://docs.tomochain.com/tomobridge/faq">
-                                        FAQ</a>
-                                </li>
-                                <!-- <li>
-                                    <a
-                                        :target="mobileCheck ? '' : '_blank'"
-                                        href="https://docs.tomochain.com/tomobridge/fee-structure">
-                                        Fee Structure</a>
-                                </li>
-                                <li>
-                                    <a
-                                        :target="mobileCheck ? '' : '_blank'"
-                                        href="https://docs.tomochain.com/tomobridge/trc21-wrapped-token-information">
-                                        Token Information</a>
-                                </li> -->
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </b-container>
-        </div>
     </div>
 </template>
 

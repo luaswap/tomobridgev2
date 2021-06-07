@@ -3,12 +3,11 @@
         <b-navbar
             toggleable="lg"
             type="light"
-            class="tomo-header"
-            variant="dark">
+            class="tomo-header">
             <section class="container container-tomochain">
                 <b-navbar-brand to="/">
                     <b-img
-                        src="/app/assets/images/logo3.svg"
+                        src="/app/assets/images/logo-tomo-bridge.svg"
                         alt="TomoBridge"/>
                 </b-navbar-brand>
                 <!-- button menu SP -->
@@ -19,7 +18,7 @@
                 <b-collapse
                     id="nav-collapse"
                     is-nav>
-                    <div class="ml-auto navbar-buttons d-flex align-content-center">
+                    <div class="ml-auto navbar-buttons d- flex d-none align-content-center">
                         <b-button
                             v-if="!address"
                             class="btn-token"
@@ -84,11 +83,11 @@
                                 @click="changeLang('chinese')">简体中文</b-dropdown-item> -->
                         </b-dropdown>
                     </div>
-                    <b-nav>
-                        <b-nav-item active>Active</b-nav-item>
-                        <b-nav-item>Link</b-nav-item>
-                        <b-nav-item>Another Link</b-nav-item>
-                        <b-nav-item disabled>Disabled</b-nav-item>
+                    <b-nav class="text-white ml-auto">
+                        <b-nav-item active>Home</b-nav-item>
+                        <b-nav-item>Instruction video</b-nav-item>
+                        <b-nav-item>Support ticket</b-nav-item>
+                        <b-nav-item>FAQ</b-nav-item>
                     </b-nav>
                 </b-collapse>
             </section>
