@@ -1,12 +1,15 @@
 .bg-body {
     background-color: $background-body;
+    background-image: url(/app/assets/images/bg-full-screen.svg);
+    background-repeat: no-repeat;
+    background-position: center;
     overflow: hidden;
     min-height: 100vh;
     padding: 15px;
 }
 
 .container-medium {
-    background: linear-gradient(138deg, rgba(#fff, 0), #353535, #fff);
+    background: linear-gradient(138deg, #b4b4b4, #353535, #5c5c5c, #00E8B4 );
     max-width: 700px;
     border-radius: 24px;
     padding: 25px 40px 5px;
@@ -15,25 +18,25 @@
     z-index: 1;
     &::before {
         content: '';
-        width: calc(100% - 6px);
-        height: calc(100% - 6px);
-        background: linear-gradient(40deg, rgba(#fff, 0), #00E8B4, #353535);
+        width: calc(100% - 2px);
+        height: calc(100% - 2px);
+        background: linear-gradient(40deg, #5c5c5c, #b4b4b4, #b4b4b4, #353535);
         position: absolute;
         border-radius: 24px;
-        left: 1px;
-        top: 1px;
+        left: 0px;
+        top: 0px;
         z-index: -1;
     }
     &::after {
         content: '';
-        width: calc(100% - 4px);
-        height: calc(100% - 4px);
+        width: calc(100% - 2px);
+        height: calc(100% - 2px);
         background: linear-gradient(#353535, #303030);
         // background: linear-gradient(155.76deg, rgba(255, 252, 246, 0.06) 2.27%, rgba(255, 252, 246, 0) 100.27%);
         position: absolute;
         border-radius: 24px;
-        left: 2px;
-        top: 2px;
+        left: 1px;
+        top: 1px;
         z-index: -1;
     }
 
