@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-body">
+    <div class="container">
         <b-container
             class="container-medium">
             <div class="open-product text-center">

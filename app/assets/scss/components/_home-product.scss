@@ -1,11 +1,17 @@
-.bg-body {
+body {
     background-color: $background-body;
     background-image: url(/app/assets/images/bg-full-screen.svg);
     background-repeat: no-repeat;
     background-position: center;
     overflow: hidden;
     min-height: 100vh;
-    padding: 15px;
+}
+
+.page-layout  {
+    margin-top: 50px;
+    @include media-breakpoint-down(sm) {
+        margin-top: 30px;
+    }
 }
 
 .container-medium {
@@ -13,7 +19,6 @@
     max-width: 700px;
     border-radius: 24px;
     padding: 25px 40px 5px;
-    margin-top: 50px;
     position: relative;
     z-index: 1;
     &::before {
