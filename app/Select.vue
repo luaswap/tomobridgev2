@@ -12,35 +12,44 @@
                         class="h4 text-center">Connect Wallet</h4>
                     <div
                         class="login__buttons mt-3">
-                        <b-button
-                            class="d-flex"
-                            @click="loginMetamask">
+                        <div
+                            class="">
                             <span>
                                 Metamask
                             </span>
                             <img
                                 src="/app/assets/images/metamask.png"
                                 alt="Metamask">
+                        </div>
+                        <b-button
+                            @click="loginMetamask">
+                            Connect now
                         </b-button>
                     </div>
                 </div>
-                <b-alert
-                    class="mb-0 font-smaller"
-                    show
-                    variant="success">
-                    Swapping <b>TOMO</b> to <b>TOMOE</b> requires the Metamask network to be set to TomoChain.
-                    Likewise swapping <b>TOMOE</b> to <b>TOMO</b> requires the Metamask network to be set to Ethereum. Follow
-                    <b-link
-                        href="https://docs.tomochain.com/general/how-to-connect-to-tomochain-network/metamask"
-                        target="_blank">
-                        this guide
-                    </b-link>
-                    to learn more.
-                </b-alert>
             </div>
         </div>
+        <div
+            v-else>
+            <b-row
+                class="text-enter">
+                {{ network.name }} {{ address }}
+            </b-row>
+            <b-row
+                class="text-center">
+                <div class="text-left">
+                    Balance: {{ balance }} {{ tomoIds.indexOf(network.chainId || '') > -1 ? 'TOMO' : 'ETH' }}
+                </div>
+                <div class="text-right">
+                    <a
+                        :href="scanUrl"
+                        target="_blank">Transaction history</a>
+                </div>
+            </b-row>
+            <b-button
+                @click="signOut">X</b-button>
+        </div>
         <b-row
-            v-else
             align-h="center">
             <b-col cols="7">
                 <div
@@ -123,6 +132,7 @@
 import axios from 'axios'
 import Helper from './utils'
 import Web3 from 'web3'
+import urljoin from 'url-join'
 import LoginModal from './components/modals/Login'
 import ClaimTokenModal from './components/modals/ClaimToken'
 export default {
@@ -135,7 +145,8 @@ export default {
         return {
             ethIds: [1, 3, 4, 5],
             tomoIds: [88, 89, 99],
-            loading: false
+            loading: false,
+            scanUrl: '#'
         }
     },
     computed: {
@@ -150,6 +161,23 @@ export default {
                 return this.$store.getters.network
             },
             set () {}
+        },
+        balance: {
+            get () {
+                return this.$store.getters.balance
+            },
+            set () {}
+        },
+        config: {
+            get () {
+                return this.$store.getters.config
+            },
+            set () {}
+        }
+    },
+    watch: {
+        address: function (value) {
+            this.scanUrl = urljoin(this.config.tomoscanUrl, 'address', value)
         }
     },
     async updated () {
@@ -165,6 +193,15 @@ export default {
         }
     },
     methods: {
+        signOut () {
+            this.$store.state.address = ''
+            this.$store.state.network = ''
+            if (this.$route.path !== '/select') {
+                this.$router.push({
+                    path: '/select'
+                })
+            }
+        },
         openClaimTokenModal () {
             this.$refs.claimTokenModal.show()
         },

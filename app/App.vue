@@ -19,8 +19,7 @@
                     id="nav-collapse"
                     is-nav>
                     <div
-                        v-if="address"
-                        class="ml-auto navbar-buttons d- flex align-content-center">
+                        class="ml-auto navbar-buttons d-none flex align-content-center">
                         <b-navbar-nav>
                             <b-nav-item-dropdown
                                 v-if="address"
@@ -81,12 +80,24 @@
                         </b-dropdown>
                     </div>
                     <b-nav
-                        v-else
                         class="text-white ml-auto">
                         <b-nav-item active>Home</b-nav-item>
                         <b-nav-item>Instruction video</b-nav-item>
                         <b-nav-item>Support ticket</b-nav-item>
                         <b-nav-item>FAQ</b-nav-item>
+                        <b-dropdown
+                            :text="selectedLanguage"
+                            class="nav-item btn-language ml-2">
+                            <b-dropdown-item
+                                class="current-lang"
+                                @click="changeLang('english')">English</b-dropdown-item>
+                            <!-- <b-dropdown-item
+                                @click="changeLang('turkish')">Türk</b-dropdown-item>
+                            <b-dropdown-item
+                                @click="changeLang('japanese')">日本語</b-dropdown-item>
+                            <b-dropdown-item
+                                @click="changeLang('chinese')">简体中文</b-dropdown-item> -->
+                        </b-dropdown>
                     </b-nav>
                 </b-collapse>
             </section>
