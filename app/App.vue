@@ -106,46 +106,6 @@
             :class="`page-layout ${$route.path !== '/' ? 'common-main-content' : ''}`">
             <router-view/>
         </div>
-        <footer
-            v-if="$route.path !== '/'"
-            class="tomo-footer footer">
-            <div
-                class="container ">
-                <div class="tomo-meta-links text-center">
-                    <div class="row">
-                        <ul class="">
-                            <li>
-                                <a href="#">Tutorial</a>
-                            </li>
-                            <li>
-                                <a
-                                    :target="provider === 'tomowallet' ? '' : '_blank'"
-                                    href="https://forms.gle/cU1XU3b8EUMxB6yA6">
-                                    Submit a request</a>
-                            </li>
-                            <li>
-                                <a
-                                    :target="provider === 'tomowallet' ? '' : '_blank'"
-                                    href="https://docs.tomochain.com/tomobridge/faq">
-                                    FAQ</a>
-                            </li>
-                            <!-- <li>
-                                <a
-                                    :target="provider === 'tomowallet' ? '' : '_blank'"
-                                    href="https://docs.tomochain.com/tomobridge/fee-structure">
-                                    Fee Structure</a>
-                            </li>
-                            <li>
-                                <a
-                                    :target="provider === 'tomowallet' ? '' : '_blank'"
-                                    href="https://docs.tomochain.com/tomobridge/trc21-wrapped-token-information">
-                                    TRC21 Wrapped Tokens</a>
-                            </li> -->
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </footer>
         <LoginModal
             ref="loginModal"
             :parent="this"/>

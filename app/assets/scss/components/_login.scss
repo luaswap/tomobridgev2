@@ -21,10 +21,11 @@
         }
     }
 
+    button {
+        font-size: 15px;
+    }
+
     @include media-breakpoint-up(xxl) {
-        button {
-            font-size: $global-font-size-xl;
-        }
 
         +.text-error {
             margin-top: -15px;
