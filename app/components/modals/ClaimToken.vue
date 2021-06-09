@@ -108,7 +108,7 @@ export default {
                 'txs',
                 this.unClaimTx.burnTx
             )
-            this.dateTime = moment(this.unClaimTx.burningTime).format('DD/MM/YYYY')
+            this.dateTime = moment(this.unClaimTx.createdAt).format('DD/MM/YYYY')
         }
         this.$bus.$on('reclaim', () => {
             if (this.unClaimTx && this.unClaimTx.burnTx) {
@@ -117,7 +117,7 @@ export default {
                     'txs',
                     this.unClaimTx.burnTx
                 )
-                this.dateTime = moment(this.unClaimTx.burningTime).format('DD/MM/YYYY')
+                this.dateTime = moment(this.unClaimTx.createdAt).format('DD/MM/YYYY')
             }
         })
     },

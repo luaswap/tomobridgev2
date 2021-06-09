@@ -186,13 +186,13 @@ export default {
     },
     destroyed () { },
     created: async function () {
-        if (this.address) {
-            const data1 = await this.checkUnclaimTx()
-            if (data1) {
-                this.$store.state.unClaimTx = data1
-                this.$refs.claimModal.show()
-            }
-        }
+        // if (this.address) {
+        //     const data1 = await this.checkUnclaimTx()
+        //     if (data1) {
+        //         this.$store.state.unClaimTx = data1
+        //         this.$refs.claimModal.show()
+        //     }
+        // }
     },
     methods: {
         signOut () {
