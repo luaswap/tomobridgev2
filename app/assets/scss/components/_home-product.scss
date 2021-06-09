@@ -3,7 +3,6 @@ body {
     background-image: url(/app/assets/images/bg-full-screen.svg);
     background-repeat: no-repeat;
     background-position: center;
-    overflow: hidden;
     min-height: 100vh;
 }
 
@@ -118,7 +117,7 @@ body {
         }
 
         .logo-icon {
-            height: 40px;
+            height: 24px;
         }
     }
 }
@@ -269,6 +268,12 @@ body {
 .title-tmp-large {
     font-weight: bold;
     font-size: 24px;
+    color: #D8D8D8;
+}
+
+.title-tmp-medium {
+    font-weight: bold;
+    font-size: 18px;
     color: #D8D8D8;
 }
 

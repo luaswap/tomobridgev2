@@ -34,12 +34,13 @@ button.btn--big,
 }
 
 .btn-secondary {
-  background-color: $color-bg;
-  color: $color-primary;
+  background-color: #00E8B4;
+  color: #353535;
+  font-weight: bold;
 
   &:hover {
-    background-color: $color-primary;
-    color: #fff;
+    background-color: #25fdce;
+    color: #353535;
   }
 }
 

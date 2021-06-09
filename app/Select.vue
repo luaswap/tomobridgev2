@@ -2,24 +2,19 @@
     <b-container>
         <div
             v-if="!address"
-            class="login-wallet">
+            class="login-wallet mb-4">
             <div
-                class="connect p-3 px-lg-4 pb-lg-4 pt-lg-5">
-                <div
-                    id="login"
-                    class="pb-4">
-                    <h4
-                        class="h4 text-center">Connect Wallet</h4>
-                    <div
-                        class="login__buttons mt-3">
-                        <div
-                            class="">
-                            <span>
-                                Metamask
-                            </span>
-                            <img
-                                src="/app/assets/images/metamask.png"
-                                alt="Metamask">
+                class="connect">
+                <div id="login">
+                    <div class="login__buttons">
+                        <div class="txt-infor">
+                            <p class="txt-dec mb-1">Connect wallet to continue</p>
+                            <div class="d-flex">
+                                <img
+                                    src="/app/assets/images/metamask.png"
+                                    alt="Metamask">
+                                <span class="title-tmp-medium">METAMASK</span>
+                            </div>
                         </div>
                         <b-button
                             @click="loginMetamask">
@@ -30,32 +25,35 @@
             </div>
         </div>
         <div
-            v-else>
-            <b-row
-                class="text-enter">
-                {{ network.name }} {{ address }}
-            </b-row>
-            <b-row
-                class="text-center">
-                <div class="text-left">
-                    Balance: {{ balance }} {{ tomoIds.indexOf(network.chainId || '') > -1 ? 'TOMO' : 'ETH' }}
-                </div>
-                <div class="text-right">
+            v-else
+            class="infor-wallet mb-4">
+            <div class="connect">
+                <div class="box-address-wallet"><span class="tag">{{ network.name }}</span> <b>{{ address }}</b></div>
+                <div class="box-address-infor mt-3">
+                    <span
+                        class="text-gray">
+                        Balance: {{ balance }} {{ tomoIds.indexOf(network.chainId || '') > -1 ? 'TOMO' : 'ETH' }}
+                    </span>
                     <a
                         :href="scanUrl"
-                        target="_blank">Transaction history</a>
+                        target="_blank"
+                        class="text-blue">
+                        Transaction history
+                    </a>
                 </div>
-            </b-row>
-            <b-button
-                @click="signOut">X</b-button>
+            </div>
+            <div class="btn-sign-out">
+                <span
+                    @click="signOut">Sign out</span>
+            </div>
         </div>
-        <b-row
-            align-h="center">
-            <b-col cols="7">
+        <div class="container">
+            <b-container
+                class="container-medium">
                 <div
-                    class="text-center pb-4 mb-2">
-                    <h2>Select conversion direction</h2>
-                    <p class="text-d">Make sure to set your network to Ethereum</p>
+                    class="text-center">
+                    <h1 class="title-tmp-large">SELECT CONVERSION DIRECTION</h1>
+                    <p class="txt-dec">Make sure to set your network to Ethereum</p>
                 </div>
 
                 <div
@@ -64,12 +62,13 @@
                         <a
                             class="row btn-tm"
                             @click="redirect('unwrapErc20')">
-                            <div class="col-5 px-0 text-center">
-                                <p>
+                            <div class="col-5 px-0 text-right">
+                                <div class="text-right">
                                     <img
-                                        src="/app/assets/images/logo-tomochain.png"
-                                        class="logo-icon">
-                                </p>
+                                        src="/app/assets/images/tomochain.svg"
+                                        class="logo-icon mr-2">
+                                    TOMOCHAIN
+                                </div>
                                 <span>Wrapped Tokens on TomoChain</span>
                             </div>
                             <div class="col-2 text-center">
@@ -78,24 +77,26 @@
                                     icon="arrow-right-short"
                                     font-scale="3"/>
                             </div>
-                            <div class="col-5 px-0 text-center">
-                                <p>
+                            <div class="col-5 px-0 text-left">
+                                <div class="text-left">
                                     <img
                                         src="/app/assets/images/ethereum.svg"
-                                        class="logo-icon">
-                                </p>
+                                        class="logo-icon mr-2">
+                                    ETHEREUM
+                                </div>
                                 <span>ERC-20 Tokens on Ethereum</span>
                             </div>
                         </a>
                         <a
-                            class="row btn-tm mt-5"
+                            class="row btn-tm"
                             @click="redirect('wrapErc20')">
-                            <div class="col-5 px-0 text-center">
-                                <p>
+                            <div class="col-5 px-0 text-right">
+                                <div class="text-right">
                                     <img
                                         src="/app/assets/images/ethereum.svg"
                                         class="logo-icon">
-                                </p>
+                                    ETHEREUM
+                                </div>
                                 <span>ERC-20 Tokens on Ethereum</span>
                             </div>
                             <div class="col-2 text-center">
@@ -104,19 +105,20 @@
                                     icon="arrow-right-short"
                                     font-scale="3"/>
                             </div>
-                            <div class="col-5 px-0 text-center">
-                                <p>
+                            <div class="col-5 px-0 text-left">
+                                <div class="text-left">
                                     <img
-                                        src="/app/assets/images/logo-tomochain.png"
+                                        src="/app/assets/images/tomochain.svg"
                                         class="logo-icon">
-                                </p>
+                                    TOMOCHAIN
+                                </div>
                                 <span>TomoChain Wrapped Tokens</span>
                             </div>
                         </a>
                     </div>
                 </div>
-            </b-col>
-        </b-row>
+            </b-container>
+        </div>
         <LoginModal
             ref="loginModal"
             :parent="this"/>
