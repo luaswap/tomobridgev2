@@ -119,6 +119,12 @@ export default {
         }
     },
     computed : {
+        address: {
+            get () {
+                return this.$store.getters.address
+            },
+            set () {}
+        },
         mobileCheck: () => {
             const isAndroid = navigator.userAgent.match(/Android/i)
             const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)

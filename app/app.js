@@ -85,7 +85,7 @@ Vue.prototype.setupProvider = async function (provider, wjs) {
     }
 }
 
-Vue.prototype.getAccount = async function (resolve, reject) {
+Vue.prototype.getAccount = async function () {
     const provider = Vue.prototype.NetworkProvider || ''
     const web3 = Vue.prototype.web3
     let account

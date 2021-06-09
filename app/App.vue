@@ -18,11 +18,9 @@
                 <b-collapse
                     id="nav-collapse"
                     is-nav>
-                    <div class="ml-auto navbar-buttons d- flex d-none align-content-center">
-                        <b-button
-                            v-if="!address"
-                            class="btn-token"
-                            @click="openLoginModal">Connect Wallets</b-button>
+                    <div
+                        v-if="address"
+                        class="ml-auto navbar-buttons d- flex align-content-center">
                         <b-navbar-nav>
                             <b-nav-item-dropdown
                                 v-if="address"
@@ -33,7 +31,6 @@
                                 <template
                                     slot="button-content"
                                     class="tmp-btn-transparent">
-                                    <!-- <b-icon-wallet2/> -->
                                     <i class="tb-wallet"/>
                                     {{ truncate(address, 16) }}
                                 </template>
@@ -83,7 +80,9 @@
                                 @click="changeLang('chinese')">简体中文</b-dropdown-item> -->
                         </b-dropdown>
                     </div>
-                    <b-nav class="text-white ml-auto">
+                    <b-nav
+                        v-else
+                        class="text-white ml-auto">
                         <b-nav-item active>Home</b-nav-item>
                         <b-nav-item>Instruction video</b-nav-item>
                         <b-nav-item>Support ticket</b-nav-item>
@@ -231,7 +230,6 @@ export default {
             this.$refs.loginModal.show()
         },
         openClaimTokenModal () {
-            console.log(this)
             this.$refs.claimModal.show()
         },
         signOut () {

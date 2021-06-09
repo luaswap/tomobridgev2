@@ -1,6 +1,47 @@
 <template>
     <b-container>
-        <b-row align-h="center">
+        <div
+            v-if="!address"
+            class="login-wallet">
+            <div
+                class="connect p-3 px-lg-4 pb-lg-4 pt-lg-5">
+                <div
+                    id="login"
+                    class="pb-4">
+                    <h4
+                        class="h4 text-center">Connect Wallet</h4>
+                    <div
+                        class="login__buttons mt-3">
+                        <b-button
+                            class="d-flex"
+                            @click="loginMetamask">
+                            <span>
+                                Metamask
+                            </span>
+                            <img
+                                src="/app/assets/images/metamask.png"
+                                alt="Metamask">
+                        </b-button>
+                    </div>
+                </div>
+                <b-alert
+                    class="mb-0 font-smaller"
+                    show
+                    variant="success">
+                    Swapping <b>TOMO</b> to <b>TOMOE</b> requires the Metamask network to be set to TomoChain.
+                    Likewise swapping <b>TOMOE</b> to <b>TOMO</b> requires the Metamask network to be set to Ethereum. Follow
+                    <b-link
+                        href="https://docs.tomochain.com/general/how-to-connect-to-tomochain-network/metamask"
+                        target="_blank">
+                        this guide
+                    </b-link>
+                    to learn more.
+                </b-alert>
+            </div>
+        </div>
+        <b-row
+            v-else
+            align-h="center">
             <b-col cols="7">
                 <div
                     class="text-center pb-4 mb-2">
@@ -73,11 +114,15 @@
         <ClaimTokenModal
             ref="claimModal"
             :parent="this"/>
+        <div
+            :class="(loading ? 'tomo-loading' : '')"/>
     </b-container>
 </template>
 
 <script>
 import axios from 'axios'
+import Helper from './utils'
+import Web3 from 'web3'
 import LoginModal from './components/modals/Login'
 import ClaimTokenModal from './components/modals/ClaimToken'
 export default {
@@ -89,7 +134,8 @@ export default {
     data () {
         return {
             ethIds: [1, 3, 4, 5],
-            tomoIds: [88, 89, 99]
+            tomoIds: [88, 89, 99],
+            loading: false
         }
     },
     computed: {
@@ -123,6 +169,7 @@ export default {
             this.$refs.claimTokenModal.show()
         },
         redirect (product) {
+            console.log(this.$store.state.network)
             switch (product) {
             case 'unwrapErc20':
                 if (!this.$store.state.address) {
@@ -155,6 +202,44 @@ export default {
             } catch (error) {
                 console.log(error)
                 this.$toasted.show(error.message ? error.message : error, { type: 'error ' })
+            }
+        },
+        async loginMetamask () {
+            try {
+                this.loading = true
+                if (window.ethereum) {
+                    this.loading = true
+                    const walletProvider = window.ethereum
+                    const wjs = new Web3(walletProvider)
+
+                    await this.setupProvider('metamask', wjs)
+                    const data = await this.getChainId()
+                    this.$store.state.network = Helper.networks[data] || { name: 'Unknown', chainId: 0 }
+                    const address = await this.getAccount()
+
+                    this.getBalance(address).then(data => {
+                        if (data) {
+                            this.$store.state.balance = data.toFixed(5)
+                        }
+                    }).catch(error => console.log(error))
+
+                    this.$store.state.address = address
+                    this.$store.state.provider = 'metamask'
+
+                    const data1 = await this.checkUnclaimTx()
+                    if (data1) {
+                        this.$store.state.unClaimTx = data1
+                        this.loading = false
+                        this.$bus.$emit('reclaim')
+                        this.$refs.claimModal.show()
+                    } else {
+                        this.loading = false
+                    }
+                }
+            } catch (error) {
+                this.loading = false
+                console.log(error)
+                this.$toasted.show(error.message ? error.message : error, { type: 'error' })
             }
         }
     }
