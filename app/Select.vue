@@ -217,7 +217,7 @@ export default {
                 } else {
                     if (this.tomoIds.indexOf(this.network.chainId) > -1) {
                         this.$router.push({ path: 'unwrap' })
-                    } else { this.$toasted.show('Need TomoChain network to unwrap', { type: 'error' }) }
+                    } else { this.$toasted.show('Set your network to TomoChain', { type: 'error' }) }
                 }
                 break
             case 'wrapErc20':
@@ -227,7 +227,7 @@ export default {
                 } else {
                     if (this.ethIds.indexOf(this.network.chainId) > -1) {
                         this.$router.push({ path: 'wrap' })
-                    } else { this.$toasted.show('Need Ethereum network to wrap', { type: 'error' }) }
+                    } else { this.$toasted.show('Set your network to Ethereum', { type: 'error' }) }
                 }
                 break
             default:
