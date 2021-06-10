@@ -265,15 +265,14 @@ export default {
                     this.$store.state.address = address
                     this.$store.state.provider = 'metamask'
 
-                    const data1 = await this.checkUnclaimTx()
-                    if (data1) {
-                        this.$store.state.unClaimTx = data1
-                        this.loading = false
-                        this.$bus.$emit('reclaim')
-                        this.$refs.claimModal.show()
-                    } else {
-                        this.loading = false
-                    }
+                    // const data1 = await this.checkUnclaimTx()
+                    // if (data1) {
+                    //     this.$store.state.unClaimTx = data1
+                    //     this.loading = false
+                    //     this.$bus.$emit('reclaim')
+                    //     this.$refs.claimModal.show()
+                    // }
+                    this.loading = false
                 }
             } catch (error) {
                 this.loading = false
