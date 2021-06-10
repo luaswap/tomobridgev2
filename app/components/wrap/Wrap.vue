@@ -139,34 +139,22 @@
         </div>
         <div class="step-one__buttons text-center mt-5">
             <b-button
-                class="btn--big st-back"
+                class="st-back"
                 @click="back">
-                <b-icon
-                    class="light-h"
-                    icon="arrow-left-short"
-                    font-scale="1.5"/>
                 Back
             </b-button>
             <b-button
                 v-if="!isApproved"
-                class="btn--big st-next"
+                class="st-next"
                 @click="approveContract">
                 Approve
-                <b-icon
-                    class="light-h"
-                    icon="arrow-right-short"
-                    font-scale="1.5"/>
             </b-button>
             <b-button
                 v-else
                 :disabled="!agreeAll || !agreeEx || !agreeEx || !depAmount || !recAddress"
-                class="btn--big st-next"
+                class="st-next"
                 @click="wrapToken">
                 Next
-                <b-icon
-                    class="light-h"
-                    icon="arrow-right-short"
-                    font-scale="1.5"/>
             </b-button>
         </div>
         <div

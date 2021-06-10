@@ -9,6 +9,11 @@
         hide-header
         hide-footer>
         <b-container>
+            <div class="text-center">
+                <img
+                    src="/app/assets/images/icon-time.svg"
+                    alt="Metamask">
+            </div>
             <div class="mt-2 text-center">You have a pending transaction!</div>
             <div class="claim-modal text-center">
                 <b-row

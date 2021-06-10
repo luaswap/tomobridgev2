@@ -102,8 +102,7 @@
                 </b-collapse>
             </section>
         </b-navbar>
-        <div
-            :class="`page-layout ${$route.path !== '/' ? 'common-main-content' : ''}`">
+        <div class="page-layout">
             <router-view/>
         </div>
         <LoginModal

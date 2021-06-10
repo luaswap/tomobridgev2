@@ -72,7 +72,7 @@
                                 <div class="text-right">
                                     <img
                                         src="/app/assets/images/ethereum.svg"
-                                        class="logo-icon">
+                                        class="logo-icon mr-2">
                                     ETHEREUM
                                 </div>
                                 <span>ERC-20 Tokens on Ethereum</span>
@@ -87,7 +87,7 @@
                                 <div class="text-left">
                                     <img
                                         src="/app/assets/images/tomochain.svg"
-                                        class="logo-icon">
+                                        class="logo-icon mr-2">
                                     TOMOCHAIN
                                 </div>
                                 <span>TomoChain Wrapped Tokens</span>

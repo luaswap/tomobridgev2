@@ -1,34 +1,30 @@
 .token-max {
-  background-color: rgb(240, 240, 240)!important;
+  background-color: transparent!important;
   border-radius: 0.5rem;
   font-size: 0.875rem;
   font-weight: bold;
   cursor: pointer;
-  color: $color-dark!important;
+  color: #00E8B4!important;
   position: absolute;
-  right: 30px;
-  top: 0;
+  right: 25px;
   padding: 5px;
-  top: 28%;
-  transform: translateY(-50%);
+  top: 35px;
   &:hover {
     background-color: rgb(226, 226, 226)!important;
   }
 }
 
 .add-address {
-  background-color: rgb(240, 240, 240)!important;
+  background-color: transparent!important;
   border-radius: 0.5rem;
   font-size: 0.875rem;
   font-weight: bold;
   cursor: pointer;
-  color: $color-dark!important;
+  color: #00E8B4!important;
   position: absolute;
-  right: 30px;
-  top: 0;
+  right: 25px;
   padding: 5px;
-  top: 78%;
-  transform: translateY(-50%);
+  top: 35px;
   &:hover {
     background-color: rgb(226, 226, 226)!important;
   }
@@ -100,4 +96,10 @@
   color: #d00000;
   position: relative;
   padding-left: 25px;
+}
+
+.box-more-infor {
+  background: #282828;
+  border-radius: 16px;
+  padding: 25px;
 }

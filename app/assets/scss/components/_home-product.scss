@@ -7,9 +7,9 @@ body {
 }
 
 .page-layout  {
-    margin-top: 50px;
+    margin: 50px 0;
     @include media-breakpoint-down(sm) {
-        margin-top: 30px;
+        margin: 25px 0;
     }
 }
 
@@ -283,4 +283,8 @@ body {
 
 .txt-dec {
     color: #8B8B8B;
+}
+
+.txt-dec-tem-2 {
+    color: #D8D8D8;
 }

@@ -46,16 +46,20 @@ button.btn--big,
 
 
 .st-next {
-  background: #00e9b4;
+  background: #fff!important;
+  border: 1px solid #D8D8D8!important;
+  box-sizing: border-box;
+  border-radius: 8px;
+  color: #282828!important;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 5px;
-  text-transform: none;
-  position: relative;
-  color: #000 !important;
-  font-family: $global-fonts;
-  min-width: 200px;
+  min-width: 160px;
+  margin-left: 15px;
+  &.disabled {
+    background: #D8D8D8!important;
+    color: #8B8B8B!important;
+  }
   svg {
       transition: all .3s;
       margin-left: 15px;
@@ -69,10 +73,14 @@ button.btn--big,
 
 .st-back {
   background: transparent!important;
-  color: #000 !important;
+  border: 1px solid #00E8B4!important;
+  box-sizing: border-box;
+  border-radius: 8px;
+  color: #00E8B4!important;
   display: flex;
   align-items: center;
-  min-width: 50px;
+  justify-content: center;
+  min-width: 160px;
   svg {
       transition: all .3s;
       margin-right: 15px;

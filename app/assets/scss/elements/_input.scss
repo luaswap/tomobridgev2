@@ -30,8 +30,7 @@ input[type='password'] {
     }
 
     &::placeholder {
-        color: $color-text;
-        opacity: .2;
+        color: #606060;
     }
 }
 
