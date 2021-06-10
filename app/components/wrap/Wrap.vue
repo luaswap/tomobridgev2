@@ -1,5 +1,6 @@
 <template>
     <b-container>
+        <AddressInfo/>
         <h5 class="">Select Asset to convert</h5>
         <b-row class="wrapbox__row mb-lg-4 mt-4">
             <b-col cols="7">
@@ -178,10 +179,12 @@ import BigNumber from 'bignumber.js'
 import Multiselect from 'vue-multiselect'
 import urljoin from 'url-join'
 import WAValidator from 'wallet-address-validator'
+import AddressInfo from './../Address.vue'
 export default {
     name: 'App',
     components: {
-        Multiselect
+        Multiselect,
+        AddressInfo
     },
     data () {
         return {

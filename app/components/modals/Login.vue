@@ -100,7 +100,8 @@ export default {
                     this.$store.state.address = this.address
                     this.$store.state.provider = 'metamask'
 
-                    const data1 = await this.checkUnclaimTx()
+                    // const data1 = await this.checkUnclaimTx()
+                    let data1
                     if (data1) {
                         this.$store.state.unClaimTx = data1
                         this.loading = false

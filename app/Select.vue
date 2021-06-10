@@ -24,29 +24,7 @@
                 </div>
             </div>
         </div>
-        <div
-            v-else
-            class="infor-wallet mb-4">
-            <div class="connect">
-                <div class="box-address-wallet"><span class="tag">{{ network.name }}</span> <b>{{ address }}</b></div>
-                <div class="box-address-infor mt-3">
-                    <span
-                        class="text-gray">
-                        Balance: {{ balance }} {{ tomoIds.indexOf(network.chainId || '') > -1 ? 'TOMO' : 'ETH' }}
-                    </span>
-                    <a
-                        :href="scanUrl"
-                        target="_blank"
-                        class="text-blue">
-                        Transaction history
-                    </a>
-                </div>
-            </div>
-            <div class="btn-sign-out">
-                <span
-                    @click="signOut">Sign out</span>
-            </div>
-        </div>
+        <AddressInfo v-else/>
         <div class="container">
             <b-container
                 class="container-medium">
@@ -137,11 +115,13 @@ import Web3 from 'web3'
 import urljoin from 'url-join'
 import LoginModal from './components/modals/Login'
 import ClaimTokenModal from './components/modals/ClaimToken'
+import AddressInfo from './components/Address.vue'
 export default {
     name: 'App',
     components: {
         LoginModal,
-        ClaimTokenModal
+        ClaimTokenModal,
+        AddressInfo
     },
     data () {
         return {

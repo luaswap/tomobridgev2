@@ -1,6 +1,7 @@
 <template>
     <b-container>
-        <h4 class="">Select Asset to convert</h4>
+        <AddressInfo/>
+        <h4 class="">Converting forms</h4>
         <b-row class="wrapbox__row mb-lg-4 mt-4">
             <b-col cols="7">
                 <multiselect
@@ -86,8 +87,7 @@
                     label-for="amount">
                     <b-form-input
                         v-model="amount"
-                        :placeholder="fromWrapSelected.minimumWithdrawal ?
-                            `Deposit amount(Min: ${fromWrapSelected.minimumWithdrawal} ${fromWrapSelected.symbol})` : 'Deposit amount'"
+                        placeholder="Withdrawal amount"
                         type="text"/>
                     <b-button
                         class="token-max"
@@ -103,7 +103,7 @@
                     <b-form-input
                         v-model="recAddress"
                         type="text"
-                        placeholder="Please use only TomoChain network address"/>
+                        placeholder="Please use only Ethereum network address"/>
                     <b-button
                         class="add-address"
                         variant="success"
@@ -169,10 +169,12 @@ import urljoin from 'url-join'
 import BigNumber from 'bignumber.js'
 import Multiselect from 'vue-multiselect'
 import WAValidator from 'wallet-address-validator'
+import AddressInfo from './../Address.vue'
 export default {
     name: 'App',
     components: {
-        Multiselect
+        Multiselect,
+        AddressInfo
     },
     data () {
         return {
