@@ -4,65 +4,56 @@
         ref="claimModal"
         centered
         scrollable
-        size="sm"
         no-close-on-backdrop
         hide-header
         hide-footer>
         <b-container>
-            <div class="text-center">
+            <div class="text-center mb-5">
                 <img
                     src="/app/assets/images/icon-time.svg"
                     alt="Metamask">
             </div>
-            <div class="mt-2 text-center">You have a pending transaction!</div>
-            <div class="claim-modal text-center">
-                <b-row
-                    class="mt-4 align-items-center modal-row">
-                    <b-col
-                        class="text-left"
-                        cols="4">
-                        <div class="font-weight-bold">Approved burn TxHash</div>
+            <h2 class="title-tmp-medium text-center">You have a pending transaction!</h2>
+            <p class="text-center">Timestamp: {{ dateTime }}</p>
+
+            <div class="claim-modal">
+                <b-row>
+                    <b-col cols="6">
+                        <b-form-group
+                            class="font-weight-bold"
+                            label="Token name">
+                            <div class="infor-detail">
+                                {{ (unClaimTx.coin || '').toUpperCase() }}
+                            </div>
+                        </b-form-group>
                     </b-col>
-                    <b-col
-                        cols="8">
-                        <a
-                            :href="burnTxUrl"
-                            target="_blank">
-                            {{ truncate(unClaimTx.burnTx || '', 20) }}
-                        </a>
+                    <b-col cols="6">
+                        <b-form-group
+                            class="font-weight-bold"
+                            label="Amount">
+                            <div class="infor-detail">
+                                {{ unClaimTx.amount }}
+                            </div>
+                        </b-form-group>
                     </b-col>
-                </b-row>
-                <b-row
-                    class="mt-4 d-flex align-items-center modal-row">
-                    <b-col
-                        class="text-left"
-                        cols="4">
-                        <div class="font-weight-bold">Timestamp</div>
-                    </b-col>
-                    <b-col
-                        cols="8">
-                        {{ dateTime }}
-                    </b-col>
-                </b-row>
-                <b-row
-                    class="mt-4 d-flex align-items-center ">
-                    <b-col
-                        class="modal-row"
-                        cols="4">
-                        <div
-                            class="font-weight-bold">{{ (unClaimTx.coin || '').toUpperCase() }}</div>
-                    </b-col>
-                    <b-col
-                        class="modal-row"
-                        cols="8">
-                        {{ unClaimTx.amount }}
+                    <b-col cols="12">
+                        <b-form-group
+                            class="font-weight-bold"
+                            label="Approved burn TxHash">
+                            <a
+                                class="infor-detail"
+                                :href="burnTxUrl"
+                                target="_blank">
+                                {{ truncate(unClaimTx.burnTx || '', 20) }}
+                            </a>
+                        </b-form-group>
                     </b-col>
                 </b-row>
             </div>
             <div
-                class="text-center mt-4">
+                class="mt-2">
                 <b-button
-                    class="btn--big light-h"
+                    class="btn-green w-100"
                     @click="claim">Claim</b-button>
             </div>
         </b-container>

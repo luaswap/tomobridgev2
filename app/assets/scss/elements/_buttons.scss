@@ -69,6 +69,9 @@ button.btn--big,
           transform: translateX(20px);
       }
   }
+  @include media-breakpoint-down(sm) {
+    min-width: 120px;
+  }
 }
 
 .st-back {
@@ -90,4 +93,13 @@ button.btn--big,
           transform: translateX(-20px);
       }
   }
+  @include media-breakpoint-down(sm) {
+    min-width: 120px;
+  }
+}
+
+.btn-green {
+  background: #00E8B4!important;
+  border-radius: 8px!important;
+  padding: 12px 24px!important;
 }
