@@ -193,7 +193,8 @@ export default {
             case 'unwrapErc20':
                 if (!this.$store.state.address) {
                     this.$store.state.redirectTo = 'unwrap'
-                    this.$refs.loginModal.show()
+                    // this.$refs.loginModal.show()
+                    this.$toasted.show('You need to connect wallet first', { type: 'error' })
                 } else {
                     if (this.tomoIds.indexOf(this.network.chainId) > -1) {
                         this.$router.push({ path: 'unwrap' })
@@ -203,7 +204,8 @@ export default {
             case 'wrapErc20':
                 if (!this.$store.state.address) {
                     this.$store.state.redirectTo = 'wrap'
-                    this.$refs.loginModal.show()
+                    // this.$refs.loginModal.show()
+                    this.$toasted.show('You need to connect wallet first', { type: 'error' })
                 } else {
                     if (this.ethIds.indexOf(this.network.chainId) > -1) {
                         this.$router.push({ path: 'wrap' })

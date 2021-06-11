@@ -195,7 +195,7 @@ export default {
         return {
             verifiedList: [],
             depAmount: '',
-            isApproved: true,
+            isApproved: false,
             agreeEx: false,
             agreePk: false,
             agreeAll: false,
@@ -245,8 +245,9 @@ export default {
             const config = this.config
             this.fromData = this.config.swapCoin || []
             this.fromWrapSelected = this.fromData[0]
+            this.loading = true
 
-            this.web3Eth.eth.getGasPrice()
+            await this.web3Eth.eth.getGasPrice()
                 .then(data => {
                     this.ethGasPrice = data
                 })
@@ -260,6 +261,7 @@ export default {
             this.getTokenBalance(this.fromWrapSelected)
             this.checkApprove()
             this.estimateGasSwap()
+            this.loading = false
         }
     },
     methods: {
@@ -352,6 +354,7 @@ export default {
                     )
 
                     const allowance = await contract.methods.allowance(this.address, config.blockchain.contractBridgeEth).call()
+                    console.log(allowance)
 
                     if (new BigNumber(allowance).isLessThanOrEqualTo(0)) {
                         this.isApproved = false
