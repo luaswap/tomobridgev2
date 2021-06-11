@@ -16,7 +16,7 @@
                     </div>
                     <div
                         v-else>
-                        We are verifying the burning transaction
+                        We are verifying the depositing transaction
                     </div>
                 </b-button>
             </div>
