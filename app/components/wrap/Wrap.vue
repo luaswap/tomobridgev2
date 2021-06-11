@@ -60,7 +60,7 @@
             <b-col cols="6">
                 <ul class="st-ul">
                     <li>
-                        <div class="li-span">
+                        <div class="txt-cdgt ">
                             View Wrapped Token address on
                             <a
                                 :href="tomoScanUrl"
@@ -68,8 +68,8 @@
                         </div>
                     </li>
                     <li>
-                        <span class="font-weight-bold li-span">Estimated conversion transaction fee</span>
-                        <div class="d-flex flex-column mt-4 li-span">
+                        <span class="font-weight-bold txt-cdgt ">Estimated conversion transaction fee</span>
+                        <div class="d-flex flex-column mt-4 txt-cdgt ">
                             <div v-if="fromWrapSelected.symbol !== 'ETH' && !isApproved">Approve: ~{{ estimateApprovement }} ETH</div>
                             <div>Swap: ~{{ estimateSwap }} ETH</div>
                             <div class="text-danger font-weight-bold">Total: ~{{ estimateTotal }} ETH</div>
@@ -137,7 +137,7 @@
                 Required fields
             </div>
         </div>
-        <div class="step-one__buttons text-center mt-5">
+        <div class="step-one__buttons text-center">
             <b-button
                 class="st-back"
                 @click="back">

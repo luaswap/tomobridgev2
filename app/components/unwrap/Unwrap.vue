@@ -101,30 +101,28 @@
             <div class="box-more-infor">
                 <div
                     v-if="fromWrapSelected.symbol !== 'BTC' && fromWrapSelected.symbol !== 'ETH'">
-                    <div class="li-span">
+                    <div class="txt-cdgt ">
                         View Wrapped Token address on
                         <a
                             :href="etherScanUrl"
                             target="_blank">Etherscan</a>
                     </div>
                 </div>
-                <b-row>
-                    <b-col cols="6">
-                        <div class="li-span">Estimate transaction fee:</div>
-                    </b-col>
-                    <b-col cols="6">
-                        <div class="d-flex flex-column mt-4 li-span">
-                            <!-- <div v-if="!isApproved">Approve: 1 TOMO</div> -->
-                            <div>
-                                Swap: {{ fee }} ETH
-                            </div>
-                            <div class="text-danger font-weight-bold">
-                                Total: {{ fee }} ETH
-                            </div>
+                <div class="content-fee d-flex align-items-center justify-content-between">
+                    <div class="pr-2">Estimate transaction fee:</div>
+                    <div class="infor-fee">
+                        <!-- <div
+                            v-if="!isApproved"
+                            class="px-2">
+                            Approve: 1 TOMO
+                        </div> -->
+                        <div class="px-2">Swap: {{ fee }} ETH</div>
+                        <div class="px-2">
+                            Total: {{ fee }} ETH
                         </div>
-                    </b-col>
-                </b-row>
-                <div class="mt-3 style-label">
+                    </div>
+                </div>
+                <div class="txt-confirm">
                     <p class="font-weight-bold mb-2">Please confirm the following:</p>
                     <b-form-checkbox
                         v-model="agreeEx"
@@ -152,7 +150,7 @@
                     </div>
                 </div>
             </div>
-            <div class="step-one__buttons text-center mt-5">
+            <div class="step-one__buttons text-center">
                 <b-button
                     class="st-back"
                     @click="back">
