@@ -104,17 +104,8 @@ input[type=password]:active {
     padding: 0;
     position: absolute;
     top: calc(100% + 3px);
-    // width: 200px;
     width: 100%;
     z-index: 99;
-
-    @include media-breakpoint-up(xxl) {
-        width: 250px;
-    }
-
-    @include media-breakpoint-up(xxxl) {
-        width: 300px;
-    }
 }
 
 .multiselect__option {
@@ -155,5 +146,5 @@ input[type=password]:active {
 
 .multiselect_greentick {
     color: $color-primary;
-    font-size: $global-font-size-xs;
+    font-size: 12px;
 }

@@ -30,7 +30,7 @@
                                 slot="singleLabel"
                                 slot-scope="props">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div>
+                                    <div class="d-flex align-items-center">
                                         <img
                                             v-if="props.option.image"
                                             :src="props.option.image"
@@ -39,7 +39,7 @@
                                         <i
                                             v-if="(verifiedList.indexOf((props.option.wrapperAddress || '').toLowerCase()) > 0)
                                                 || props.option.name === 'BTC' || props.option.name === 'ETH'"
-                                            class="tb-check-circle-o multiselect_greentick"/>
+                                            class="tb-check-circle-o multiselect_greentick ml-2"/>
                                     </div>
                                     <div
                                         v-if="tokenBalanceToFixed > 0"
@@ -49,15 +49,17 @@
                             <template
                                 slot="option"
                                 slot-scope="props">
-                                <img
-                                    v-if="props.option.image"
-                                    :src="props.option.image"
-                                    class="multiselect__img">
-                                <span class="multiselect__name">{{ props.option.name }}</span>
-                                <i
-                                    v-if="(verifiedList.indexOf((props.option.wrapperAddress || '').toLowerCase()) > 0)
-                                        || props.option.name === 'BTC' || props.option.name === 'ETH'"
-                                    class="tb-check-circle-o multiselect_greentick"/>
+                                <div class="d-flex align-items-center">
+                                    <img
+                                        v-if="props.option.image"
+                                        :src="props.option.image"
+                                        class="multiselect__img">
+                                    <span class="multiselect__name">{{ props.option.name }}</span>
+                                    <i
+                                        v-if="(verifiedList.indexOf((props.option.wrapperAddress || '').toLowerCase()) > 0)
+                                            || props.option.name === 'BTC' || props.option.name === 'ETH'"
+                                        class="tb-check-circle-o multiselect_greentick ml-2"/>
+                                </div>
                             </template>
                         </multiselect>
                     </b-form-group>
