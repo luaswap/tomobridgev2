@@ -54,6 +54,7 @@
                     </b-col>
                 </b-row>
             </div>
+            <TransactionDetails :parent="this"/>
             <div v-if="step === 1">
                 <WrapStepOne :parent="this"/>
             </div>
@@ -71,13 +72,15 @@
 import WrapStepOne from './WrapStepOne'
 import WrapStepTwo from './WrapStepTwo'
 import WrapStepThree from './WrapStepThree'
+import TransactionDetails from '../TransactionDetails'
 
 export default {
     name: 'App',
     components: {
         WrapStepOne,
         WrapStepTwo,
-        WrapStepThree
+        WrapStepThree,
+        TransactionDetails
     },
     data () {
         return {

@@ -261,7 +261,7 @@ export default {
                 this.fromWrapSelected.wrapperAddress
             )
             this.getTokenBalance(this.fromWrapSelected)
-            this.checkApprove()
+            await this.checkApprove()
             this.estimateGasSwap()
             this.loading = false
         }
@@ -356,7 +356,6 @@ export default {
                     )
 
                     const allowance = await contract.methods.allowance(this.address, config.blockchain.contractBridgeEth).call()
-                    console.log(allowance)
 
                     if (new BigNumber(allowance).isLessThanOrEqualTo(0)) {
                         this.isApproved = false
@@ -407,6 +406,7 @@ export default {
                         from: this.address,
                         value: 12
                     })
+
                     price = new BigNumber(estimateGas).multipliedBy(this.ethGasPrice).div(10 ** 18)
                 }
                 if (price) {
@@ -466,7 +466,7 @@ export default {
                         this.$router.push({
                             name: 'WrapExecution',
                             params: {
-                                receiveAddress: this.recAddress,
+                                recAddress: this.recAddress,
                                 fromWrapSelected: this.fromWrapSelected,
                                 depAmount: this.depAmount
                             }
