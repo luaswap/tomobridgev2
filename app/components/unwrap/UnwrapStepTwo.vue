@@ -11,16 +11,16 @@
                 class="steps__row justify-content-center">
                 <ul class="my-4 ml-5 text-left st-ul d-inline-block">
                     <li class="">
-                        <div class="li-span">Set your Metamask network to Ethereum to continue</div>
+                        <div class="txt-cdgt ">Set your Metamask network to Ethereum to continue</div>
                     </li>
                     <li class="">
-                        <div class="li-span">Make sure you have enough ETH on your Ethereum network</div>
+                        <div class="txt-cdgt ">Make sure you have enough ETH on your Ethereum network</div>
                     </li>
                     <li class="">
-                        <div class="li-span">Click on "Claim {{ fromWrapSelected.symbol }}"</div>
+                        <div class="txt-cdgt ">Click on "Claim {{ fromWrapSelected.symbol }}"</div>
                     </li>
                     <li class="">
-                        <div class="li-span">Approve the request on Metamask to complete the transaction</div>
+                        <div class="txt-cdgt ">Approve the request on Metamask to complete the transaction</div>
                     </li>
                 </ul>
             </div>
@@ -76,7 +76,7 @@ export default {
             requiredConfirm: 30,
             confirmation: 0,
             txHash: '',
-            isReadyToClaim: false,
+            isReadyToClaim: true,
             ethIds: [1, 3, 4, 5],
             loading: false,
             txObj: {},

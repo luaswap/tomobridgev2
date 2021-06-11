@@ -17,7 +17,7 @@ body {
     background: linear-gradient(138deg, #b4b4b4, #353535, #5c5c5c, #00E8B4 );
     max-width: 700px;
     border-radius: 24px;
-    padding: 25px 40px 5px;
+    padding: 25px 40px;
     position: relative;
     z-index: 1;
     &::before {
@@ -167,10 +167,26 @@ body {
     list-style: square;
     font-size: 28px;
     color: $color-primary;
-    .li-span {
-        font-size: 18px;
+    .txt-cdgt  {
+        font-size: 14px;
         color: $color-text;
     }
+}
+
+.content-fee {
+    padding: 15px 0;
+    border-bottom: 1px solid #606060;
+    margin-bottom: 15px;
+}
+
+.infor-fee {
+    background: rgba(96, 96, 96, 0.3);
+    border-radius: 12px;
+    padding: 8px 12px;
+    display: flex;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 .tomo-footer-product {
