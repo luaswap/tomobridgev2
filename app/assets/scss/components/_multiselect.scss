@@ -75,22 +75,14 @@ input[type=password]:active {
 
 .multiselect__placeholder {
     line-height: 25px;
-
-    @include media-breakpoint-up(lg) {
-        line-height: 30px;
-    }
 }
 
 .multiselect__input {
     background-color: transparent !important;
     border: none !important;
-    line-height: 23px;
+    line-height: 22px;
     padding: 0 !important;
     transition: none !important;
-
-    @include media-breakpoint-up(lg) {
-        line-height: 28px;
-    }
 }
 
 .multiselect__content {
@@ -134,14 +126,6 @@ input[type=password]:active {
     display: inline-block;
     font-size: 14px;
     vertical-align: middle;
-
-    @include media-breakpoint-up(lg) {
-        font-size: $global-font-size-md;
-    }
-
-    @include media-breakpoint-up(xl) {
-        font-size: $global-font-size-xl;
-    }
 }
 
 .multiselect_greentick {

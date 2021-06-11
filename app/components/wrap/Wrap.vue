@@ -46,7 +46,7 @@
                                     </div>
                                     <div
                                         v-if="tokenBalanceToFixed > 0"
-                                        class="text-right mr-4">{{ tokenBalanceToFixed }}</div>
+                                        class="text-right mr-4 font-weight-normal">{{ tokenBalanceToFixed }}</div>
                                 </div>
                             </template>
                             <template
