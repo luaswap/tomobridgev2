@@ -1,165 +1,184 @@
 <template>
-    <b-container>
+    <div class="container">
         <AddressInfo/>
-        <h5 class="">Select Asset to convert</h5>
-        <b-row class="wrapbox__row mb-lg-4 mt-4">
-            <b-col cols="7">
-                <multiselect
-                    id="fromwrap-select"
-                    v-model="fromWrapSelected"
-                    :options="fromData"
-                    :custom-label="customLabel"
-                    :show-labels="false"
-                    :allow-empty="false"
-                    :close-on-select="true"
-                    track-by="symbol"
-                    @input="selectToken">
-                    <template
-                        slot="singleLabel"
-                        slot-scope="props">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <img
-                                    v-if="props.option.image"
-                                    :src="props.option.image"
-                                    class="multiselect__img">
-                                <span class="multiselect__name">{{ props.option.symbol }}</span>
-                                <i
-                                    v-if="(verifiedList.indexOf((props.option.wrapperAddress || '').toLowerCase()) > 0)
-                                        || props.option.symbol === 'BTC' || props.option.symbol === 'ETH'"
-                                    class="tb-check-circle-o multiselect_greentick"/>
-                            </div>
-                            <div
-                                v-if="tokenBalanceToFixed > 0"
-                                class="text-right mr-4">{{ tokenBalanceToFixed }}</div>
-                        </div>
-                    </template>
-                    <template
-                        slot="option"
-                        slot-scope="props">
-                        <img
-                            v-if="props.option.image"
-                            :src="props.option.image"
-                            class="multiselect__img">
-                        <span class="multiselect__name">{{ props.option.symbol }}</span>
-                        <i
-                            v-if="(verifiedList.indexOf((props.option.wrapperAddress || '').toLowerCase()) > 0)
-                                || props.option.symbol === 'BTC' || props.option.symbol === 'ETH'"
-                            class="tb-check-circle-o multiselect_greentick"/>
-                    </template>
-                </multiselect>
-            </b-col>
-        </b-row>
-
-        <div class="text-center my-5">
-            <p class="font-weight-bold">
-                You are converting {{ fromWrapSelected.symbol !== 'ETH' && fromWrapSelected.symbol !== 'BTC' ? 'ERC-20' : '' }}
-                {{ fromWrapSelected.symbol }} to TomoChain wrapped {{ fromWrapSelected.symbol }}</p>
-        </div>
-        <b-row>
-            <b-col cols="6">
-                <ul class="st-ul">
-                    <li>
-                        <div class="txt-cdgt ">
-                            View Wrapped Token address on
-                            <a
-                                :href="tomoScanUrl"
-                                target="_blank">TomoScan</a>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="font-weight-bold txt-cdgt ">Estimated conversion transaction fee</span>
-                        <div class="d-flex flex-column mt-4 txt-cdgt ">
-                            <div v-if="fromWrapSelected.symbol !== 'ETH' && !isApproved">Approve: ~{{ estimateApprovement }} ETH</div>
-                            <div>Swap: ~{{ estimateSwap }} ETH</div>
-                            <div class="text-danger font-weight-bold">Total: ~{{ estimateTotal }} ETH</div>
-                        </div>
-                    </li>
-                </ul>
-            </b-col>
-            <b-col cols="6">
-                <b-form-group
-                    class="mb-4 font-weight-bold"
-                    label="Amount"
-                    label-for="depAmount">
-                    <b-form-input
-                        v-model="depAmount"
-                        type="text"
-                        placeholder="Deposit amount"/>
-                    <b-button
-                        class="token-max"
-                        variant="success"
-                        @click="maxToken">
-                        Max
-                    </b-button>
-                </b-form-group>
-                <b-form-group
-                    class="mb-4 font-weight-bold"
-                    label="Recipient Address"
-                    label-for="recAddress">
-                    <b-form-input
-                        v-model="recAddress"
-                        type="text"
-                        placeholder="Please use only TomoChain network address"/>
-                    <b-button
-                        class="add-address"
-                        variant="success"
-                        @click="useAddress">
-                        Address
-                    </b-button>
-                </b-form-group>
-            </b-col>
-        </b-row>
-        <div class="mt-3 style-label">
-            <p class="font-weight-bold mb-2">Please confirm the following:</p>
-            <b-form-checkbox
-                v-model="agreeEx"
-                class="mr-1 m1 light-h">
-                My recipient address has NOT been created on a centralized exchange (e.g binance.com)
-            </b-form-checkbox>
-            <b-form-checkbox
-                v-model="agreePk"
-                class="mr-1 m1 light-h">
-                I have a Private Key/Mnemonic Phrase of the TOMO receiving address I entered above
-            </b-form-checkbox>
-            <b-form-checkbox
-                v-model="agreeAll"
-                class="mr-1 m1 light-h">
-                I have double checked that my recipient address is correct
-            </b-form-checkbox>
-            <div
-                v-if="allChecked"
-                class="text-error">
-                <b-icon
-                    class="mr-1 m1 light-h"
-                    icon="exclamation-circle"
-                    font-scale="1"/>
-                Required fields
+        <b-container
+            class="container-medium">
+            <div class="open-product text-center">
+                <h1 class="title-tmp-large">
+                    SELECT ASSET TO CONVERT
+                </h1>
+                <p class="txt-dec-tem-2 font-weight-bold">
+                    {{ fromWrapSelected.symbol !== 'ETH' && fromWrapSelected.symbol !== 'BTC' ? 'ERC-20' : '' }}
+                    {{ fromWrapSelected.symbol }} <span class="txt-dec">to</span> TomoChain wrapped {{ fromWrapSelected.symbol }}
+                </p>
             </div>
-        </div>
-        <div class="step-one__buttons text-center">
-            <b-button
-                class="st-back"
-                @click="back">
-                Back
-            </b-button>
-            <b-button
-                v-if="!isApproved"
-                class="st-next"
-                @click="approveContract">
-                Approve
-            </b-button>
-            <b-button
-                v-else
-                :disabled="!agreeAll || !agreeEx || !agreeEx || !depAmount || !recAddress"
-                class="st-next"
-                @click="wrapToken">
-                Next
-            </b-button>
-        </div>
-        <div
-            :class="(loading ? 'tomo-loading' : '')"/>
-    </b-container>
+
+            <b-row class="wrapbox__row mb-lg-4 mt-4">
+                <b-col cols="7">
+                    <b-form-group
+                        class="mb-4 font-weight-bold"
+                        label="Amount"
+                        label-for="amount">
+                        <multiselect
+                            id="fromwrap-select"
+                            v-model="fromWrapSelected"
+                            :options="fromData"
+                            :custom-label="customLabel"
+                            :show-labels="false"
+                            :allow-empty="false"
+                            :close-on-select="true"
+                            track-by="symbol"
+                            @input="selectToken">
+                            <template
+                                slot="singleLabel"
+                                slot-scope="props">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <img
+                                            v-if="props.option.image"
+                                            :src="props.option.image"
+                                            class="multiselect__img">
+                                        <span class="multiselect__name">{{ props.option.symbol }}</span>
+                                        <i
+                                            v-if="(verifiedList.indexOf((props.option.wrapperAddress || '').toLowerCase()) > 0)
+                                                || props.option.symbol === 'BTC' || props.option.symbol === 'ETH'"
+                                            class="tb-check-circle-o multiselect_greentick ml-2"/>
+                                    </div>
+                                    <div
+                                        v-if="tokenBalanceToFixed > 0"
+                                        class="text-right mr-4">{{ tokenBalanceToFixed }}</div>
+                                </div>
+                            </template>
+                            <template
+                                slot="option"
+                                slot-scope="props">
+                                <div class="d-flex align-items-center">
+                                    <img
+                                        v-if="props.option.image"
+                                        :src="props.option.image"
+                                        class="multiselect__img">
+                                    <span class="multiselect__name">{{ props.option.symbol }}</span>
+                                    <i
+                                        v-if="(verifiedList.indexOf((props.option.wrapperAddress || '').toLowerCase()) > 0)
+                                            || props.option.symbol === 'BTC' || props.option.symbol === 'ETH'"
+                                        class="tb-check-circle-o multiselect_greentick ml-2"/>
+                                </div>
+                            </template>
+                        </multiselect>
+                    </b-form-group>
+                </b-col>
+                <b-col cols="5">
+                    <b-form-group
+                        class="mb-4 font-weight-bold"
+                        label="Amount"
+                        label-for="depAmount">
+                        <b-form-input
+                            v-model="depAmount"
+                            type="text"
+                            placeholder="Deposit amount"/>
+                        <b-button
+                            class="token-max"
+                            variant="success"
+                            @click="maxToken">
+                            Max
+                        </b-button>
+                    </b-form-group>
+
+                </b-col>
+                <b-col cols="12">
+
+                    <b-form-group
+                        class="mb-4 font-weight-bold"
+                        label="Recipient Address"
+                        label-for="recAddress">
+                        <b-form-input
+                            v-model="recAddress"
+                            type="text"
+                            placeholder="Please use only TomoChain network address"/>
+                        <b-button
+                            class="add-address"
+                            variant="success"
+                            @click="useAddress">
+                            Address
+                        </b-button>
+                    </b-form-group>
+
+                </b-col>
+            </b-row>
+
+            <div class="box-more-infor">
+                <div class="txt-cdgt">
+                    View Wrapped Token address on
+                    <a
+                        :href="tomoScanUrl"
+                        target="_blank">TomoScan</a>
+                </div>
+
+                <div class="content-fee d-flex align-items-center justify-content-between">
+                    <div class="pr-2">Estimate transaction fee:</div>
+                    <div class="infor-fee">
+                        <div
+                            v-if="fromWrapSelected.symbol !== 'ETH' && !isApproved"
+                            class="px-2">
+                            Approve: ~{{ estimateApprovement }} ETH
+                        </div>
+                        <div class="px-2">Swap: ~{{ estimateSwap }} ETH</div>
+                        <div class="px-2">Total: ~{{ estimateTotal }} ETH</div>
+                    </div>
+                </div>
+                <div class="txt-confirm">
+                    <p class="font-weight-bold mb-2">Please confirm the following:</p>
+                    <b-form-checkbox
+                        v-model="agreeEx"
+                        class="mr-1 m1 light-h">
+                        My recipient address has NOT been created on a centralized exchange (e.g binance.com)
+                    </b-form-checkbox>
+                    <b-form-checkbox
+                        v-model="agreePk"
+                        class="mr-1 m1 light-h">
+                        I have a Private Key/Mnemonic Phrase of the TOMO receiving address I entered above
+                    </b-form-checkbox>
+                    <b-form-checkbox
+                        v-model="agreeAll"
+                        class="mr-1 m1 light-h">
+                        I have double checked that my recipient address is correct
+                    </b-form-checkbox>
+                    <div
+                        v-if="allChecked"
+                        class="text-error">
+                        <b-icon
+                            class="mr-1 m1 light-h"
+                            icon="exclamation-circle"
+                            font-scale="1"/>
+                        Required fields
+                    </div>
+                </div>
+            </div>
+            <div class="step-one__buttons text-center">
+                <b-button
+                    class="st-back"
+                    @click="back">
+                    Back
+                </b-button>
+                <b-button
+                    v-if="!isApproved"
+                    class="st-next"
+                    @click="approveContract">
+                    Approve
+                </b-button>
+                <b-button
+                    v-else
+                    :disabled="!agreeAll || !agreeEx || !agreeEx || !depAmount || !recAddress"
+                    class="st-next"
+                    @click="wrapToken">
+                    Next
+                </b-button>
+            </div>
+            <div
+                :class="(loading ? 'tomo-loading' : '')"/>
+        </b-container>
+
+    </div>
 </template>
 
 <script>
