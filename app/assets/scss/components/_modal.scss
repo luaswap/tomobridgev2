@@ -5,7 +5,8 @@
 }
 
 .modal-backdrop {
-    background-color: $color-text;
+    background: #282828;
+    opacity: 0.4;
 
     &:not(.show):not(.fade) {
         opacity: .8;
