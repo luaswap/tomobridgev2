@@ -37,7 +37,6 @@
     </div>
 </template>
 <script>
-import urljoin from 'url-join'
 export default {
     name: 'App',
     components: {
