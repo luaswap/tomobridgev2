@@ -23,6 +23,9 @@
                             class="font-weight-bold"
                             label="Token name">
                             <div class="infor-detail">
+                                <img
+                                    v-if="coinImg"
+                                    :src="coinImg">
                                 {{ (unClaimTx.coin || '').toUpperCase() }}
                             </div>
                         </b-form-group>
@@ -44,7 +47,7 @@
                                 class="infor-detail"
                                 :href="burnTxUrl"
                                 target="_blank">
-                                {{ truncate(unClaimTx.burnTx || '', 20) }}
+                                {{ truncate(unClaimTx.burnTx || '', 40) }}
                             </a>
                         </b-form-group>
                     </b-col>
@@ -76,7 +79,8 @@ export default {
     data () {
         return {
             burnTxUrl: '#',
-            dateTime: ''
+            dateTime: '',
+            coinImg: ''
         }
     },
     computed: {
@@ -98,6 +102,7 @@ export default {
     },
     destroyed () { },
     created: async function () {
+        const config = this.config
         if (this.unClaimTx && this.unClaimTx.burnTx) {
             this.burnTxUrl = urljoin(
                 this.config.tomoscanUrl,
@@ -105,6 +110,7 @@ export default {
                 this.unClaimTx.burnTx
             )
             this.dateTime = moment(this.unClaimTx.createdAt).format('DD/MM/YYYY')
+            this.coinImg = config.objSwapCoin[this.unClaimTx.coin].image
         }
         this.$bus.$on('reclaim', () => {
             if (this.unClaimTx && this.unClaimTx.burnTx) {
@@ -114,6 +120,7 @@ export default {
                     this.unClaimTx.burnTx
                 )
                 this.dateTime = moment(this.unClaimTx.createdAt).format('DD/MM/YYYY')
+                this.coinImg = config.objSwapCoin[this.unClaimTx.coin].image
             }
         })
     },
