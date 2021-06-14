@@ -9,7 +9,7 @@
             <!-- <p>Please keep this window open</p> -->
             <div class="text-center">
                 <b-button
-                    class="btn--big st-next m-auto">
+                    class="btn-green w-100">
                     <!-- <div
                         v-if="confirmation < requiredConfirm">
                         {{ confirmation }}/{{ requiredConfirm }} Confirmations

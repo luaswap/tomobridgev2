@@ -57,6 +57,9 @@ input[type=password],
     border-radius: 8px;
     padding: 5px 15px;
     color: #fff;
+    height: 42px;
+    display: flex;
+    align-items: center;
     @extend %transition;
     @include media-breakpoint-up(lg) {
         padding: 8px 15px;

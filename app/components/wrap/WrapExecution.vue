@@ -136,8 +136,8 @@
                             </svg>
 
                         </p>
-                        <p class="steps__name">VERIFY
-                            {{ step === 2 ? `${confirmation}/${requiredConfirm} Confirmations` : 'TRANSACTION' }}
+                        <p class="steps__name">
+                            VERIFY {{ step === 2 ? `${confirmation}/${requiredConfirm} Confirmations` : 'TRANSACTION' }}
                         </p>
                     </b-col>
                     <b-col
