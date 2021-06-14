@@ -13,7 +13,7 @@
                 </div>
                 <div v-if="step === 2">
                     <h1>
-                        VERIFYING {{ step === 2 ? `${confirmation}/${requiredConfirm} Confirmations` : 'TRANSACTION' }}
+                        VERIFYING
                     </h1>
                 </div>
                 <div v-if="step === 3">
@@ -35,7 +35,7 @@
                     }"
                     class="steps__col">
                     <p class="steps__name">
-                        Send Request</p>
+                        SEND REQUEST</p>
                     <p class="steps__number"><span>1</span></p>
                 </b-col>
                 <b-col
@@ -44,7 +44,9 @@
                         'steps__col--active' : step >= 2,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Verify Transaction</p>
+                    <p class="steps__name">
+                        VERIFY {{ step === 2 ? `${confirmation}/${requiredConfirm} Confirmations` : 'TRANSACTION' }}
+                    </p>
                     <p class="steps__number"><span>2</span></p>
                 </b-col>
                 <b-col
@@ -54,7 +56,7 @@
                     }"
                     class="steps__col">
                     <p class="steps__name">
-                        Send {{ fromWrapSelected.symbol.toLowerCase() !== 'eth' ? `ERC-20 ${fromWrapSelected.symbol}` : 'ETH native' }}
+                        SEND {{ fromWrapSelected.symbol.toLowerCase() !== 'eth' ? `ERC-20 ${fromWrapSelected.symbol}` : 'ETH native' }}
                     </p>
                     <p class="steps__number"><span>3</span></p>
                 </b-col>
@@ -92,7 +94,7 @@ export default {
     },
     data () {
         return {
-            step: 1,
+            step: 2,
             fromWrapSelected: this.$route.params.fromWrapSelected || {},
             recAddress: this.$route.params.recAddress || '',
             config: this.$store.state.config || {},

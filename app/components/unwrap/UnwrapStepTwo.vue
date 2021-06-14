@@ -1,12 +1,12 @@
 <template>
     <b-container class="step-one text-center">
-        <div class="mb-3">
+        <!-- <div class="mb-3">
             <a
                 :href="txUrl"
                 target="_blank">Burning transaction hash</a>
-        </div>
+        </div> -->
         <div class="">
-            <div
+            <!-- <div
                 v-if="isReadyToClaim"
                 class="steps__row justify-content-center">
                 <ul class="my-4 ml-5 text-left st-ul d-inline-block">
@@ -23,18 +23,17 @@
                         <div class="txt-cdgt ">Approve the request on Metamask to complete the transaction</div>
                     </li>
                 </ul>
-            </div>
-            <p>Please keep this window open</p>
+            </div> -->
+            <!-- <p>Please keep this window open</p> -->
             <div class="text-center">
                 <b-button
                     v-if="!isReadyToClaim"
                     class="btn--big st-next m-auto">
-                    <div
+                    <!-- <div
                         v-if="confirmation < requiredConfirm">
                         {{ confirmation }}/{{ requiredConfirm }} Confirmations
-                    </div>
-                    <div
-                        v-else>
+                    </div> -->
+                    <div>
                         We are verifying the burning transaction
                     </div>
                 </b-button>
@@ -74,7 +73,7 @@ export default {
             address: this.parent.address,
             interval: '',
             txHash: '',
-            isReadyToClaim: true,
+            isReadyToClaim: false,
             ethIds: [1, 3, 4, 5],
             loading: false,
             txObj: {},
