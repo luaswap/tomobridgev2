@@ -8,8 +8,19 @@
                         class="title-tmp-large">
                         PLEASE KEEP THIS WINDOW OPEN
                     </h1>
-                    <p class="txt-dec">
+                    <p
+                        v-if="!transactionHash"
+                        class="txt-dec">
                         You need to approve the request on MetaMask to complete the transaction
+                    </p>
+                    <p
+                        v-else>
+                        Ethereum TxHash:
+                        <a
+                            :href="txUrl"
+                            target="_blank">
+                            {{ transactionHash }}
+                        </a>
                     </p>
                 </div>
                 <div v-if="step === 2">
@@ -24,7 +35,9 @@
                     </h1>
                     <p class="txt-dec">
                         Check TomoChain burned TxHash
-                        <a :href="txUrl">here</a>
+                        <a
+                            :href="txUrl"
+                            target="_blank">here</a>
                     </p>
                 </div>
             </div>
