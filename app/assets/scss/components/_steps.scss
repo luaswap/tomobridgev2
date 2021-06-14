@@ -70,8 +70,23 @@
             z-index: 1;
             // animation: ActiveSteps 5s forwards;
         }
-        .steps__name {
-            // color: $color-primary;
+        svg {
+            .light-blue {
+                fill: #B3F8E9!important;
+            }
+            .dark-blue {
+                fill: #00E8B4!important;
+            }
+            .dark-purple {
+                fill: #C74AE3!important;
+            }
+            .light-purple {
+                fill: #EEC8F7!important;
+            }
+            .stroke-dark-purple {
+                stroke: #C74AE3!important;
+            }
+            
         }
 
         .steps__number::before {
