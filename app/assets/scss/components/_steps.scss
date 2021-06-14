@@ -1,3 +1,12 @@
+@keyframes ActiveSteps {
+    from {
+        width: 0px;
+    }
+    to {
+        width: 80px;
+    }
+  }
+
 .steps {
     overflow-x: hidden;
     text-align: center;
@@ -12,16 +21,20 @@
             max-width: 100%;
         }
 
-        // &::after {
-        //     // background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALwAAAABCAYAAABkHcQAAAAAAXNSR0IArs4c6QAAACFJREFUKBVjlJMzSmNAAo8enZuFxGUYlR8NH+T0MNTTBwDARFzWrF4HXgAAAABJRU5ErkJggg==);
-        //     background-image: linear-gradient(to right, transparent 50%, #00bad1 50%);
-        //     background-size: 16px 100%;
-        //     bottom: 25px;
-        //     content: '';
-        //     height: 1px;
-        //     position: absolute;
-        //     width: 100%;
-        // }
+        &::after {
+            // background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALwAAAABCAYAAABkHcQAAAAAAXNSR0IArs4c6QAAACFJREFUKBVjlJMzSmNAAo8enZuFxGUYlR8NH+T0MNTTBwDARFzWrF4HXgAAAABJRU5ErkJggg==);
+            // background-image: linear-gradient(to right, transparent 50%, #00bad1 50%);
+            // background-size: 16px 100%;
+            background: #606060;
+            opacity: 0.5;
+            border-radius: 8px;
+            top: 60px;
+            left: calc(100% - 40px);
+            content: '';
+            height: 8px;
+            position: absolute;
+            width: 80px;
+        }
 
         // &:first-child::before {
         //     right: 50%;
@@ -33,17 +46,30 @@
 
         // @include media-breakpoint-up(lg) {
         //     &::after {
-        //         bottom: 30px;
+        //         top: 50%;
         //     }
         // }
 
-        &:first-child::before,
+        // &:first-child::before,
         &:last-child::after {
-            background-color: #fff;
+            display: none;
         }
     }
 
     .steps__col--active {
+        &::before {
+            background: #00E8B4;
+            border-radius: 8px;
+            border: 1px solid #99F6E1;
+            top: 60px;
+            left: calc(100% - 40px);
+            content: '';
+            height: 8px;
+            position: absolute;
+            width: 80px;
+            z-index: 1;
+            // animation: ActiveSteps 5s forwards;
+        }
         .steps__name {
             // color: $color-primary;
         }
