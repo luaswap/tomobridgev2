@@ -66,9 +66,9 @@
             content: '';
             height: 8px;
             position: absolute;
-            width: 40px;
+            width: 80px;
             z-index: 1;
-            animation: ActiveSteps 5s forwards;
+            // animation: ActiveSteps 5s forwards;
         }
         .steps__name {
             // color: $color-primary;

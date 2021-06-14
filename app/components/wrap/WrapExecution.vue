@@ -3,12 +3,30 @@
         <b-container
             class="container-medium">
             <div class="open-product text-center">
-                <h1 class="title-tmp-large">
-                    PLEASE KEEP THIS WINDOW OPEN
-                </h1>
-                <p class="txt-dec">
-                    You need to approve the request on MetaMask to complete the transaction
-                </p>
+                <div v-if="step === 1">
+                    <h1
+                        class="title-tmp-large">
+                        PLEASE KEEP THIS WINDOW OPEN
+                    </h1>
+                    <p class="txt-dec">
+                        You need to approve the request on MetaMask to complete the transaction
+                    </p>
+                </div>
+                <div v-if="step === 2">
+                    <h1>
+                        VERIFYING
+                    </h1>
+                </div>
+                <div v-if="step === 3">
+                    <h1
+                        class="title-tmp-large">
+                        SUCCESSFULLY CONVERTED ASSETS!
+                    </h1>
+                    <p class="txt-dec">
+                        Check TomoChain burned TxHash
+                        <a :href="txUrl">here</a>
+                    </p>
+                </div>
             </div>
 
             <div class="steps">
@@ -24,7 +42,7 @@
                                 src="/app/assets/images/icon-send-request.svg"
                                 alt="Send Request"/>
                         </p>
-                        <p class="steps__name">SEND REQUEST {{ fromWrapSelected.name || '' }}</p>
+                        <p class="steps__name">SEND REQUEST</p>
                     </b-col>
                     <b-col
                         :class="{
@@ -136,7 +154,17 @@ export default {
             expireTime: '',
             address: this.$store.state.address,
             transactionHash: '',
-            outTx: {}
+            outTx: {},
+            txUrl: ''
+        }
+    },
+    watch: {
+        transactionHash: function () {
+            this.txUrl = urljoin(
+                this.config.tomoscanUrl,
+                'txs',
+                this.transactionHash
+            )
         }
     },
     computed: {

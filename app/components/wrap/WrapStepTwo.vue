@@ -6,7 +6,7 @@
                 target="_blank">Deposit transaction hash</a>
         </div>
         <div class="mt-5">
-            <p>Please keep this window open</p>
+            <!-- <p>Please keep this window open</p> -->
             <div class="text-center">
                 <b-button
                     class="btn--big st-next m-auto">
