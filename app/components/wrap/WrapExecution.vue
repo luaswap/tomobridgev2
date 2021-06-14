@@ -87,6 +87,7 @@
 </template>
 
 <script>
+import urljoin from 'url-join'
 import WrapStepOne from './WrapStepOne'
 import WrapStepTwo from './WrapStepTwo'
 import WrapStepThree from './WrapStepThree'
@@ -114,6 +115,8 @@ export default {
             txUrl: ''
         }
     },
+    computed: {
+    },
     watch: {
         transactionHash: function () {
             this.txUrl = urljoin(
@@ -122,8 +125,6 @@ export default {
                 this.transactionHash
             )
         }
-    },
-    computed: {
     },
     async updated () {
     },

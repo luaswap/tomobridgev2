@@ -28,7 +28,7 @@
                             {{ parent.depAmount || parent.amount }}
                         </div>
 
-                        Recipient Address
+                        Receiving Address
                         <div>{{ parent.recAddress }}</div>
                     </div>
                 </div>

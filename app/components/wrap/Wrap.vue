@@ -17,7 +17,7 @@
                 <b-col cols="7">
                     <b-form-group
                         class="mb-4 font-weight-bold"
-                        label="Amount"
+                        label="Asset"
                         label-for="amount">
                         <multiselect
                             id="fromwrap-select"
@@ -89,7 +89,7 @@
 
                     <b-form-group
                         class="mb-4 font-weight-bold"
-                        label="Recipient Address"
+                        label="Receiving Address"
                         label-for="recAddress">
                         <b-form-input
                             v-model="recAddress"
@@ -131,17 +131,17 @@
                     <b-form-checkbox
                         v-model="agreeEx"
                         class="mr-1 m1 light-h">
-                        My recipient address has NOT been created on a centralized exchange (e.g binance.com)
+                        The receiving address is NOT created on a centralized exchange (e.g. Binance)
                     </b-form-checkbox>
                     <b-form-checkbox
                         v-model="agreePk"
                         class="mr-1 m1 light-h">
-                        I have a Private Key/Mnemonic Phrase of the TOMO receiving address I entered above
+                        I have the Private Key/Mnemonics for the receiving address entered above
                     </b-form-checkbox>
                     <b-form-checkbox
                         v-model="agreeAll"
                         class="mr-1 m1 light-h">
-                        I have double checked that my recipient address is correct
+                        I have doubled checked that the receiving address is correct
                     </b-form-checkbox>
                     <div
                         v-if="allChecked"
