@@ -169,8 +169,9 @@
                     Next
                 </b-button>
             </div>
-
         </b-container>
+        <div
+            :class="(loading ? 'tomo-loading' : '')"/>
     </div>
 </template>
 
@@ -210,7 +211,8 @@ export default {
             contract: '',
             contractAddress: '',
             isNativeToken: false,
-            tomoIds: [88, 89, 99]
+            tomoIds: [88, 89, 99],
+            loading: false
         }
     },
     computed: {
@@ -239,6 +241,7 @@ export default {
         } else {
             this.fromData = this.config.swapCoin || []
             this.fromWrapSelected = this.fromData[0]
+            this.loading = true
 
             this.etherScanUrl = urljoin(
                 this.fromWrapSelected.explorerUrl,
@@ -250,14 +253,17 @@ export default {
             this.contract = contract
             this.contractAddress = contractAddress
             this.getTokenBalance(this.fromWrapSelected)
-            this.contract.methods.TOMO_FEE_MODE.call()
-                .then(data => {
-                    this.tomoFeeMode = data
-                    // this.estimateGasClaim(this.fromWrapSelected)
-                    this.getWithdrawFee()
-                }).catch(error => {
-                    this.$toasted.show(error, { type: 'error' })
-                })
+            this.getWithdrawFee()
+            // this.contract.methods.TOMO_FEE_MODE.call()
+            //     .then(data => {
+            //         this.tomoFeeMode = data
+            //         // this.estimateGasClaim(this.fromWrapSelected)
+            //         this.getWithdrawFee()
+            //     }).catch(error => {
+            //         this.loading = false
+            //         this.$toasted.show(error, { type: 'error' })
+            //     })
+            this.loading = false
         }
     },
     methods: {
@@ -283,7 +289,7 @@ export default {
             )
             await this.getContract(token)
             this.getTokenBalance(token)
-            this.tomoFeeMode = await this.contract.methods.TOMO_FEE_MODE.call()
+            // this.tomoFeeMode = await this.contract.methods.TOMO_FEE_MODE.call()
             // await this.estimateGasClaim(token)
             await this.getWithdrawFee(token)
         },

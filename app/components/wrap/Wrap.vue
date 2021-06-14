@@ -247,11 +247,13 @@ export default {
             const config = this.config
             this.fromData = this.config.swapCoin || []
             this.fromWrapSelected = this.fromData[0]
-            this.loading = true
 
             await this.web3Eth.eth.getGasPrice()
-                .then(data => {
+                .then(async data => {
                     this.ethGasPrice = data
+                    this.getTokenBalance(this.fromWrapSelected)
+                    await this.checkApprove()
+                    this.estimateGasSwap()
                 })
                 .catch(error => console.log(error))
 
@@ -260,10 +262,6 @@ export default {
                 'tokens',
                 this.fromWrapSelected.wrapperAddress
             )
-            this.getTokenBalance(this.fromWrapSelected)
-            await this.checkApprove()
-            this.estimateGasSwap()
-            this.loading = false
         }
     },
     methods: {

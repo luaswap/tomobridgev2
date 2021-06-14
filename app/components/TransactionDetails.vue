@@ -31,7 +31,7 @@
                         class="mb-4 font-weight-bold"
                         label="Amount">
                         <div class="bg_input_tags font-weight-normal">
-                            {{ parent.depAmount }}
+                            {{ parent.depAmount || parent.amount }}
                         </div>
                     </b-form-group>
 

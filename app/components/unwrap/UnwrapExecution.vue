@@ -15,10 +15,9 @@
                 <div v-if="step === 2">
                     <h1
                         class="title-tmp-large">
-                        VERIFYING
+                        PLEASE KEEP THIS WINDOW OPEN
                     </h1>
-                    <p class="txt-red">
-                        <!-- eslint-disable -->
+                    <!-- <p class="txt-red">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="16"
@@ -28,8 +27,15 @@
                             viewBox="0 0 16 16">
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
                         </svg>
-                        <!-- eslint-enable -->
-                        Set your Metamask network to Ethereum and make sure you have enough ETH token
+                        Set your Metamask network to Ethereum and make sure you have enough ETH
+                    </p> -->
+                    <p>
+                        TomoChain TxHash:
+                        <a
+                            :href="txUrl"
+                            target="_blank">
+                            {{ transactionHash }}
+                        </a>
                     </p>
                 </div>
                 <div v-if="step === 3">
@@ -239,7 +245,7 @@ export default {
     },
     data () {
         return {
-            step: 1,
+            step: 2,
             fromWrapSelected: this.$route.params.fromWrapSelected || {},
             recAddress: this.$route.params.recAddress || '',
             config: this.$store.state.config || {},
