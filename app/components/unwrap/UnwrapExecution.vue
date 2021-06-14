@@ -13,7 +13,7 @@
                 </div>
                 <div v-if="step === 2">
                     <h1>
-                        VERIFYING
+                        VERIFYING {{ step === 2 ? `${confirmation}/${requiredConfirm} Confirmations` : 'TRANSACTION' }}
                     </h1>
                 </div>
                 <div v-if="step === 3">
@@ -103,7 +103,9 @@ export default {
             loading: false,
             transactionHash: '',
             claimTxHash: '',
-            txUrl: ''
+            txUrl: '',
+            requiredConfirm: 30,
+            confirmation: 0,
         }
     },
     watch: {

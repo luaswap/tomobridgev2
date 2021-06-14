@@ -1,21 +1,20 @@
 <template>
     <b-container class="step-one text-center">
-        <div>
+        <!-- <div>
             <a
                 :href="txUrl"
                 target="_blank">Deposit transaction hash</a>
-        </div>
-        <div class="mt-5">
+        </div> -->
+        <div class="mt-2">
             <!-- <p>Please keep this window open</p> -->
             <div class="text-center">
                 <b-button
                     class="btn--big st-next m-auto">
-                    <div
+                    <!-- <div
                         v-if="confirmation < requiredConfirm">
                         {{ confirmation }}/{{ requiredConfirm }} Confirmations
-                    </div>
-                    <div
-                        v-else>
+                    </div> -->
+                    <div>
                         We are verifying the depositing transaction
                     </div>
                 </b-button>
@@ -42,8 +41,6 @@ export default {
             config: this.$store.state.config || {},
             interval: '',
             interval1: '',
-            requiredConfirm: 30,
-            confirmation: 0,
             txHash: '',
             txUrl: '',
             isMint: false,
@@ -69,15 +66,15 @@ export default {
             'tx',
             this.txHash
         )
-        this.requiredConfirm = parent.fromWrapSelected.confirmations
+        parent.requiredConfirm = parent.fromWrapSelected.confirmations
         const receipt = await this.web3Eth.eth.getTransactionReceipt(this.txHash)
         const signedBlock = receipt.blockNumber
 
         this.interval = setInterval(async () => {
             const currentBlock = await this.web3Eth.eth.getBlockNumber()
-            this.confirmation = currentBlock - signedBlock
-            if (this.confirmation >= this.requiredConfirm) {
-                this.confirmation = this.requiredConfirm
+            parent.confirmation = currentBlock - signedBlock
+            if (parent.confirmation >= parent.requiredConfirm) {
+                parent.confirmation = parent.requiredConfirm
                 setTimeout(() => {
                     clearInterval(this.interval)
                 }, 2000)

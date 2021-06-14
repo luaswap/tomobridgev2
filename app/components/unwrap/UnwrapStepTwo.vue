@@ -73,8 +73,6 @@ export default {
             amount: this.parent.amount || 0,
             address: this.parent.address,
             interval: '',
-            requiredConfirm: 30,
-            confirmation: 0,
             txHash: '',
             isReadyToClaim: true,
             ethIds: [1, 3, 4, 5],
@@ -106,9 +104,9 @@ export default {
         const signedBlock = receipt.blockNumber
         this.interval = setInterval(async () => {
             const currentBlock = await this.web3Tomo.eth.getBlockNumber()
-            this.confirmation = currentBlock - signedBlock
-            if (this.confirmation >= this.requiredConfirm) {
-                this.confirmation = this.requiredConfirm
+            parent.confirmation = currentBlock - signedBlock
+            if (parent.confirmation >= parent.requiredConfirm) {
+                parent.confirmation = parent.requiredConfirm
                 setTimeout(() => {
                     clearInterval(this.interval)
                 }, 2000)

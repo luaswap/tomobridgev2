@@ -55,7 +55,9 @@
                                 src="/app/assets/images/icon-verify-transaction.svg"
                                 alt="Verify Transaction"/>
                         </p>
-                        <p class="steps__name">VERIFY TRANSACTION</p>
+                        <p class="steps__name">VERIFY
+                            {{ step === 2 ? `${confirmation}/${requiredConfirm} Confirmations` : 'TRANSACTION' }}
+                        </p>
                     </b-col>
                     <b-col
                         :class="{
@@ -158,7 +160,9 @@ export default {
             address: this.$store.state.address,
             transactionHash: '',
             outTx: {},
-            txUrl: ''
+            txUrl: '',
+            requiredConfirm: 30,
+            confirmation: 0,
         }
     },
     computed: {
