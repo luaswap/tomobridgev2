@@ -7,14 +7,18 @@
                 <h1 class="title-tmp-large">
                     CONVERTING FORM
                 </h1>
-                <p class="txt-dec-tem-2 font-weight-bold">TomoChain wrapped ETH <span class="txt-dec">to</span> Native ETH</p>
+                <p class="txt-dec-tem-2 font-weight-bold">
+                    TomoChain wrapped {{ fromWrapSelected.symbol }}
+                    <span class="txt-dec">to</span>
+                    {{ fromWrapSelected.symbol.toLowerCase() !== 'eth' ? `ERC-20 ${fromWrapSelected.symbol}` : 'ETH native' }}
+                </p>
             </div>
 
             <b-row class="wrapbox__row mb-lg-4 mt-4">
                 <b-col cols="7">
                     <b-form-group
                         class="mb-4 font-weight-bold"
-                        label="Amount"
+                        label="Asset"
                         label-for="amount">
                         <multiselect
                             id="fromwrap-select"
@@ -84,7 +88,7 @@
                 <b-col cols="12">
                     <b-form-group
                         class="mb-4 font-weight-bold"
-                        label="Recipient Address"
+                        label="Receiving Address"
                         label-for="recAddress">
                         <b-form-input
                             v-model="recAddress"
@@ -129,17 +133,17 @@
                     <b-form-checkbox
                         v-model="agreeEx"
                         class="mr-1 m1 light-h">
-                        My recipient address has NOT been created on a centralized exchange (e.g binance.com)
+                        The receiving address is NOT created on a centralized exchange (e.g. Binance)
                     </b-form-checkbox>
                     <b-form-checkbox
                         v-model="agreePk"
                         class="mr-1 m1 light-h">
-                        I have a Private Key/Mnemonic Phrase of the TOMO receiving address I entered above
+                        I have the Private Key/Mnemonics for the receiving address entered above
                     </b-form-checkbox>
                     <b-form-checkbox
                         v-model="agreeAll"
                         class="mr-1 m1 light-h">
-                        I have double checked that my recipient address is correct
+                        I have doubled checked that the receiving address is correct
                     </b-form-checkbox>
                     <div
                         v-if="allChecked"
@@ -332,8 +336,11 @@ export default {
             }
         },
         checkMinimumWithdrawAmount () {
-            const coin = this.fromWrapSelected
-            if (new BigNumber(this.amount || 0).isLessThan(new BigNumber(coin.minimumWithdrawal))) {
+            // const coin = this.fromWrapSelected
+            // if (new BigNumber(this.amount || 0).isLessThan(new BigNumber(coin.minimumWithdrawal))) {
+            //     return false
+            // }
+            if (new BigNumber(this.amount || 0).isLessThan(0)) {
                 return false
             }
             return true
@@ -349,7 +356,7 @@ export default {
                     } else if (!this.checkMinimumWithdrawAmount()) {
                         this.$toasted.show(`Minimum Withdrawal is ${coin.minimumWithdrawal} ${coin.symbol}`)
                     } else if (new BigNumber(this.amount).isLessThan(this.fee)) {
-                        this.$toasted.show('Withdraw amount must be greater than withdraw fee', { type: 'error' })
+                        this.$toasted.show('Withdraw amount must be greater than 0', { type: 'error' })
                     } else {
                         this.$router.push({
                             name: 'UnwrapExecution',

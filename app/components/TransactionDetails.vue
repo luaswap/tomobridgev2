@@ -39,7 +39,7 @@
                 <b-col cols="12">
                     <b-form-group
                         class="font-weight-bold"
-                        label="Recipient Address">
+                        label="Receiving Address">
                         <div class="bg_input_tags font-weight-normal">
                             {{ parent.recAddress }}
                         </div>

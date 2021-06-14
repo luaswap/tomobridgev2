@@ -88,7 +88,7 @@
                         class="row btn-tm"
                         @click="redirect('bridge')">
                         <div class="col-5 px-0 text-right">
-                            Tokens<br><span>on other chains</span>
+                            Tokens<br><span>on Ethereum</span>
                         </div>
                         <div class="col-2 text-center">
                             <b-icon
@@ -97,7 +97,7 @@
                                 font-scale="1.5"/>
                         </div>
                         <div class="col-5 px-0">
-                            TRC21 tokens<br><span>on TomoChain</span>
+                            TRC21 & TRC20 Wrapped Tokens<br><span>on TomoChain</span>
                         </div>
                     </a>
                 </div>

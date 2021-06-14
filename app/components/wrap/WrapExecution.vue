@@ -198,6 +198,7 @@
 </template>
 
 <script>
+import urljoin from 'url-join'
 import WrapStepOne from './WrapStepOne'
 import WrapStepTwo from './WrapStepTwo'
 import WrapStepThree from './WrapStepThree'
