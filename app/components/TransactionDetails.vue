@@ -1,21 +1,22 @@
 <template>
     <div
         class="">
-        Transaction Details:
-        <div>
-            <div
-                class="infor-wallet mb-4">
-                <div class="connect">
-                    <div class="box-address-wallet"><span class="tag">{{ network.name }}</span> <b>{{ address }}</b></div>
-                    <div class="box-address-infor mt-3">
-                        <span
-                            class="text-gray">
-                            Balance: {{ balance }} {{ tomoIds.indexOf(network.chainId || '') > -1 ? 'TOMO' : 'ETH' }}
-                        </span>
-                    </div>
-                    <div>
-                        Asset
-                        <div>
+        <p>Transaction Details:</p>
+        <div
+            class="box-more-infor mb-4">
+            <div class="infor-address-wallet">
+                <p><span class="tag">{{ network.name }}</span> <span class="text-gray">{{ address }}</span></p>
+                <p class="text-gray">
+                    Balance: {{ balance }} {{ tomoIds.indexOf(network.chainId || '') > -1 ? 'TOMO' : 'ETH' }}
+                </p>
+            </div>
+            <hr>
+            <b-row class="mt-4">
+                <b-col cols="7">
+                    <b-form-group
+                        class="mb-4 font-weight-bold"
+                        label="Asset">
+                        <div class="bg_input_tags">
                             <img
                                 v-if="fromWrapSelected.image"
                                 :src="fromWrapSelected.image"
@@ -23,16 +24,29 @@
                             {{ fromWrapSelected.symbol }}
                         </div>
 
-                        Amount
-                        <div>
+                    </b-form-group>
+                </b-col>
+                <b-col cols="5">
+                    <b-form-group
+                        class="mb-4 font-weight-bold"
+                        label="Amount">
+                        <div class="bg_input_tags font-weight-normal">
                             {{ parent.depAmount }}
                         </div>
+                    </b-form-group>
 
-                        Recipient Address
-                        <div>{{ parent.recAddress }}</div>
-                    </div>
-                </div>
-            </div>
+                </b-col>
+                <b-col cols="12">
+                    <b-form-group
+                        class="font-weight-bold"
+                        label="Recipient Address">
+                        <div class="bg_input_tags font-weight-normal">
+                            {{ parent.recAddress }}
+                        </div>
+                    </b-form-group>
+
+                </b-col>
+            </b-row>
         </div>
     </div>
 </template>

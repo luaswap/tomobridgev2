@@ -50,7 +50,8 @@
 
 input[type=text],
 input[type=password],
-.multiselect__tags {
+.multiselect__tags,
+.bg_input_tags {
     background: rgba(96, 96, 96, 0.4);
     border-radius: 8px;
     padding: 5px 15px;
@@ -63,6 +64,9 @@ input[type=password],
 
 .multiselect--active .multiselect__tags {
     background: rgba(rgb(236, 236, 236), 0.5);
+}
+.bg_input_tags {
+    color: #8B8B8B;
 }
 
 input[type=text]:focus,
