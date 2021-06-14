@@ -74,7 +74,7 @@
                         label-for="depAmount">
                         <b-form-input
                             v-model="depAmount"
-                            type="text"
+                            type="number"
                             placeholder="Deposit amount"/>
                         <b-button
                             class="token-max"

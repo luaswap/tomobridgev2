@@ -336,7 +336,7 @@ export default {
             }
         },
         checkMinimumWithdrawAmount () {
-            const coin = this.fromWrapSelected
+            // const coin = this.fromWrapSelected
             // if (new BigNumber(this.amount || 0).isLessThan(new BigNumber(coin.minimumWithdrawal))) {
             //     return false
             // }

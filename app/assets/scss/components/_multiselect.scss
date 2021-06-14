@@ -49,6 +49,7 @@
 // }
 
 input[type=text],
+input[type=number],
 input[type=password],
 .multiselect__tags,
 .bg_input_tags {
@@ -71,6 +72,8 @@ input[type=password],
 
 input[type=text]:focus,
 input[type=text]:active,
+input[type=number]:focus,
+input[type=number]:active,
 input[type=password]:focus,
 input[type=password]:active {
     background: rgba(rgb(236, 236, 236), 0.5);
