@@ -18,6 +18,7 @@
                         VERIFYING
                     </h1>
                     <p class="txt-red">
+                        <!-- eslint-disable -->
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="16"
@@ -27,6 +28,7 @@
                             viewBox="0 0 16 16">
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
                         </svg>
+                        <!-- eslint-enable -->
                         Set your Metamask network to Ethereum and make sure you have enough ETH token
                     </p>
                 </div>
@@ -49,6 +51,7 @@
                             'steps__col--active' : step >= 1,
                         }"
                         class="steps__col">
+                        <!-- eslint-disable -->
                         <p class="steps__number">
                             <svg
                                 width="128"
@@ -87,6 +90,7 @@
                                     class="dark-purple"/>
                             </svg>
                         </p>
+                        <!-- eslint-enable -->
                         <p class="steps__name">SEND REQUEST</p>
                     </b-col>
                     <b-col
@@ -95,6 +99,7 @@
                             'steps__col--active' : step >= 2,
                         }"
                         class="steps__col">
+                        <!-- eslint-disable -->
                         <p class="steps__number">
                             <svg
                                 width="128"
@@ -134,6 +139,7 @@
                             </svg>
 
                         </p>
+                        <!-- eslint-enable -->
                         <p class="steps__name">
                             VERIFY {{ step === 2 ? `${confirmation}/${requiredConfirm} Confirmations` : 'TRANSACTION' }}
                         </p>
@@ -144,6 +150,7 @@
                             'steps__col--active' : step >= 3,
                         }"
                         class="steps__col">
+                        <!-- eslint-disable -->
                         <p class="steps__number">
                             <svg
                                 width="128"
@@ -192,6 +199,7 @@
                             </svg>
 
                         </p>
+                        <!-- eslint-enable -->
                         <p class="steps__name">
                             SEND {{ fromWrapSelected.symbol.toLowerCase() !== 'eth' ? `ERC-20 ${fromWrapSelected.symbol}` : 'ETH native' }}
                         </p>

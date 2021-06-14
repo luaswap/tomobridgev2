@@ -50,6 +50,7 @@
                             'steps__col--active' : step >= 1,
                         }"
                         class="steps__col">
+                        <!-- eslint-disable -->
                         <p class="steps__number">
                             <svg
                                 width="128"
@@ -89,6 +90,7 @@
                             </svg>
 
                         </p>
+                        <!-- eslint-enable -->
                         <p class="steps__name">SEND REQUEST</p>
                     </b-col>
                     <b-col
@@ -97,6 +99,7 @@
                             'steps__col--active' : step >= 2,
                         }"
                         class="steps__col">
+                        <!-- eslint-disable -->
                         <p class="steps__number">
                             <svg
                                 width="128"
@@ -136,6 +139,7 @@
                             </svg>
 
                         </p>
+                        <!-- eslint-enable -->
                         <p class="steps__name">
                             VERIFY {{ step === 2 ? `${confirmation}/${requiredConfirm} Confirmations` : 'TRANSACTION' }}
                         </p>
@@ -146,6 +150,7 @@
                             'steps__col--active' : step >= 3,
                         }"
                         class="steps__col">
+                        <!-- eslint-disable -->
                         <p class="steps__number">
                             <svg
                                 width="128"
@@ -194,6 +199,7 @@
                             </svg>
 
                         </p>
+                        <!-- eslint-enable -->
                         <p class="steps__name">SEND TOKEN {{ fromWrapSelected.name || '' }}</p>
                     </b-col>
                 </b-row>
@@ -240,7 +246,7 @@ export default {
             outTx: {},
             txUrl: '',
             requiredConfirm: 30,
-            confirmation: 0,
+            confirmation: 0
         }
     },
     computed: {
