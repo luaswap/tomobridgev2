@@ -28,14 +28,12 @@
             <div class="text-center">
                 <b-button
                     v-if="!isReadyToClaim"
-                    class="btn--big st-next m-auto">
+                    class="btn-green w-100">
                     <!-- <div
                         v-if="confirmation < requiredConfirm">
                         {{ confirmation }}/{{ requiredConfirm }} Confirmations
                     </div> -->
-                    <div>
-                        We are verifying the burning transaction
-                    </div>
+                    We are verifying the burning transaction
                 </b-button>
                 <b-button
                     v-else
