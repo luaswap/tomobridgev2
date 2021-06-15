@@ -108,7 +108,7 @@
                 <div
                     v-if="fromWrapSelected.symbol !== 'BTC' && fromWrapSelected.symbol !== 'ETH'">
                     <div class="txt-cdgt ">
-                        View Wrapped Token address on
+                        View Token address on
                         <a
                             :href="etherScanUrl"
                             target="_blank">Etherscan</a>
@@ -278,7 +278,7 @@ export default {
         },
         maxToken () {
             const token = this.fromWrapSelected
-            this.amount = new BigNumber(this.tokenBalance).div(10 ** token.decimals).toString()
+            this.amount = new BigNumber(this.tokenBalance || 0).div(10 ** token.decimals).toString()
         },
         async selectToken (token) {
             this.fromWrapSelected = token

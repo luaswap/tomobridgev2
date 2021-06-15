@@ -71,7 +71,7 @@ export default {
             address: this.parent.address,
             interval: '',
             txHash: '',
-            isReadyToClaim: true,
+            isReadyToClaim: false,
             ethIds: [1, 3, 4, 5],
             loading: false,
             txObj: {},

@@ -108,7 +108,7 @@
 
             <div class="box-more-infor">
                 <div class="txt-cdgt">
-                    View Token address on
+                    View Wrapped Token address on
                     <a
                         :href="tomoScanUrl"
                         target="_blank">TomoScan</a>
