@@ -296,13 +296,11 @@ export default {
             }
         },
         async getTokenBalance (token) {
-            switch (token.symbol) {
-            case 'ETH':
+            switch (token.symbol.toLowerCase()) {
+            case 'eth':
                 let bl = await this.web3Eth.eth.getBalance(this.address)
+                this.tokenBalance = bl
                 this.tokenBalanceToFixed = new BigNumber(bl).div(10 ** 18).toFixed(5)
-                break
-            case 'BTC':
-                this.tokenBalanceToFixed = 0
                 break
             default:
                 const contract = new this.web3Eth.eth.Contract(
@@ -394,6 +392,7 @@ export default {
                     this.ContractBridgeEthAbi.abi,
                     config.blockchain.contractBridgeEth
                 )
+                const checkEthBalance = await this.checkEthBalance()
                 if (token.tokenAddress && this.isApproved) {
                     const estimateGas = await contract.methods.swapErc20(
                         token.tokenAddress,
@@ -404,12 +403,17 @@ export default {
                     })
                     price = new BigNumber(estimateGas).multipliedBy(this.ethGasPrice).div(10 ** 18)
                 } else if (token.symbol === 'ETH') {
-                    const estimateGas = await contract.methods.swapEth(
-                        this.recAddress || this.address
-                    ).estimateGas({
-                        from: this.address,
-                        value: 12
-                    })
+                    let estimateGas
+                    if (!checkEthBalance) {
+                        estimateGas = 0
+                    } else {
+                        estimateGas = await contract.methods.swapEth(
+                            this.recAddress || this.address
+                        ).estimateGas({
+                            from: this.address,
+                            value: 12
+                        })
+                    }
 
                     price = new BigNumber(estimateGas).multipliedBy(this.ethGasPrice).div(10 ** 18)
                 }
@@ -430,42 +434,58 @@ export default {
                     this.ERC20Abi.abi,
                     this.fromWrapSelected.tokenAddress
                 )
-                await contract.methods.approve(
-                    config.blockchain.contractBridgeEth,
-                    // new BigNumber(100000).multipliedBy(10 ** this.fromWrapSelected.decimals).toString(10)
-                    new BigNumber(2).exponentiatedBy(256).minus(1).toString(10)
-                ).send({ from: this.address }).on('transactionHash', async txHash => {
-                    let check = true
-                    while (check) {
-                        const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                        if (receipt) {
-                            this.isApproved = true
-                            this.wrapButtonTitle = 'Next'
-                            this.loading = false
-                            check = false
-                            this.selectToken(this.fromWrapSelected)
+                const checkEthBalance = await this.checkEthBalance()
+                if (!checkEthBalance) {
+                    this.$toasted.show('Not enough ETH', { type: 'error' })
+                } else {
+                    await contract.methods.approve(
+                        config.blockchain.contractBridgeEth,
+                        // new BigNumber(100000).multipliedBy(10 ** this.fromWrapSelected.decimals).toString(10)
+                        new BigNumber(2).exponentiatedBy(256).minus(1).toString(10)
+                    ).send({ from: this.address }).on('transactionHash', async txHash => {
+                        let check = true
+                        while (check) {
+                            const receipt = await this.web3.eth.getTransactionReceipt(txHash)
+                            if (receipt) {
+                                this.isApproved = true
+                                this.wrapButtonTitle = 'Next'
+                                this.loading = false
+                                check = false
+                                this.selectToken(this.fromWrapSelected)
+                            }
                         }
-                    }
-                }).catch(error => {
-                    console.log(error)
-                    this.loading = false
-                    this.$toasted.show(error.message ? error.message : error, { type: 'error' })
-                })
+                    }).catch(error => {
+                        console.log(error)
+                        this.loading = false
+                        this.$toasted.show(error.message ? error.message : error, { type: 'error' })
+                    })
+                }
             } catch (error) {
                 console.log(error)
                 this.loading = false
                 this.$toasted.show('Approvement error:', error.message ? error.message : error, { type: 'error' })
             }
         },
-        wrapToken () {
+        async checkEthBalance () {
+            let bl = await this.web3Eth.eth.getBalance(this.address)
+            if (new BigNumber(bl).isLessThanOrEqualTo(0)) {
+                return false
+            }
+            return true
+        },
+        async wrapToken () {
             if (this.ethIds.indexOf(this.network.chainId) > -1) {
                 const coin = this.fromWrapSelected
                 this.isAddress = this.isValidAddresss()
+                const checkEthBalance = await this.checkEthBalance()
+
                 if (this.isAddress) {
                     if (!this.agreeAll || !this.agreeEx || !this.agreePk) {
                         this.$toasted.show('Confirmation required', { type: 'error' })
                         // this.allChecked = true
-                    } else if (new BigNumber(this.depAmount).isGreaterThan(this.tokenBalance)) {
+                    } else if (!checkEthBalance) {
+                        this.$toasted.show(`Not enough ETH`, { type: 'error' })
+                    } else if (coin.symbol.toLowerCase() !== 'eth' && new BigNumber(this.depAmount).isGreaterThan(this.tokenBalance)) {
                         this.$toasted.show(`Not enough ${coin.symbol}`, { type: 'error' })
                     } else {
                         this.$router.push({
