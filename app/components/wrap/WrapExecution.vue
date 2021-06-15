@@ -34,7 +34,7 @@
                         SUCCESSFULLY CONVERTED ASSETS!
                     </h1>
                     <p class="txt-dec">
-                        Check TomoChain burned TxHash
+                        Check Ethereum deposit TxHash
                         <a
                             :href="txUrl"
                             target="_blank">here</a>

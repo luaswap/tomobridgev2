@@ -3,11 +3,17 @@
         <div class="mt-3">
             <!-- <h4>You have successfully converted your assets!</h4> -->
             <div class="text-center mt-3">
-                <b-link
+                <!-- <b-link
                     :href="explorerUrl"
                     target="_blank">
                     Check transaction on TomoScan
-                </b-link>
+                </b-link> -->
+                <b-button
+                    :href="explorerUrl"
+                    target="_blank"
+                    class="btn-green w-100">
+                        Check transaction on TomoScan
+                </b-button>
             </div>
         </div>
     </b-container>

@@ -346,7 +346,7 @@ export default {
             // if (new BigNumber(this.amount || 0).isLessThan(new BigNumber(coin.minimumWithdrawal))) {
             //     return false
             // }
-            if (new BigNumber(this.amount || 0).isLessThan(0)) {
+            if (new BigNumber(this.amount || 0).isLessThanOrEqualTo(0)) {
                 return false
             }
             return true
@@ -360,9 +360,7 @@ export default {
                         this.$toasted.show('Confirmation required', { type: 'error' })
                         // this.allChecked = true
                     } else if (!this.checkMinimumWithdrawAmount()) {
-                        this.$toasted.show(`Minimum Withdrawal is ${coin.minimumWithdrawal} ${coin.symbol}`)
-                    } else if (new BigNumber(this.amount).isLessThan(this.fee)) {
-                        this.$toasted.show('Withdraw amount must be greater than 0', { type: 'error' })
+                        this.$toasted.show(`Withdraw amount must be greater than 0`)
                     } else {
                         this.$router.push({
                             name: 'UnwrapExecution',

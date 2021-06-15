@@ -17,6 +17,7 @@
                         class="title-tmp-large">
                         PLEASE KEEP THIS WINDOW OPEN
                     </h1>
+                    <!-- eslint-disable -->
                     <!-- <p class="txt-red">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -29,6 +30,7 @@
                         </svg>
                         Set your Metamask network to Ethereum and make sure you have enough ETH
                     </p> -->
+                    <!-- eslint-enable -->
                     <p>
                         TomoChain TxHash:
                         <a
@@ -264,8 +266,8 @@ export default {
     watch: {
         transactionHash: function () {
             this.txUrl = urljoin(
-                this.config.tomoscanUrl,
-                'txs',
+                this.config.etherChain.etherScanURL,
+                'tx',
                 this.transactionHash
             )
         }

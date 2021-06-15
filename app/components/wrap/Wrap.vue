@@ -108,7 +108,7 @@
 
             <div class="box-more-infor">
                 <div class="txt-cdgt">
-                    View Wrapped Token address on
+                    View Token address on
                     <a
                         :href="tomoScanUrl"
                         target="_blank">TomoScan</a>
@@ -247,6 +247,12 @@ export default {
             const config = this.config
             this.fromData = this.config.swapCoin || []
             this.fromWrapSelected = this.fromData[0]
+            if (this.fromWrapSelected.symbol === 'ETH') {
+                this.wrapButtonTitle = 'Next'
+                this.isApproved = true
+            } else {
+                this.isApproved = false
+            }
 
             await this.web3Eth.eth.getGasPrice()
                 .then(async data => {
@@ -434,6 +440,7 @@ export default {
                         const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                         if (receipt) {
                             this.isApproved = true
+                            this.wrapButtonTitle = 'Next'
                             this.loading = false
                             check = false
                             this.selectToken(this.fromWrapSelected)

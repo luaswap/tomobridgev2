@@ -8,16 +8,19 @@
         <div class="mt-2">
             <!-- <p>Please keep this window open</p> -->
             <div class="text-center">
-                <b-button
+                <div  class="btn-green w-100">
+                    We are verifying the depositing transaction
+                </div>
+                <!-- <b-button
                     class="btn-green w-100">
-                    <!-- <div
+                    <div
                         v-if="confirmation < requiredConfirm">
                         {{ confirmation }}/{{ requiredConfirm }} Confirmations
-                    </div> -->
+                    </div>
                     <div>
                         We are verifying the depositing transaction
                     </div>
-                </b-button>
+                </b-button> -->
             </div>
         </div>
     </b-container>
