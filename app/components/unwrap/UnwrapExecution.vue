@@ -266,7 +266,7 @@ export default {
     watch: {
         transactionHash: function () {
             this.txUrl = urljoin(
-                this.config.etherChain.etherScanURL,
+                this.config.tomoscanUrl,
                 'tx',
                 this.transactionHash
             )
@@ -277,6 +277,12 @@ export default {
     destroyed () {
     },
     created: async function () {
+        if (!this.address ||
+            !this.fromWrapSelected.symbol) {
+            this.$router.push({
+                path: '/select'
+            })
+        }
         if (this.isClaimable) {
             const unClaimTx = this.$store.state.unClaimTx
             this.transactionHash = unClaimTx.burnTx

@@ -200,7 +200,7 @@
 
                         </p>
                         <!-- eslint-enable -->
-                        <p class="steps__name">SEND TOKEN {{ fromWrapSelected.name || '' }}</p>
+                        <p class="steps__name">SEND TOKEN {{ fromWrapSelected.symbol || '' }}</p>
                     </b-col>
                 </b-row>
             </div>
@@ -265,6 +265,12 @@ export default {
     destroyed () {
     },
     created: async function () {
+        if (!this.address ||
+            !this.fromWrapSelected.symbol) {
+            this.$router.push({
+                path: '/select'
+            })
+        }
     },
     methods: {}
 }
