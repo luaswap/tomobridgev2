@@ -353,7 +353,6 @@ export default {
         },
         unwrapToken () {
             if (this.tomoIds.indexOf(this.network.chainId) > -1) {
-                const coin = this.fromWrapSelected
                 this.isAddress = this.isValidAddresss()
                 if (this.isAddress) {
                     if (!this.agreeAll || !this.agreeEx || !this.agreePk) {

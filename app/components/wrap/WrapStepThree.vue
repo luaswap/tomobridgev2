@@ -12,7 +12,7 @@
                     :href="explorerUrl"
                     target="_blank"
                     class="btn-green w-100">
-                        Check transaction on TomoScan
+                    Check transaction on TomoScan
                 </b-button>
             </div>
         </div>

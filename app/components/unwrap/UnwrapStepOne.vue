@@ -72,6 +72,7 @@ export default {
                 this.fromWrapSelected.wrapperAddress.toLowerCase()
             )
             this.tomoFeeMode = await this.contract.methods.TOMO_FEE_MODE.call()
+            await this.getWithdrawFee()
 
             this.web3.eth.getGasPrice()
                 .then(data => {
