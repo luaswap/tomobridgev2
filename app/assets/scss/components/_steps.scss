@@ -50,9 +50,9 @@
         //     }
         // }
 
-        // &:first-child::before,
+        &:last-child::before,
         &:last-child::after {
-            display: none;
+            display: none!important;
         }
     }
 

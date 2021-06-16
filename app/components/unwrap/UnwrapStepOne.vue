@@ -12,12 +12,12 @@
                     v-else
                     class="d-flex">
                     <b-button
-                        class="w-100 st-back m-auto"
+                        class="w-100 st-back mr-2"
                         @click="back">
                         Back
                     </b-button>
                     <b-button
-                        class="w-100 m-auto"
+                        class="w-100 ml-2"
                         @click="withdraw">
                         Approve request
                     </b-button>
