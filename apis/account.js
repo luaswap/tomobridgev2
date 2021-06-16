@@ -17,7 +17,20 @@ router.get('/getUnclaimTx/:address', [], async function (req, res, next) {
         //     signer: address.toLowerCase(),
         //     isClaim: false
         // })
-        const dataFake = {"_id":"60b06536f244cc4f714009b6","burnTx":"0x6feeb390e40e45a4be462e3000a8960f0c9ec6dfbcc93c1fbc9e875a6f177d59","coin":"pqv","signer":"0x33c2e732ae7dce8b05f37b2ba0cfe14c980c4dbe","__v":0,"amount":"0.2","burningTime":"2021-05-28T03:36:24.566Z","createdAt":"2021-05-28T03:36:22.932Z","isClaim":false,"updatedAt":"2021-05-28T03:42:13.605Z","claimTx":"0xa57ebae0177a86a6637ce5be76df5d1980af8d6f098b3889d0a4f360532e6243"} // eslint-disable-line
+        const dataFake = {
+            '_id': '60b06536f244cc4f714009b6',
+            'burnTx': '0x6feeb390e40e45a4be462e3000a8960f0c9ec6dfbcc93c1fbc9e875a6f177d59',
+            'coin': 'pqv',
+            'signer': '0x33c2e732ae7dce8b05f37b2ba0cfe14c980c4dbe',
+            '__v': 0,
+            'amount': '0.2',
+            'burningTime': '2021-05-28T03:36:24.566Z',
+            'createdAt': '2021-05-28T03:36:22.932Z',
+            'isClaim': false,
+            'updatedAt': '2021-05-28T03:42:13.605Z',
+            'claimTx': '0xa57ebae0177a86a6637ce5be76df5d1980af8d6f098b3889d0a4f360532e6243',
+            'receivingAddress' : '0x33c2e732ae7dce8b05f37b2ba0cfe14c980c4dbe'
+        }
         return res.json(dataFake)
     } catch (error) {
         return next(new Error(error))
@@ -29,7 +42,8 @@ router.post('/updateTx', [
     check('coin').exists().withMessage("'coin' is required."),
     check('burnTx').exists().withMessage("'burnTx' is required.").isLength({ min: 66, max: 66 }).withMessage("'burnTx' is incorrect."),
     check('claimTx').optional().isLength({ min: 66, max: 66 }).withMessage("'claimTx' is incorrect."),
-    check('isClaim').exists().isBoolean().withMessage("'isClaim' is required.")
+    check('isClaim').exists().isBoolean().withMessage("'isClaim' is required."),
+    check('receivingAddress').exists().isLength({ min: 42, max: 42 }).withMessage("'receivingAddress' is incorrect.")
 ], async function (req, res, next) {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -42,13 +56,15 @@ router.post('/updateTx', [
         const coin = req.body.coin
         const burningTime = req.body.burningTime
         const amount = req.body.amount
+        const receivingAddress = req.body.receivingAddress
         let data = {
             signer: address.toLowerCase(),
             isClaim: req.body.isClaim,
             coin: coin.toLowerCase(),
             burnTx,
             burningTime,
-            amount
+            amount,
+            receivingAddress: receivingAddress.toLowerCase()
         }
         if (claimTx) {
             data.claimTx = claimTx

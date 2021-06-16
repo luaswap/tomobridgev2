@@ -246,7 +246,8 @@ export default {
             outTx: {},
             txUrl: '',
             requiredConfirm: 30,
-            confirmation: 0
+            confirmation: 0,
+            amount: ''
         }
     },
     computed: {

@@ -57,7 +57,7 @@
                 class="mt-2">
                 <b-button
                     class="btn-green w-100"
-                    @click="claim">Claim</b-button>
+                    @click="claim">Claim {{ (unClaimTx.coin || '').toUpperCase() }}</b-button>
             </div>
         </b-container>
     </b-modal>
@@ -137,8 +137,8 @@ export default {
             this.$router.push({
                 name: 'UnwrapExecution',
                 params: {
-                    recAddress: '',
-                    amount: 0,
+                    recAddress: this.unClaimTx.receivingAddress,
+                    amount: this.unClaimTx.amount,
                     fromWrapSelected: coinObj[this.unClaimTx.coin],
                     isClaimable: true
                 }

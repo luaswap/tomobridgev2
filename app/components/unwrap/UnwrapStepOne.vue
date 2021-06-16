@@ -8,12 +8,20 @@
                     class="btn-green w-100">
                     Transaction pending
                 </b-button>
-                <b-button
+                <div
                     v-else
-                    class="w-100"
-                    @click="withdraw">
-                    Approve request
-                </b-button>
+                    class="d-flex">
+                    <b-button
+                        class="w-100 st-back m-auto"
+                        @click="back">
+                        Back
+                    </b-button>
+                    <b-button
+                        class="w-100 m-auto"
+                        @click="withdraw">
+                        Approve request
+                    </b-button>
+                </div>
             </div>
         </div>
         <div
@@ -83,6 +91,9 @@ export default {
         }
     },
     methods: {
+        back () {
+            this.$router.go(-1)
+        },
         convertWithdrawAmount (amount) {
             let decimals = parseInt(this.fromWrapSelected.decimals)
             return (new BigNumber(amount).multipliedBy(10 ** decimals)).toString(10)
@@ -130,7 +141,8 @@ export default {
                                         coin: this.fromWrapSelected.symbol.toLowerCase(),
                                         isClaim: false,
                                         burningTime: new Date(),
-                                        amount: this.amount
+                                        amount: this.amount,
+                                        receivingAddress: this.recAddress
                                     })
                                     check = false
                                     this.loading = false

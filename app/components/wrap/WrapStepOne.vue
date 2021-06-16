@@ -7,12 +7,20 @@
                     class="btn-green w-100">
                     Transaction pending
                 </b-button>
-                <b-button
+                <div
                     v-else
-                    class="btn-green w-100"
-                    @click="deposit">
-                    Approve request
-                </b-button>
+                    class="d-flex">
+                    <b-button
+                        class="w-100 st-back m-auto"
+                        @click="back">
+                        Back
+                    </b-button>
+                    <b-button
+                        class="btn-green w-100 m-auto"
+                        @click="deposit">
+                        Approve request
+                    </b-button>
+                </div>
             </div>
         </div>
         <div
@@ -75,6 +83,9 @@ export default {
         }
     },
     methods: {
+        back () {
+            this.$router.go(-1)
+        },
         async estimateGas1 () {
             try {
                 const token = this.fromWrapSelected

@@ -10,7 +10,8 @@ var Transaction = new Schema({
     burnTx: { type: String, index: true },
     claimTx: { type: String, index: true },
     burningTime: String,
-    isClaim: { type: Boolean, index: true }
+    isClaim: { type: Boolean, index: true },
+    receivingAddress: String
 }, { timestamps: true })
 
 module.exports = mongoose.model('Transaction', Transaction)

@@ -35,12 +35,20 @@
                     </div> -->
                     We are verifying the burning transaction
                 </b-button>
-                <b-button
+                <div
                     v-else
-                    class="btn--big st-next m-auto"
-                    @click="claimAsset">
-                    Claim {{ fromWrapSelected.symbol }}
-                </b-button>
+                    class="d-flex">
+                    <b-button
+                        class="st-back w-100 m-auto"
+                        @click="back">
+                        Back
+                    </b-button>
+                    <b-button
+                        class="btn-green w-100 m-auto"
+                        @click="claimAsset">
+                        Claim {{ fromWrapSelected.symbol }}
+                    </b-button>
+                </div>
             </div>
         </div>
         <div
@@ -71,7 +79,7 @@ export default {
             address: this.parent.address,
             interval: '',
             txHash: '',
-            isReadyToClaim: false,
+            isReadyToClaim: true,
             ethIds: [1, 3, 4, 5],
             loading: false,
             txObj: {},
@@ -124,6 +132,9 @@ export default {
         }, 5000)
     },
     methods: {
+        back () {
+            this.$router.push({ path: '/unwrap' })
+        },
         async scanTX () {
             try {
                 const parent = this.parent
@@ -272,7 +283,8 @@ export default {
                     claimTx: parent.claimTxHash,
                     isClaim: true,
                     burningTime: unClaimTx.burningTime,
-                    amount: unClaimTx.amount
+                    amount: unClaimTx.amount,
+                    receivingAddress: unClaimTx.receivingAddress
                 })
             } catch (error) {
                 console.log(error)

@@ -260,7 +260,8 @@ export default {
             claimTxHash: '',
             txUrl: '',
             requiredConfirm: 30,
-            confirmation: 0
+            confirmation: 0,
+            depAmount: ''
         }
     },
     watch: {
