@@ -26,15 +26,20 @@
             </div> -->
             <!-- <p>Please keep this window open</p> -->
             <div class="text-center">
-                <b-button
+                <div
                     v-if="!isReadyToClaim"
                     class="btn-green w-100">
-                    <!-- <div
+                    We are verifying the burning transaction
+                </div>
+                <!-- <b-button
+                    v-if="!isReadyToClaim"
+                    class="btn-green w-100">
+                    <div
                         v-if="confirmation < requiredConfirm">
                         {{ confirmation }}/{{ requiredConfirm }} Confirmations
-                    </div> -->
+                    </div>
                     We are verifying the burning transaction
-                </b-button>
+                </b-button> -->
                 <div
                     v-else
                     class="d-flex">
