@@ -10,32 +10,20 @@
     transform: translateY(-50%);
 
     &::before {
-        font-size: 10px;
-
-        @include tb_icon('\e905');
-    }
-
-    @include media-breakpoint-up(sm) {
-        right: 15px;
-    }
-
-    @include media-breakpoint-up(lg) {
-        &::before {
-            font-size: 12px;
-        }
-    }
-
-    @include media-breakpoint-up(xxl) {
-        right: 20px;
-
-        &::before {
-            font-size: 14px;
-        }
+        content: "";
+        border-top: 0.5em solid #8B8B8B;
+        border-right: 0.4em solid transparent;
+        border-bottom: 0;
+        border-left: 0.4em solid transparent;
+        top: 50%;
+        right: 3px;
+        position: absolute;
+        transform: translateY(-50%);
     }
 }
 
 // .multiselect__tags {
-//     background: rgba(96, 96, 96, 0.4);
+//     background: #434343!important;
 //     border-radius: 4px;
 //     cursor: pointer;
 //     font-size: 15px;
@@ -48,12 +36,16 @@
 //     }
 // }
 
+.multiselect__single {
+    width: 100%;
+}
+
 input[type=text],
 input[type=number],
 input[type=password],
 .multiselect__tags,
 .bg_input_tags {
-    background: rgba(96, 96, 96, 0.4);
+    background: #434343!important;
     border-radius: 8px;
     padding: 5px 15px;
     color: #fff;
@@ -67,7 +59,7 @@ input[type=password],
 }
 
 .multiselect--active .multiselect__tags {
-    background: rgba(rgb(236, 236, 236), 0.5);
+    background: #434343!important;
 }
 .bg_input_tags {
     color: #8B8B8B;
@@ -79,7 +71,7 @@ input[type=number]:focus,
 input[type=number]:active,
 input[type=password]:focus,
 input[type=password]:active {
-    background: rgba(rgb(236, 236, 236), 0.5);
+    background: #434343!important;
     color: #fff;
 }
 
