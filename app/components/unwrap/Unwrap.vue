@@ -165,8 +165,8 @@
                 <b-button
                     :disabled="!agreeAll || !agreeEx || !agreeEx || !amount || !recAddress"
                     class="st-next w-100 ml-2"
-                    @click="claimAsset">
-                    Claim {{ fromWrapSelected.symbol }}
+                    @click="unwrapToken">
+                    Next
                 </b-button>
             </div>
         </b-container>
