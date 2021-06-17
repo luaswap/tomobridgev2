@@ -1,5 +1,5 @@
 <template>
-    <b-container class="step-one text-center">
+    <div class="step-one text-center">
         <div class="mt-2">
             <div class="text-center">
                 <b-button
@@ -25,7 +25,7 @@
         </div>
         <div
             :class="(loading ? 'tomo-loading' : '')"/>
-    </b-container>
+    </div>
 </template>
 
 <script>

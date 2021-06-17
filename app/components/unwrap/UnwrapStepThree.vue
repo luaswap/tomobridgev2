@@ -1,11 +1,7 @@
 <template>
     <b-container class="step-one text-center">
         <div class="mt-3">
-            <!-- <h4>You have successfully converted your assets!</h4> -->
             <div class="text-center mt-3">
-                <!-- <b-link
-                    :href="explorerUrl"
-                    target="_blank">Check transaction on Etherscan</b-link> -->
                 <b-button
                     :href="explorerUrl"
                     target="_blank"

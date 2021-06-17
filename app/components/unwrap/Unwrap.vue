@@ -158,13 +158,13 @@
             </div>
             <div class="step-one__buttons text-center">
                 <b-button
-                    class="st-back"
+                    class="st-back mr-2"
                     @click="back">
                     Back
                 </b-button>
                 <b-button
                     :disabled="!agreeAll || !agreeEx || !agreeEx || !amount || !recAddress"
-                    class="st-next"
+                    class="st-next ml-2"
                     @click="unwrapToken">
                     Next
                 </b-button>
