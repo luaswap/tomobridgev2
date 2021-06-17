@@ -170,6 +170,7 @@ export default {
             const data1 = await this.checkUnclaimTx()
             if (data1) {
                 this.$store.state.unClaimTx = data1
+                this.$bus.$emit('reclaim')
                 this.$refs.claimModal.show()
             }
         }
