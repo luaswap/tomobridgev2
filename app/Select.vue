@@ -31,7 +31,6 @@
                 <div
                     class="text-center">
                     <h1 class="title-tmp-large">SELECT CONVERSION DIRECTION</h1>
-                    <p class="txt-dec">Make sure to set your network to Ethereum</p>
                 </div>
 
                 <div
