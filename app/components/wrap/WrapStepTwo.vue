@@ -1,26 +1,10 @@
 <template>
     <b-container class="step-one text-center">
-        <!-- <div>
-            <a
-                :href="txUrl"
-                target="_blank">Deposit transaction hash</a>
-        </div> -->
         <div class="mt-2">
-            <!-- <p>Please keep this window open</p> -->
             <div class="text-center">
                 <div class="txt-blue2 w-100">
                     We are verifying the depositing transaction
                 </div>
-                <!-- <b-button
-                    class="btn-green w-100">
-                    <div
-                        v-if="confirmation < requiredConfirm">
-                        {{ confirmation }}/{{ requiredConfirm }} Confirmations
-                    </div>
-                    <div>
-                        We are verifying the depositing transaction
-                    </div>
-                </b-button> -->
             </div>
         </div>
     </b-container>

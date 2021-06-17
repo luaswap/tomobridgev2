@@ -1,64 +1,29 @@
 <template>
-    <b-container class="step-one text-center">
-        <!-- <div class="mb-3">
-            <a
-                :href="txUrl"
-                target="_blank">Burning transaction hash</a>
-        </div> -->
-        <div class="">
-            <!-- <div
-                v-if="isReadyToClaim"
-                class="steps__row justify-content-center">
-                <ul class="my-4 ml-5 text-left st-ul d-inline-block">
-                    <li class="">
-                        <div class="txt-cdgt ">Set your Metamask network to Ethereum to continue</div>
-                    </li>
-                    <li class="">
-                        <div class="txt-cdgt ">Make sure you have enough ETH on your Ethereum network</div>
-                    </li>
-                    <li class="">
-                        <div class="txt-cdgt ">Click on "Claim {{ fromWrapSelected.symbol }}"</div>
-                    </li>
-                    <li class="">
-                        <div class="txt-cdgt ">Approve the request on Metamask to complete the transaction</div>
-                    </li>
-                </ul>
-            </div> -->
-            <!-- <p>Please keep this window open</p> -->
-            <div class="text-center">
-                <div
-                    v-if="!isReadyToClaim"
-                    class="txt-blue2 w-100">
-                    We are verifying the burning transaction
-                </div>
-                <!-- <b-button
-                    v-if="!isReadyToClaim"
-                    class="btn-green w-100">
-                    <div
-                        v-if="confirmation < requiredConfirm">
-                        {{ confirmation }}/{{ requiredConfirm }} Confirmations
-                    </div>
-                    We are verifying the burning transaction
-                </b-button> -->
-                <div
-                    v-else
-                    class="d-flex">
-                    <b-button
-                        class="st-back w-100 m-auto"
-                        @click="back">
-                        Back
-                    </b-button>
-                    <b-button
-                        class="btn-green w-100 m-auto"
-                        @click="claimAsset">
-                        Claim {{ fromWrapSelected.symbol }}
-                    </b-button>
-                </div>
+    <div class="step-one text-center">
+        <div class="text-center">
+            <div
+                v-if="!isReadyToClaim"
+                class="txt-blue2 w-100">
+                We are verifying the burning transaction
+            </div>
+            <div
+                v-else
+                class="d-flex">
+                <b-button
+                    class="st-back w-100 mr-2"
+                    @click="back">
+                    Back
+                </b-button>
+                <b-button
+                    class="btn-green w-100 ml-2"
+                    @click="claimAsset">
+                    Claim {{ fromWrapSelected.symbol }}
+                </b-button>
             </div>
         </div>
         <div
             :class="(loading ? 'tomo-loading' : '')"/>
-    </b-container>
+    </div>
 </template>
 
 <script>

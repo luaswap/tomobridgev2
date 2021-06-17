@@ -154,22 +154,22 @@
                     </div>
                 </div>
             </div>
-            <div class="step-one__buttons text-center">
+            <div class="d-flex mt-4">
                 <b-button
-                    class="st-back"
+                    class="st-back w-100 mr-2"
                     @click="back">
                     Back
                 </b-button>
                 <b-button
                     v-if="!isApproved"
-                    class="st-next"
+                    class="st-next w-100 ml-2"
                     @click="approveContract">
                     Approve
                 </b-button>
                 <b-button
                     v-else
                     :disabled="!agreeAll || !agreeEx || !agreeEx || !depAmount || !recAddress"
-                    class="st-next"
+                    class="st-next w-100 ml-2"
                     @click="wrapToken">
                     Next
                 </b-button>
