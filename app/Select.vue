@@ -166,13 +166,13 @@ export default {
     },
     destroyed () { },
     created: async function () {
-        // if (this.address) {
-        //     const data1 = await this.checkUnclaimTx()
-        //     if (data1) {
-        //         this.$store.state.unClaimTx = data1
-        //         this.$refs.claimModal.show()
-        //     }
-        // }
+        if (this.address) {
+            const data1 = await this.checkUnclaimTx()
+            if (data1) {
+                this.$store.state.unClaimTx = data1
+                this.$refs.claimModal.show()
+            }
+        }
     },
     methods: {
         signOut () {
@@ -247,13 +247,13 @@ export default {
                     this.$store.state.address = address
                     this.$store.state.provider = 'metamask'
 
-                    // const data1 = await this.checkUnclaimTx()
-                    // if (data1) {
-                    //     this.$store.state.unClaimTx = data1
-                    //     this.loading = false
-                    //     this.$bus.$emit('reclaim')
-                    //     this.$refs.claimModal.show()
-                    // }
+                    const data1 = await this.checkUnclaimTx()
+                    if (data1) {
+                        this.$store.state.unClaimTx = data1
+                        this.loading = false
+                        this.$bus.$emit('reclaim')
+                        this.$refs.claimModal.show()
+                    }
                     this.loading = false
                 }
             } catch (error) {
