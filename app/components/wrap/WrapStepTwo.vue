@@ -8,7 +8,7 @@
         <div class="mt-2">
             <!-- <p>Please keep this window open</p> -->
             <div class="text-center">
-                <div class="btn-green w-100">
+                <div class="txt-blue2 w-100">
                     We are verifying the depositing transaction
                 </div>
                 <!-- <b-button
