@@ -140,19 +140,19 @@
 
                         </p>
                         <!-- eslint-enable -->
-                        <div
+                        <p
                             class="steps__name">
                             VERIFY
-                            <div
+                            <span
                                 v-if="step === 2">
-                                <span>
+                                <span class="txt-blue2 font-weight-bold">
                                     {{ confirmation }}/{{ requiredConfirm }}
                                 </span>
                                 Confirmations
-                            </div>
-                            <div
-                                v-else>TRANSACTION</div>
-                        </div>
+                            </span>
+                            <span
+                                v-else>TRANSACTION</span>
+                        </p>
                     </b-col>
                     <b-col
                         :class="{

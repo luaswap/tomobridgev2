@@ -114,16 +114,16 @@
                         target="_blank">TomoScan</a>
                 </div>
 
-                <div class="content-fee d-flex align-items-center justify-content-between">
+                <div class="content-fee">
                     <div class="pr-2">Estimate transaction fee:</div>
-                    <div class="infor-fee">
+                    <div class="infor-fee mt-2">
                         <div
                             v-if="fromWrapSelected.symbol !== 'ETH' && !isApproved"
-                            class="px-2">
+                            class="px-3">
                             Approve: ~{{ estimateApprovement }} ETH
                         </div>
-                        <div class="px-2">Swap: ~{{ estimateSwap }} ETH</div>
-                        <div class="px-2">Total: ~{{ estimateTotal }} ETH</div>
+                        <div class="px-3">Swap: ~{{ estimateSwap }} ETH</div>
+                        <div class="px-3">Total: ~{{ estimateTotal }} ETH</div>
                     </div>
                 </div>
                 <div class="txt-confirm">

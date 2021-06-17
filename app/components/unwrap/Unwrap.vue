@@ -114,16 +114,16 @@
                             target="_blank">Etherscan</a>
                     </div>
                 </div>
-                <div class="content-fee d-flex align-items-center justify-content-between">
+                <div class="content-fee">
                     <div class="pr-2">Estimate transaction fee:</div>
-                    <div class="infor-fee">
+                    <div class="infor-fee mt-2">
                         <!-- <div
                             v-if="!isApproved"
-                            class="px-2">
+                            class="px-3">
                             Approve: 1 TOMO
                         </div> -->
-                        <div class="px-2">Swap: {{ fee }} ETH</div>
-                        <div class="px-2">
+                        <div class="px-3">Swap: {{ fee }} ETH</div>
+                        <div class="px-3">
                             Total: {{ fee }} ETH
                         </div>
                     </div>
