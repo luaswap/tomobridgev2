@@ -156,17 +156,17 @@
                     </div>
                 </div>
             </div>
-            <div class="step-one__buttons text-center">
+            <div class="d-flex mt-4">
                 <b-button
-                    class="st-back mr-2"
+                    class="st-back w-100 mr-2"
                     @click="back">
                     Back
                 </b-button>
                 <b-button
                     :disabled="!agreeAll || !agreeEx || !agreeEx || !amount || !recAddress"
-                    class="st-next ml-2"
-                    @click="unwrapToken">
-                    Next
+                    class="st-next w-100 ml-2"
+                    @click="claimAsset">
+                    Claim {{ fromWrapSelected.symbol }}
                 </b-button>
             </div>
         </b-container>

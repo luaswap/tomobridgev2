@@ -127,8 +127,10 @@ body {
     font-size: 13px;
 }
 
-.custom-checkbox .custom-control-label::before {
-    border-color: #888;
+.custom-checkbox .custom-control-label::before,
+.custom-checkbox .custom-control-label::after {
+    border-color: transparent;
+    top: 2px;
 }
 
 .custom-control-input:checked~.custom-control-label::before {
