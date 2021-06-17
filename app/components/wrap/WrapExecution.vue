@@ -140,9 +140,19 @@
 
                         </p>
                         <!-- eslint-enable -->
-                        <p class="steps__name">
-                            VERIFY {{ step === 2 ? `${confirmation}/${requiredConfirm} Confirmations` : 'TRANSACTION' }}
-                        </p>
+                        <div
+                            class="steps__name">
+                            VERIFY
+                            <div
+                                v-if="step === 2">
+                                <span>
+                                    {{ confirmation }}/{{ requiredConfirm }}
+                                </span>
+                                Confirmations
+                            </div>
+                            <div
+                                v-else>TRANSACTION</div>
+                        </div>
                     </b-col>
                     <b-col
                         :class="{
