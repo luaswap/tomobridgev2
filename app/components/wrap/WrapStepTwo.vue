@@ -86,10 +86,8 @@ export default {
     methods: {
         async scanTX () {
             const parent = this.parent
-            const address = parent.address
-            const token = parent.fromWrapSelected
             const txData = await axios.get(
-                `/api/wrap/getTransaction/deposit/${token.symbol}/${address}`
+                `/api/wrap/getTransaction/${parent.transactionHash}`
             )
             if (txData && txData.data) {
                 return txData.data

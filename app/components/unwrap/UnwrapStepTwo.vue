@@ -92,10 +92,12 @@ export default {
             const data = await this.scanTX()
             if (data) {
                 const outTx = data.transaction.OutTx
+                const inTx = data.transaction.InTx
                 if (outTx.Hash === parent.transactionHash &&
                     outTx.Status.toLowerCase() === 'signed_on_hub' && outTx.Signature) {
                     this.isReadyToClaim = true
                     this.txObj = outTx
+                    this.inTxObj = inTx
                     clearInterval(this.interval1)
                 }
             }
@@ -108,10 +110,8 @@ export default {
         async scanTX () {
             try {
                 const parent = this.parent
-                const address = this.$store.state.address || ''
-                const symbol = parent.fromWrapSelected.symbol
                 const txData = await axios.get(
-                    `/api/wrap/getTransaction/withdraw/${symbol}/${address}`
+                    `/api/wrap/getTransaction/${parent.transactionHash}`
                 )
                 if (txData && txData.data) {
                     return txData.data
@@ -184,7 +184,7 @@ export default {
                         await contract.methods.withdrawERC20(
                             token.tokenAddress,
                             this.recAddress || this.txObj.To,
-                            this.txObj.Amount,
+                            this.inTxObj.Amount,
                             this.txObj.ScID,
                             this.txObj.Hash,
                             0,
@@ -210,7 +210,7 @@ export default {
                     } else {
                         await contract.methods.withdrawEth(
                             this.recAddress || this.txObj.To,
-                            this.txObj.Amount,
+                            this.inTxObj.Amount,
                             this.txObj.ScID,
                             this.txObj.Hash,
                             0, // target_chain

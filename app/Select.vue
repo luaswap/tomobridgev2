@@ -187,12 +187,10 @@ export default {
             this.$refs.claimTokenModal.show()
         },
         redirect (product) {
-            console.log(this.$store.state.network)
             switch (product) {
             case 'unwrapErc20':
                 if (!this.$store.state.address) {
                     this.$store.state.redirectTo = 'unwrap'
-                    // this.$refs.loginModal.show()
                     this.$toasted.show('You need to connect wallet first', { type: 'error' })
                 } else {
                     if (this.tomoIds.indexOf(this.network.chainId) > -1) {
