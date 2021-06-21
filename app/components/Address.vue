@@ -2,7 +2,7 @@
     <div
         class="infor-wallet mb-4">
         <div class="connect">
-            <div class="box-address-wallet"><span class="tag">{{ network.name }}</span> <b>{{ address }}</b></div>
+            <div class="box-address-wallet"><span class="tag"><b>{{ network.name }}</b></span> <b>{{ address }}</b></div>
             <div class="box-address-infor mt-3">
                 <span
                     class="text-gray">
