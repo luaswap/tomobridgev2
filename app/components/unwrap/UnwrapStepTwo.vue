@@ -1,46 +1,21 @@
 <template>
-    <b-container class="step-one text-center">
-        <div class="mb-3">
-            <a
-                :href="txUrl"
-                target="_blank">Burning transaction hash</a>
-        </div>
-        <div class="">
+    <div class="step-one text-center">
+        <div class="text-center">
             <div
-                v-if="isReadyToClaim"
-                class="steps__row justify-content-center">
-                <ul class="my-4 ml-5 text-left st-ul d-inline-block">
-                    <li class="">
-                        <div class="li-span">Set your Metamask network to Ethereum to continue</div>
-                    </li>
-                    <li class="">
-                        <div class="li-span">Make sure you have enough ETH on your Ethereum network</div>
-                    </li>
-                    <li class="">
-                        <div class="li-span">Click on "Claim {{ fromWrapSelected.symbol }}"</div>
-                    </li>
-                    <li class="">
-                        <div class="li-span">Approve the request on Metamask to complete the transaction</div>
-                    </li>
-                </ul>
+                v-if="!isReadyToClaim"
+                class="txt-blue2 w-100">
+                We are verifying the burning transaction
             </div>
-            <p>Please keep this window open</p>
-            <div class="text-center">
+            <div
+                v-else
+                class="d-flex">
                 <b-button
-                    v-if="!isReadyToClaim"
-                    class="btn--big st-next m-auto">
-                    <div
-                        v-if="confirmation < requiredConfirm">
-                        {{ confirmation }}/{{ requiredConfirm }} Confirmations
-                    </div>
-                    <div
-                        v-else>
-                        We are verifying the burning transaction
-                    </div>
+                    class="st-back w-100 mr-2"
+                    @click="back">
+                    Back
                 </b-button>
                 <b-button
-                    v-else
-                    class="btn--big st-next m-auto"
+                    class="btn-green w-100 ml-2"
                     @click="claimAsset">
                     Claim {{ fromWrapSelected.symbol }}
                 </b-button>
@@ -48,7 +23,7 @@
         </div>
         <div
             :class="(loading ? 'tomo-loading' : '')"/>
-    </b-container>
+    </div>
 </template>
 
 <script>
@@ -73,8 +48,6 @@ export default {
             amount: this.parent.amount || 0,
             address: this.parent.address,
             interval: '',
-            requiredConfirm: 30,
-            confirmation: 0,
             txHash: '',
             isReadyToClaim: false,
             ethIds: [1, 3, 4, 5],
@@ -106,9 +79,9 @@ export default {
         const signedBlock = receipt.blockNumber
         this.interval = setInterval(async () => {
             const currentBlock = await this.web3Tomo.eth.getBlockNumber()
-            this.confirmation = currentBlock - signedBlock
-            if (this.confirmation >= this.requiredConfirm) {
-                this.confirmation = this.requiredConfirm
+            parent.confirmation = currentBlock - signedBlock
+            if (parent.confirmation >= parent.requiredConfirm) {
+                parent.confirmation = parent.requiredConfirm
                 setTimeout(() => {
                     clearInterval(this.interval)
                 }, 2000)
@@ -119,23 +92,26 @@ export default {
             const data = await this.scanTX()
             if (data) {
                 const outTx = data.transaction.OutTx
+                const inTx = data.transaction.InTx
                 if (outTx.Hash === parent.transactionHash &&
                     outTx.Status.toLowerCase() === 'signed_on_hub' && outTx.Signature) {
                     this.isReadyToClaim = true
                     this.txObj = outTx
+                    this.inTxObj = inTx
                     clearInterval(this.interval1)
                 }
             }
         }, 5000)
     },
     methods: {
+        back () {
+            this.$router.push({ path: '/unwrap' })
+        },
         async scanTX () {
             try {
                 const parent = this.parent
-                const address = this.$store.state.address || ''
-                const symbol = parent.fromWrapSelected.symbol
                 const txData = await axios.get(
-                    `/api/wrap/getTransaction/withdraw/${symbol}/${address}`
+                    `/api/wrap/getTransaction/${parent.transactionHash}`
                 )
                 if (txData && txData.data) {
                     return txData.data
@@ -208,7 +184,7 @@ export default {
                         await contract.methods.withdrawERC20(
                             token.tokenAddress,
                             this.recAddress || this.txObj.To,
-                            this.txObj.Amount,
+                            this.inTxObj.Amount,
                             this.txObj.ScID,
                             this.txObj.Hash,
                             0,
@@ -234,7 +210,7 @@ export default {
                     } else {
                         await contract.methods.withdrawEth(
                             this.recAddress || this.txObj.To,
-                            this.txObj.Amount,
+                            this.inTxObj.Amount,
                             this.txObj.ScID,
                             this.txObj.Hash,
                             0, // target_chain
@@ -258,7 +234,7 @@ export default {
                                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
                             })
                     }
-                } else { this.$toasted.show('Need Ethereum network to claim', { type: 'error' }) }
+                } else { this.$toasted.show('Need Ethereum network to claim asset', { type: 'error' }) }
             } catch (error) {
                 console.log(error)
                 this.loading = false
@@ -277,7 +253,8 @@ export default {
                     claimTx: parent.claimTxHash,
                     isClaim: true,
                     burningTime: unClaimTx.burningTime,
-                    amount: unClaimTx.amount
+                    amount: unClaimTx.amount,
+                    receivingAddress: unClaimTx.receivingAddress
                 })
             } catch (error) {
                 console.log(error)

@@ -1,15 +1,8 @@
 body {
   font-family: $global-fonts;
-  font-size: $global-font-size-md;
+  font-size: $global-font-size-xs;
   -webkit-font-smoothing: antialiased;
-
-  @include media-breakpoint-up(md) {
-    font-size: $global-font-size-md;
-  }
-
-  @include media-breakpoint-up(xl) {
-    font-size: $global-font-size-xl;
-  }
+  color: #C3C3C3;
 }
 h1, h2, h3, h4, h5 {
   font-weight: bold;

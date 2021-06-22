@@ -1,11 +1,12 @@
 a {
-    color: $color-primary;
+    color: $color-white;
 
     @extend %transition;
 
     &:hover,
     &:focus {
-        color: $color-text;
+        color: $color-white;
+        opacity: 1;
     }
 
     &:focus {

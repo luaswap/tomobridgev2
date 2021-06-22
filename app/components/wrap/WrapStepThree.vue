@@ -1,13 +1,13 @@
 <template>
     <b-container class="step-one text-center">
-        <div class="mt-5">
-            <h4>You have successfully converted your assets!</h4>
+        <div class="mt-3">
             <div class="text-center mt-3">
-                <b-link
+                <b-button
                     :href="explorerUrl"
-                    target="_blank">
-                    View on TomoScan
-                </b-link>
+                    target="_blank"
+                    class="btn-green w-100">
+                    Check transaction on TomoScan
+                </b-button>
             </div>
         </div>
     </b-container>

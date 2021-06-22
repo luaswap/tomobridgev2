@@ -1,15 +1,13 @@
 <template>
     <div id="app">
         <b-navbar
-            v-if="$route.path !== '/'"
             toggleable="lg"
             type="light"
-            class="tomo-header"
-            variant="dark">
+            class="tomo-header">
             <section class="container container-tomochain">
                 <b-navbar-brand to="/">
                     <b-img
-                        src="/app/assets/images/logo3.svg"
+                        src="/app/assets/images/logo-tomo-bridge.svg"
                         alt="TomoBridge"/>
                 </b-navbar-brand>
                 <!-- button menu SP -->
@@ -20,11 +18,8 @@
                 <b-collapse
                     id="nav-collapse"
                     is-nav>
-                    <div class="ml-auto navbar-buttons d-flex align-content-center">
-                        <b-button
-                            v-if="!address"
-                            class="btn-token"
-                            @click="openLoginModal">Connect Wallets</b-button>
+                    <div
+                        class="ml-auto navbar-buttons d-none flex align-content-center">
                         <b-navbar-nav>
                             <b-nav-item-dropdown
                                 v-if="address"
@@ -35,7 +30,6 @@
                                 <template
                                     slot="button-content"
                                     class="tmp-btn-transparent">
-                                    <!-- <b-icon-wallet2/> -->
                                     <i class="tb-wallet"/>
                                     {{ truncate(address, 16) }}
                                 </template>
@@ -85,53 +79,38 @@
                                 @click="changeLang('chinese')">简体中文</b-dropdown-item> -->
                         </b-dropdown>
                     </div>
+                    <b-nav
+                        class="text-white ml-auto">
+                        <b-nav-item
+                            active
+                            to="/select">Home</b-nav-item>
+                        <b-nav-item>Instruction video</b-nav-item>
+                        <b-nav-item
+                            to="https://forms.gle/cU1XU3b8EUMxB6yA6"
+                            target="_blank">Support ticket</b-nav-item>
+                        <b-nav-item
+                            to="https://docs.tomochain.com/tomobridge/faq"
+                            target="_blank">FAQ</b-nav-item>
+                        <b-dropdown
+                            :text="selectedLanguage"
+                            class="nav-item btn-language ml-2">
+                            <b-dropdown-item
+                                class="current-lang"
+                                @click="changeLang('english')">English</b-dropdown-item>
+                            <!-- <b-dropdown-item
+                                @click="changeLang('turkish')">Türk</b-dropdown-item>
+                            <b-dropdown-item
+                                @click="changeLang('japanese')">日本語</b-dropdown-item>
+                            <b-dropdown-item
+                                @click="changeLang('chinese')">简体中文</b-dropdown-item> -->
+                        </b-dropdown>
+                    </b-nav>
                 </b-collapse>
             </section>
         </b-navbar>
-        <div
-            :class="`page-layout ${$route.path !== '/' ? 'common-main-content' : ''}`">
+        <div class="page-layout">
             <router-view/>
         </div>
-        <footer
-            v-if="$route.path !== '/'"
-            class="tomo-footer footer">
-            <div
-                class="container ">
-                <div class="tomo-meta-links text-center">
-                    <div class="row">
-                        <ul class="">
-                            <li>
-                                <a href="#">Tutorial</a>
-                            </li>
-                            <li>
-                                <a
-                                    :target="provider === 'tomowallet' ? '' : '_blank'"
-                                    href="https://forms.gle/cU1XU3b8EUMxB6yA6">
-                                    Submit a request</a>
-                            </li>
-                            <li>
-                                <a
-                                    :target="provider === 'tomowallet' ? '' : '_blank'"
-                                    href="https://docs.tomochain.com/tomobridge/faq">
-                                    FAQ</a>
-                            </li>
-                            <!-- <li>
-                                <a
-                                    :target="provider === 'tomowallet' ? '' : '_blank'"
-                                    href="https://docs.tomochain.com/tomobridge/fee-structure">
-                                    Fee Structure</a>
-                            </li>
-                            <li>
-                                <a
-                                    :target="provider === 'tomowallet' ? '' : '_blank'"
-                                    href="https://docs.tomochain.com/tomobridge/trc21-wrapped-token-information">
-                                    TRC21 Wrapped Tokens</a>
-                            </li> -->
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </footer>
         <LoginModal
             ref="loginModal"
             :parent="this"/>
@@ -227,7 +206,6 @@ export default {
             this.$refs.loginModal.show()
         },
         openClaimTokenModal () {
-            console.log(this)
             this.$refs.claimModal.show()
         },
         signOut () {

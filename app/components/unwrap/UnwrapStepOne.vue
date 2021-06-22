@@ -1,21 +1,27 @@
 <template>
     <b-container class="step-one text-center">
-        <p class="text-danger font-weight-bold">You need to sign the request on MetaMask to activate the withdrawal request</p>
-        <!-- <p>Your withdrawal request has been successfully approved</p> -->
-        <div class="mt-5">
-            <p>Please keep this window open</p>
+        <!-- <p class="text-danger font-weight-bold">You need to sign the request on MetaMask to activate the withdrawal request</p> -->
+        <div class="mt-2">
             <div class="text-center">
                 <b-button
                     v-if="isSigned"
-                    class="btn--big st-next m-auto">
+                    class="btn-green w-100">
                     Transaction pending
                 </b-button>
-                <b-button
+                <div
                     v-else
-                    class="btn--big st-next m-auto"
-                    @click="withdraw">
-                    Approve request
-                </b-button>
+                    class="d-flex">
+                    <b-button
+                        class="w-100 st-back mr-2"
+                        @click="back">
+                        Back
+                    </b-button>
+                    <b-button
+                        class="w-100 ml-2"
+                        @click="withdraw">
+                        Approve request
+                    </b-button>
+                </div>
             </div>
         </div>
         <div
@@ -74,6 +80,7 @@ export default {
                 this.fromWrapSelected.wrapperAddress.toLowerCase()
             )
             this.tomoFeeMode = await this.contract.methods.TOMO_FEE_MODE.call()
+            await this.getWithdrawFee()
 
             this.web3.eth.getGasPrice()
                 .then(data => {
@@ -84,6 +91,9 @@ export default {
         }
     },
     methods: {
+        back () {
+            this.$router.go(-1)
+        },
         convertWithdrawAmount (amount) {
             let decimals = parseInt(this.fromWrapSelected.decimals)
             return (new BigNumber(amount).multipliedBy(10 ** decimals)).toString(10)
@@ -131,7 +141,8 @@ export default {
                                         coin: this.fromWrapSelected.symbol.toLowerCase(),
                                         isClaim: false,
                                         burningTime: new Date(),
-                                        amount: this.amount
+                                        amount: this.amount,
+                                        receivingAddress: this.recAddress
                                     })
                                     check = false
                                     this.loading = false

@@ -1,5 +1,11 @@
-.navbar {
-    box-shadow: 0 0 30px 0 rgba(23, 21, 48, .1);
+.tomo-header {
+    background-color: $background-header;
+    .nav-item > a {
+        font-size: 16px;
+        &:hover {
+            opacity: .6;
+        }
+    }
 }
 
 .navbar-toggler {

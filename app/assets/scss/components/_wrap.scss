@@ -1,35 +1,110 @@
 .token-max {
-  background-color: rgb(240, 240, 240)!important;
+  background-color: transparent!important;
+  background: #434343!important;
   border-radius: 0.5rem;
   font-size: 0.875rem;
   font-weight: bold;
   cursor: pointer;
-  color: $color-dark!important;
+  color: #00E8B4!important;
   position: absolute;
-  right: 30px;
-  top: 0;
+  right: 25px;
   padding: 5px;
-  top: 28%;
-  transform: translateY(-50%);
-  &:hover {
-    background-color: rgb(226, 226, 226)!important;
-  }
+  top: 35px;
 }
 
 .add-address {
-  background-color: rgb(240, 240, 240)!important;
+  background-color: transparent!important;
   border-radius: 0.5rem;
   font-size: 0.875rem;
   font-weight: bold;
   cursor: pointer;
-  color: $color-dark!important;
+  color: #00E8B4!important;
   position: absolute;
-  right: 30px;
-  top: 0;
+  right: 25px;
   padding: 5px;
-  top: 78%;
-  transform: translateY(-50%);
-  &:hover {
-    background-color: rgb(226, 226, 226)!important;
+  top: 35px;
+}
+
+.login-wallet,
+.infor-wallet {
+  background: linear-gradient(160deg, #b4b4b4, #353535 );
+  margin: auto;
+  max-width: 700px;
+  border-radius: 24px;
+  padding: 25px 40px;
+  position: relative;
+  word-break: break-all;
+  z-index: 1;
+  &::after {
+    content: '';
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    background: linear-gradient(#353535, #303030);
+    position: absolute;
+    border-radius: 24px;
+    left: 1px;
+    top: 1px;
+    z-index: -1;
+  }
+  @include media-breakpoint-down(sm) {
+    padding: 15px;
+  }
+}
+
+.infor-wallet {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .connect {
+    border-right: 1px solid #606060;
+    padding-right: 40px;
+  }
+}
+
+.box-address-wallet {
+  color: #F2FEFB;
+}
+
+.tag {
+  // background: #00C59A;
+  border: 1px solid #B3F8E9;
+  box-sizing: border-box;
+  border-radius: 24px;
+  padding: 4px 12px;
+  margin-right: 10px;
+  display: inline-block;
+  // color: #282828;
+  font-size: 11px;
+  color: #00E8B4;
+}
+
+.text-blue {
+  color: #42AAFF;
+}
+
+.text-gray {
+  color: #8B8B8B;
+}
+
+.box-address-infor {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn-sign-out {
+  cursor: pointer;
+  color: #d00000;
+  position: relative;
+  padding-left: 25px;
+}
+
+.box-more-infor {
+  background: #282828;
+  border-radius: 16px;
+  padding: 20px;
+  font-size: 14px;
+  a {
+    color: #42AAFF;
   }
 }

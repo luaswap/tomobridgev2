@@ -1,24 +1,10 @@
 <template>
     <b-container class="step-one text-center">
-        <div>
-            <a
-                :href="txUrl"
-                target="_blank">Deposit transaction hash</a>
-        </div>
-        <div class="mt-5">
-            <p>Please keep this window open</p>
+        <div class="mt-2">
             <div class="text-center">
-                <b-button
-                    class="btn--big st-next m-auto">
-                    <div
-                        v-if="confirmation < requiredConfirm">
-                        {{ confirmation }}/{{ requiredConfirm }} Confirmations
-                    </div>
-                    <div
-                        v-else>
-                        We are verifying the burning transaction
-                    </div>
-                </b-button>
+                <div class="txt-blue2 w-100">
+                    We are verifying the depositing transaction
+                </div>
             </div>
         </div>
     </b-container>
@@ -42,8 +28,6 @@ export default {
             config: this.$store.state.config || {},
             interval: '',
             interval1: '',
-            requiredConfirm: 30,
-            confirmation: 0,
             txHash: '',
             txUrl: '',
             isMint: false,
@@ -69,15 +53,15 @@ export default {
             'tx',
             this.txHash
         )
-        this.requiredConfirm = parent.fromWrapSelected.confirmations
+        parent.requiredConfirm = parent.fromWrapSelected.confirmations
         const receipt = await this.web3Eth.eth.getTransactionReceipt(this.txHash)
         const signedBlock = receipt.blockNumber
 
         this.interval = setInterval(async () => {
             const currentBlock = await this.web3Eth.eth.getBlockNumber()
-            this.confirmation = currentBlock - signedBlock
-            if (this.confirmation >= this.requiredConfirm) {
-                this.confirmation = this.requiredConfirm
+            parent.confirmation = currentBlock - signedBlock
+            if (parent.confirmation >= parent.requiredConfirm) {
+                parent.confirmation = parent.requiredConfirm
                 setTimeout(() => {
                     clearInterval(this.interval)
                 }, 2000)
@@ -102,10 +86,8 @@ export default {
     methods: {
         async scanTX () {
             const parent = this.parent
-            const address = parent.address
-            const token = parent.fromWrapSelected
             const txData = await axios.get(
-                `/api/wrap/getTransaction/deposit/${token.symbol}/${address}`
+                `/api/wrap/getTransaction/${parent.transactionHash}`
             )
             if (txData && txData.data) {
                 return txData.data

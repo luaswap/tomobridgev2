@@ -1,26 +1,31 @@
 <template>
-    <b-container class="step-one text-center">
-        <p class="text-danger font-weight-bold">You need to approve the request on Metamask to complete the transaction</p>
-        <!-- <p>Your withdrawal request has been successfully approved</p> -->
-        <div class="mt-5">
-            <p>Please keep this window open</p>
+    <div class="step-one text-center">
+        <div class="mt-2">
             <div class="text-center">
                 <b-button
                     v-if="isSigned"
-                    class="btn--big st-next m-auto">
+                    class="btn-green w-100">
                     Transaction pending
                 </b-button>
-                <b-button
+                <div
                     v-else
-                    class="btn--big st-next m-auto"
-                    @click="deposit">
-                    Approve request
-                </b-button>
+                    class="d-flex">
+                    <b-button
+                        class="w-100 st-back mr-2"
+                        @click="back">
+                        Back
+                    </b-button>
+                    <b-button
+                        class="btn-green w-100 ml-2"
+                        @click="deposit">
+                        Approve request
+                    </b-button>
+                </div>
             </div>
         </div>
         <div
             :class="(loading ? 'tomo-loading' : '')"/>
-    </b-container>
+    </div>
 </template>
 
 <script>
@@ -78,6 +83,9 @@ export default {
         }
     },
     methods: {
+        back () {
+            this.$router.go(-1)
+        },
         async estimateGas1 () {
             try {
                 const token = this.fromWrapSelected

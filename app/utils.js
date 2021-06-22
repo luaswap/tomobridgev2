@@ -5,13 +5,13 @@ import * as localStorage from 'store'
 
 const Helper = {
     networks: {
-        1: { name: 'Ethereum', chainId: 1 },
-        3: { name: 'Ropsten', chainId: 3 },
-        4: { name: 'Rinkeby', chainId: 4 },
-        5: { name: 'Goerly', chainid: 5 },
-        88: { name: 'TomoChain', chainId: 88 },
-        89: { name: 'TomoTestnet', chainId: 89 },
-        99: { name: 'TomoDevnet', chainId: 99 }
+        1: { name: 'ETHEREUM', chainId: 1 },
+        3: { name: 'ROPSTEN', chainId: 3 },
+        4: { name: 'RINKEBY', chainId: 4 },
+        5: { name: 'GOERLY', chainid: 5 },
+        88: { name: 'TOMOCHAIN', chainId: 88 },
+        89: { name: 'TOMOTESTNET', chainId: 89 },
+        99: { name: 'TOMODEVNET', chainId: 99 }
     },
     getCurrencySymbol () {
         return 'TOMO'
