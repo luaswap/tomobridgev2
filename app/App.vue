@@ -81,10 +81,16 @@
                     </div>
                     <b-nav
                         class="text-white ml-auto">
-                        <b-nav-item active>Home</b-nav-item>
+                        <b-nav-item
+                            active
+                            to="/select">Home</b-nav-item>
                         <b-nav-item>Instruction video</b-nav-item>
-                        <b-nav-item>Support ticket</b-nav-item>
-                        <b-nav-item>FAQ</b-nav-item>
+                        <b-nav-item
+                            to="https://forms.gle/cU1XU3b8EUMxB6yA6"
+                            target="_blank">Support ticket</b-nav-item>
+                        <b-nav-item
+                            to="https://docs.tomochain.com/tomobridge/faq"
+                            target="_blank">FAQ</b-nav-item>
                         <b-dropdown
                             :text="selectedLanguage"
                             class="nav-item btn-language ml-2">
