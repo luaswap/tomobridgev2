@@ -30,19 +30,19 @@
                         <b-nav-item
                             href="https://docs.tomochain.com/tomobridge/faq"
                             target="_blank">FAQ</b-nav-item>
-                        <b-dropdown
+                        <!-- <b-dropdown
                             :text="selectedLanguage"
                             class="nav-item btn-language ml-2">
                             <b-dropdown-item
                                 class="current-lang"
                                 @click="changeLang('english')">English</b-dropdown-item>
-                            <!-- <b-dropdown-item
+                            <b-dropdown-item
                                 @click="changeLang('turkish')">Türk</b-dropdown-item>
                             <b-dropdown-item
                                 @click="changeLang('japanese')">日本語</b-dropdown-item>
                             <b-dropdown-item
-                                @click="changeLang('chinese')">简体中文</b-dropdown-item> -->
-                        </b-dropdown>
+                                @click="changeLang('chinese')">简体中文</b-dropdown-item>
+                        </b-dropdown> -->
                     </b-nav>
                 </b-collapse>
             </section>
