@@ -154,7 +154,7 @@ export default {
                         from: this.address
                     })
                 }
-                if (estimateGas > 120000) { estimateGas = 120000 }
+                estimateGas = 120000
                 return estimateGas
             } catch (error) {
                 console.log(error)
@@ -173,10 +173,10 @@ export default {
                         config.blockchain.contractBridgeEth
                     )
 
-                    let estimateGas = await this.estimateGas1()
+                    // let estimateGas = await this.estimateGas1()
                     const txParams = {
                         from: this.address,
-                        gas: estimateGas,
+                        gas: 120000,
                         gasPrice: this.ethGasPrice,
                         nonce: await this.web3.eth.getTransactionCount(this.address)
                     }
