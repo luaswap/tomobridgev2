@@ -136,7 +136,7 @@ export default {
                                 let check = true
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                                    if (receipt) {
+                                    if (receipt && receipt.status) {
                                         this.loading = false
                                         check = false
                                         parent.step++
@@ -158,7 +158,7 @@ export default {
                                 let check = true
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                                    if (receipt) {
+                                    if (receipt && receipt.status) {
                                         this.loading = false
                                         check = false
                                         parent.step++

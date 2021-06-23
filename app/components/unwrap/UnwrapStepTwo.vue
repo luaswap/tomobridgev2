@@ -195,7 +195,7 @@ export default {
                                 parent.claimTxHash = txHash
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                                    if (receipt) {
+                                    if (receipt && receipt.status) {
                                         await this.updateTransaction()
                                         this.loading = false
                                         check = false
@@ -221,7 +221,7 @@ export default {
                                 parent.claimTxHash = txHash
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                                    if (receipt) {
+                                    if (receipt && receipt.status) {
                                         await this.updateTransaction()
                                         this.loading = false
                                         check = false
