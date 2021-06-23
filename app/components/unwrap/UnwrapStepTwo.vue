@@ -134,7 +134,7 @@ export default {
                     estimateGas = await contract.methods.withdrawERC20(
                         token.tokenAddress,
                         this.recAddress,
-                        this.txObj.Amount,
+                        this.inTxObj.Amount,
                         this.txObj.ScID,
                         this.txObj.Hash,
                         0,
@@ -145,7 +145,7 @@ export default {
                 } else {
                     estimateGas = await contract.methods.withdrawEth(
                         this.recAddress,
-                        this.txObj.Amount,
+                        this.inTxObj.Amount,
                         this.txObj.ScID,
                         this.txObj.Hash,
                         0, // target_chain
@@ -172,10 +172,10 @@ export default {
                         config.blockchain.contractBridgeEth
                     )
 
-                    // let estimateGas = await this.estimateGas1()
+                    let estimateGas = await this.estimateGas1()
                     const txParams = {
                         from: this.address,
-                        gas: 120000,
+                        gas: estimateGas,
                         gasPrice: this.ethGasPrice,
                         nonce: await this.web3.eth.getTransactionCount(this.address)
                     }
