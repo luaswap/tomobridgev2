@@ -154,7 +154,6 @@ export default {
                         from: this.address
                     })
                 }
-                estimateGas = 120000
                 return estimateGas
             } catch (error) {
                 console.log(error)
