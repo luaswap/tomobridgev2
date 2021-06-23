@@ -40,8 +40,7 @@ router.get('/', async function (req, res, next) {
             confirmations: d.confirms,
             decimals: d.decimals,
             minimumWithdrawal: new BigNumber(d.min_deposit_value).div(10 ** d.decimals).toString(10),
-            // image: urljoin(config.get('tokenListAPI'), `${d.wrap_smart_contract.toLowerCase()}.png`),
-            image: d.symbol === 'ETH' ? 'https://raw.githubusercontent.com/tomochain/tokens/master/tokens/0x2eaa73bd0db20c64f53febea7b5f5e5bccc7fb8b.png' : 'https://raw.githubusercontent.com/tomochain/tokens/master/tokens/0x381b31409e4d220919b2cff012ed94d70135a59e.png', // eslint-disable-line
+            image: urljoin(config.get('tokenListAPI'), `${d.wrap_smart_contract.toLowerCase()}.png`),
             wrapperAddress: d.wrap_smart_contract,
             name: d.symbol,
             tokenName: d.name,
