@@ -9,7 +9,7 @@
                     <div class="login__buttons">
                         <div class="txt-infor">
                             <p class="txt-dec mb-1">Connect wallet to continue</p>
-                            <div class="d-flex">
+                            <div class="">
                                 <img
                                     src="/app/assets/images/metamask.png"
                                     alt="Metamask">
