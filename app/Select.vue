@@ -251,6 +251,9 @@ export default {
                         this.$refs.claimModal.show()
                     }
                     this.loading = false
+                } else {
+                    this.loading = false
+                    this.$toasted.show('Please install Metamask', { type: 'error' })
                 }
             } catch (error) {
                 this.loading = false

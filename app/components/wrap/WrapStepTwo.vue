@@ -70,7 +70,7 @@ export default {
 
         this.interval1 = setInterval(async () => {
             const data = await this.scanTX()
-            if (data) {
+            if (data && data.transaction) {
                 const inTx = data.transaction.InTx
                 const outTx = data.transaction.OutTx
                 if (inTx.Hash === parent.transactionHash &&

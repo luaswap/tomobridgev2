@@ -123,13 +123,6 @@ export default {
         }
     },
     async updated () {
-        if (this.$store.state.address && this.$store.state.network) {
-            if (window.ethereum) {
-                window.ethereum.on('chainChanged', async (chainId) => {
-                    this.$store.state.network = Helper.networks[parseInt(chainId, 16)] || { name: 'Unknown', chainId: 0 }
-                })
-            }
-        }
     },
     destroyed () { },
     created: async function () {
@@ -139,6 +132,11 @@ export default {
         }).catch(error => {
             this.$toasted.show(error.message ? error.message : error, { type: 'error' })
         })
+        if (window.ethereum) {
+            window.ethereum.on('chainChanged', async (chainId) => {
+                this.$store.state.network = Helper.networks[parseInt(chainId, 16)] || { name: 'Unknown', chainId: 0 }
+            })
+        }
     },
     methods: {
         openLoginModal () {
