@@ -40,9 +40,10 @@ router.get('/getTransaction/:txHash', [
 
         const url = urljoin(
             config.get('serverAPI'),
-            'txbyhash',
+            '/txbyhash',
             `/${txHash}`
         )
+
         const result = await axios.get(url)
         return res.send(result.data)
     } catch (error) {

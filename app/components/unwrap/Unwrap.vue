@@ -5,12 +5,12 @@
             class="container-medium">
             <div class="open-product text-center">
                 <h1 class="title-tmp-large">
-                    CONVERTING FORM
+                    SELECT ASSET TO CONVERT
                 </h1>
                 <p class="txt-dec-tem-2 font-weight-bold">
                     TomoChain wrapped {{ fromWrapSelected.symbol }}
                     <span class="txt-dec">to</span>
-                    {{ fromWrapSelected.symbol.toLowerCase() !== 'eth' ? `ERC-20 ${fromWrapSelected.symbol}` : 'ETH native' }}
+                    {{ fromWrapSelected.symbol.toLowerCase() !== 'eth' ? `ERC-20 ${fromWrapSelected.symbol}` : 'native ETH' }}
                 </p>
             </div>
 

@@ -285,7 +285,7 @@ export default {
             switch (token.symbol) {
             case 'ETH':
                 const balanceEthBN = await this.web3Eth.eth.getBalance(this.address)
-                this.depAmount = new BigNumber(balanceEthBN).div(10 ** 18).toString(10)
+                this.depAmount = new BigNumber(balanceEthBN).div(10 ** 18).minus(new BigNumber(this.estimateSwap)).toString(10)
                 break
             case 'BTC':
                 this.depAmount = 0
