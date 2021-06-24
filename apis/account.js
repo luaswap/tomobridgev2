@@ -17,20 +17,6 @@ router.get('/getUnclaimTx/:address', [], async function (req, res, next) {
             signer: address.toLowerCase(),
             isClaim: false
         })
-        // const dataFake = {
-        //     '_id': '60b06536f244cc4f714009b6',
-        //     'burnTx': '0x6feeb390e40e45a4be462e3000a8960f0c9ec6dfbcc93c1fbc9e875a6f177d59',
-        //     'coin': 'pqv',
-        //     'signer': '0x33c2e732ae7dce8b05f37b2ba0cfe14c980c4dbe',
-        //     '__v': 0,
-        //     'amount': '0.2',
-        //     'burningTime': '2021-05-28T03:36:24.566Z',
-        //     'createdAt': '2021-05-28T03:36:22.932Z',
-        //     'isClaim': false,
-        //     'updatedAt': '2021-05-28T03:42:13.605Z',
-        //     'claimTx': '0xa57ebae0177a86a6637ce5be76df5d1980af8d6f098b3889d0a4f360532e6243',
-        //     'receivingAddress' : '0x33c2e732ae7dce8b05f37b2ba0cfe14c980c4dbe'
-        // }
         return res.json(result)
     } catch (error) {
         return next(new Error(error))
@@ -54,7 +40,6 @@ router.post('/updateTx', [
         const burnTx = req.body.burnTx
         const claimTx = req.body.claimTx || ''
         const coin = req.body.coin
-        const burningTime = req.body.burningTime
         const amount = req.body.amount
         const receivingAddress = req.body.receivingAddress
         let data = {
@@ -62,7 +47,6 @@ router.post('/updateTx', [
             isClaim: req.body.isClaim,
             coin: coin.toLowerCase(),
             burnTx,
-            burningTime,
             amount,
             receivingAddress: receivingAddress.toLowerCase()
         }

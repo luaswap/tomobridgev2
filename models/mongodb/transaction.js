@@ -9,7 +9,6 @@ var Transaction = new Schema({
     amount: String,
     burnTx: { type: String, index: true },
     claimTx: { type: String, index: true },
-    burningTime: String,
     isClaim: { type: Boolean, index: true },
     receivingAddress: String
 }, { timestamps: true })

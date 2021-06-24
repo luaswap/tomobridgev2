@@ -99,15 +99,22 @@ export default {
             return (new BigNumber(amount).multipliedBy(10 ** decimals)).toString(10)
         },
         async getWithdrawFee () {
-            const coin = this.fromWrapSelected
-            let feeBN
-            if (this.tomoFeeMode) {
-                feeBN = await this.contract.methods.WITHDRAW_FEE_TOMO().call()
-                this.fee = new BigNumber(feeBN).div(10 ** 18).toString(10)
-                this.feeAmount = new BigNumber(feeBN).toString(10)
-            } else {
-                feeBN = await this.contract.methods.WITHDRAW_FEE().call()
-                this.fee = new BigNumber(feeBN).div(10 ** coin.decimals).toString(10)
+            this.loading = true
+            try {
+                const coin = this.fromWrapSelected
+                let feeBN
+                if (this.tomoFeeMode) {
+                    feeBN = await this.contract.methods.WITHDRAW_FEE_TOMO().call()
+                    this.fee = new BigNumber(feeBN).div(10 ** 18).toString(10)
+                    this.feeAmount = new BigNumber(feeBN).toString(10)
+                } else {
+                    feeBN = await this.contract.methods.WITHDRAW_FEE().call()
+                    this.fee = new BigNumber(feeBN).div(10 ** coin.decimals).toString(10)
+                }
+                this.loading = false
+            } catch (error) {
+                this.loading = false
+                this.$toasted.show(`Get withdraw fee error ${error.message ? error.message : error}`, { type: 'error' })
             }
         },
         async withdraw () {
@@ -140,7 +147,6 @@ export default {
                                         burnTx: txHash,
                                         coin: this.fromWrapSelected.symbol.toLowerCase(),
                                         isClaim: false,
-                                        burningTime: new Date(),
                                         amount: this.amount,
                                         receivingAddress: this.recAddress
                                     })

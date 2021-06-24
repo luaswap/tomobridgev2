@@ -90,7 +90,7 @@ export default {
 
         this.interval1 = setInterval(async () => {
             const data = await this.scanTX()
-            if (data) {
+            if (data && data.transaction) {
                 const outTx = data.transaction.OutTx
                 const inTx = data.transaction.InTx
                 if (outTx.Hash === parent.transactionHash &&
@@ -244,7 +244,6 @@ export default {
         async updateTransaction () {
             const parent = this.parent
             const token = this.fromWrapSelected
-            const unClaimTx = this.$store.state.unClaimTx
             try {
                 axios.post('/api/account/updateTx', {
                     address: this.address,
@@ -252,9 +251,8 @@ export default {
                     coin: token.symbol.toLowerCase(),
                     claimTx: parent.claimTxHash,
                     isClaim: true,
-                    burningTime: unClaimTx.burningTime,
-                    amount: unClaimTx.amount,
-                    receivingAddress: unClaimTx.receivingAddress
+                    amount: this.amount,
+                    receivingAddress: this.recAddress
                 })
             } catch (error) {
                 console.log(error)
