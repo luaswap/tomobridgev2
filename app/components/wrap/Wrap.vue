@@ -478,6 +478,7 @@ export default {
                 const coin = this.fromWrapSelected
                 this.isAddress = this.isValidAddresss()
                 const checkEthBalance = await this.checkEthBalance()
+                const amountInNumber = new BigNumber(this.depAmount).multipliedBy(10 ** this.fromWrapSelected.decimals)
 
                 if (this.isAddress) {
                     if (!this.agreeAll || !this.agreeEx || !this.agreePk) {
@@ -487,7 +488,12 @@ export default {
                         this.$toasted.show(`Not enough ETH`, { type: 'error' })
                     } else if (coin.symbol.toLowerCase() !== 'eth' && new BigNumber(this.depAmount).isGreaterThan(this.tokenBalance)) {
                         this.$toasted.show(`Not enough ${coin.symbol}`, { type: 'error' })
+                    } else if (amountInNumber.isLessThan(1)) {
+                        this.$toasted.show('Deposit amount is too small', { type: 'error' })
                     } else {
+                        if (!Number.isInteger(Number(amountInNumber))) {
+                            this.depAmount = new BigNumber(Math.round(amountInNumber)).div(10 ** this.fromWrapSelected.decimals).toString(10)
+                        }
                         this.$router.push({
                             name: 'WrapExecution',
                             params: {

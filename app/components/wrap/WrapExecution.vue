@@ -265,8 +265,8 @@ export default {
     watch: {
         transactionHash: function () {
             this.txUrl = urljoin(
-                this.config.tomoscanUrl,
-                'txs',
+                this.config.etherChain.etherScanURL,
+                'tx',
                 this.transactionHash
             )
         }
