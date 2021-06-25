@@ -29,6 +29,7 @@
 <script>
 import axios from 'axios'
 import urljoin from 'url-join'
+import BigNumber from 'bignumber.js'
 // import BigNumber from 'bignumber.js'
 export default {
     name: 'App',
@@ -121,7 +122,7 @@ export default {
                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
             }
         },
-        async estimateGas1 () {
+        async estimateGas () {
             try {
                 const config = this.config
                 const token = this.fromWrapSelected
@@ -172,10 +173,11 @@ export default {
                         config.blockchain.contractBridgeEth
                     )
 
-                    let estimateGas = await this.estimateGas1()
+                    let estimateGas = await this.estimateGas()
+
                     const txParams = {
                         from: this.address,
-                        gas: estimateGas,
+                        gas: new BigNumber(estimateGas).isGreaterThan(120000) ? 120000 : estimateGas,
                         gasPrice: this.ethGasPrice,
                         nonce: await this.web3.eth.getTransactionCount(this.address)
                     }
