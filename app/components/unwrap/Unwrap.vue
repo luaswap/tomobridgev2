@@ -163,7 +163,7 @@
                     Back
                 </b-button>
                 <b-button
-                    :disabled="!agreeAll || !agreeEx || !agreeEx || !amount || !recAddress"
+                    :disabled="!agreeAll || !agreeEx || !agreeEx || !amount || !recAddress || mobileCheck"
                     class="st-next w-100 ml-2"
                     @click="unwrapToken">
                     Next
@@ -227,6 +227,11 @@ export default {
                 return this.$store.getters.network
             },
             set () {}
+        },
+        mobileCheck: () => {
+            const isAndroid = navigator.userAgent.match(/Android/i)
+            const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)
+            return (isAndroid || isIOS)
         }
     },
     async updated () {

@@ -168,7 +168,7 @@
                 </b-button>
                 <b-button
                     v-else
-                    :disabled="!agreeAll || !agreeEx || !agreeEx || !depAmount || !recAddress"
+                    :disabled="!agreeAll || !agreeEx || !agreeEx || !depAmount || !recAddress || mobileCheck"
                     class="st-next w-100 ml-2"
                     @click="wrapToken">
                     Next
@@ -232,6 +232,11 @@ export default {
                 return this.$store.getters.network
             },
             set () {}
+        },
+        mobileCheck: () => {
+            const isAndroid = navigator.userAgent.match(/Android/i)
+            const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)
+            return (isAndroid || isIOS)
         }
     },
     async updated () {
