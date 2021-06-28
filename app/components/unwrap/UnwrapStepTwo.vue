@@ -179,11 +179,11 @@ export default {
                     const txData = await hubContract.methods.Transactions(parent.transactionHash).call()
 
                     let estimateGas = await this.estimateGas()
-                    if (!estimateGas) { estimateGas = 120000 }
+                    if (!estimateGas) { estimateGas = 150000 }
 
                     const txParams = {
                         from: this.address,
-                        gas: new BigNumber(estimateGas).isGreaterThan(120000) ? 120000 : estimateGas,
+                        gas: new BigNumber(estimateGas).isGreaterThan(150000) ? 150000 : estimateGas,
                         gasPrice: this.ethGasPrice,
                         nonce: await this.web3.eth.getTransactionCount(this.address)
                     }
