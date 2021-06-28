@@ -174,6 +174,7 @@ export default {
                     )
 
                     let estimateGas = await this.estimateGas()
+                    if (!estimateGas) { estimateGas = 120000 }
 
                     const txParams = {
                         from: this.address,
