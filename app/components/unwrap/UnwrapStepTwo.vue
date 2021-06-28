@@ -172,6 +172,11 @@ export default {
                         this.ContractBridgeEthAbi.abi,
                         config.blockchain.contractBridgeEth
                     )
+                    const hubContract = new this.web3Tomo.eth.Contract(
+                        this.ContractBridgeTomoAbi.abi,
+                        config.blockchain.contractBridgeTomo
+                    )
+                    const txData = await hubContract.methods.Transactions(parent.transactionHash).call()
 
                     let estimateGas = await this.estimateGas()
                     if (!estimateGas) { estimateGas = 120000 }
@@ -187,7 +192,7 @@ export default {
                         await contract.methods.withdrawERC20(
                             token.tokenAddress,
                             this.recAddress || this.txObj.To,
-                            this.inTxObj.Amount,
+                            txData.amount,
                             this.txObj.ScID,
                             this.txObj.Hash,
                             0,
@@ -213,7 +218,7 @@ export default {
                     } else {
                         await contract.methods.withdrawEth(
                             this.recAddress || this.txObj.To,
-                            this.inTxObj.Amount,
+                            txData.amount,
                             this.txObj.ScID,
                             this.txObj.Hash,
                             0, // target_chain

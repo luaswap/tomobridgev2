@@ -19,7 +19,8 @@
         "ws": "wss://rpc.devnet.tomochain.com/ws",
         "networkId": 99,
         "gas": 2000000,
-        "contractBridgeEth": ""
+        "contractBridgeEth": "",
+        "contractBridgeTomo": ""
     },
     "tomoscanUrl": "https://scan.devnet.tomochain.com",
     "tomoscanAPI": "https://scan.devnet.tomochain.com",
