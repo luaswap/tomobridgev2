@@ -8,13 +8,16 @@
                         class="title-tmp-large">
                         PLEASE KEEP THIS WINDOW OPEN
                     </h1>
-                    <p
-                        v-if="!transactionHash"
-                        class="txt-dec">
+                    <p class="txt-dec">
                         You need to approve the request on MetaMask to complete the transaction
                     </p>
-                    <p
-                        v-else>
+                </div>
+                <div v-if="step === 2">
+                    <h1
+                        class="title-tmp-large">
+                        PLEASE KEEP THIS WINDOW OPEN
+                    </h1>
+                    <p>
                         Ethereum TxHash:
                         <a
                             :href="txUrl"
@@ -22,11 +25,6 @@
                             {{ transactionHash }}
                         </a>
                     </p>
-                </div>
-                <div v-if="step === 2">
-                    <h1>
-                        VERIFYING
-                    </h1>
                 </div>
                 <div v-if="step === 3">
                     <h1
