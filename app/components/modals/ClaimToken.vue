@@ -33,7 +33,7 @@
                     </b-col>
                     <b-col cols="6">
                         <b-form-group
-                            class="font-weight-bold"
+                            class="font-weight-bold overflow-hidden"
                             label="Amount">
                             <div class="infor-detail">
                                 {{ unClaimTx.amount }}
