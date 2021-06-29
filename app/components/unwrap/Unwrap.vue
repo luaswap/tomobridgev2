@@ -163,7 +163,7 @@
                     Back
                 </b-button>
                 <b-button
-                    :disabled="!agreeAll || !agreeEx || !agreeEx || !amount || !recAddress || mobileCheck"
+                    :disabled="!agreeAll || !agreeEx || !agreeEx || !amount || !recAddress"
                     class="st-next w-100 ml-2"
                     @click="unwrapToken">
                     Next
