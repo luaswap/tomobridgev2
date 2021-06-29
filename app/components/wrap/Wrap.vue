@@ -168,7 +168,7 @@
                 </b-button>
                 <b-button
                     v-else
-                    :disabled="!agreeAll || !agreeEx || !agreeEx || !depAmount || !recAddress || mobileCheck"
+                    :disabled="!agreeAll || !agreeEx || !agreeEx || !depAmount || !recAddress"
                     class="st-next w-100 ml-2"
                     @click="wrapToken">
                     Next
