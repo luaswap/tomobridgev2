@@ -154,6 +154,11 @@ export default {
                 return this.$store.getters.config
             },
             set () {}
+        },
+        mobileCheck: () => {
+            const isAndroid = navigator.userAgent.match(/Android/i)
+            const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)
+            return (isAndroid || isIOS)
         }
     },
     watch: {
@@ -165,6 +170,28 @@ export default {
     },
     destroyed () { },
     created: async function () {
+        if (this.mobileCheck && window.web3 && window.web3.currentProvider) {
+            if (window.web3.currentProvider.isTomoWallet) {
+                const wjs = new Web3(window.web3.currentProvider)
+                await this.setupProvider('tomowallet', wjs)
+            } else {
+                const wjs = new Web3(window.web3.currentProvider)
+                await this.setupProvider('metamask', wjs)
+            }
+            const data = await this.getChainId()
+            this.$store.state.network = Helper.networks[data] || { name: 'Unknown', chainId: 0 }
+            this.address = await this.getAccount()
+            if (this.address) {
+                this.$store.state.address = this.address.toLowerCase()
+                this.$store.state.provider = 'metamask'
+            }
+
+            this.getBalance(address).then(data => {
+                    if (data) {
+                        this.$store.state.balance = data.toFixed(5)
+                    }
+                }).catch(error => console.log(error))
+        }
         if (this.address) {
             const data1 = await this.checkUnclaimTx()
             if (data1) {

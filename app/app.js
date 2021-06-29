@@ -107,6 +107,9 @@ Vue.prototype.getAccount = async function () {
         }
         account = (await web3.eth.getAccounts())[0]
         break
+    case 'tomowallet':
+        account = (await web3.eth.getAccounts())[0]
+        break
     default:
         break
     }
