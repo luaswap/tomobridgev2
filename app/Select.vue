@@ -234,11 +234,12 @@ export default {
                     this.loading = true
                     const walletProvider = window.ethereum
                     const wjs = new Web3(walletProvider)
-                    if (window.web3.currentProvider.isTomoWallet) {
-                        await this.setupProvider('tomowallet', wjs)
-                    } else {
-                        await this.setupProvider('metamask', wjs)
-                    }
+                    await this.setupProvider('metamask', wjs)
+                    // if (window.web3.currentProvider.isTomoWallet) {
+                    //     await this.setupProvider('tomowallet', wjs)
+                    // } else {
+                    //     await this.setupProvider('metamask', wjs)
+                    // }
 
                     const data = await this.getChainId()
                     this.$store.state.network = Helper.networks[data] || { name: 'Unknown', chainId: 0 }
