@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import Vue from 'vue'
 import axios from 'axios'
 import * as localStorage from 'store'
+import * as ethUtils from 'ethereumjs-util'
 
 const Helper = {
     networks: {
@@ -132,6 +133,16 @@ const Helper = {
         }
 
         return byteArray
+    },
+    detachSignature (signature) {
+        const signatureBuffer = ethUtils.toBuffer(signature)
+        const signatureParams = ethUtils.fromRpcSig(signatureBuffer)
+        const result = {
+            v: ethUtils.intToHex(signatureParams.v),
+            r: ethUtils.bufferToHex(signatureParams.r),
+            s: ethUtils.bufferToHex(signatureParams.s)
+        }
+        return result
     }
 }
 

@@ -9,6 +9,7 @@ import Toasted from 'vue-toasted'
 import VueI18n from 'vue-i18n'
 import Web3 from 'web3'
 import localStorage from 'store'
+import TransactionTx from 'ethereumjs-tx'
 
 import routes from './routes'
 
@@ -118,6 +119,42 @@ Vue.prototype.getAccount = async function () {
             your Ethereum client is configured correctly.`)
     }
     return account
+}
+
+/**
+ * @param object txParams
+ * @param object signature {r,s,v}
+ * @return transactionReceipt
+ */
+ Vue.prototype.sendSignedTransaction = function (txParams, signature) {
+    return new Promise((resolve, reject) => {
+        try {
+            let serializedTx
+            // "hexify" the keys
+            Object.keys(signature).map((key, _) => {
+                if (signature[key].startsWith('0x')) {
+                    return signature[key]
+                } else signature[key] = '0x' + signature[key]
+            })
+            let txObj = Object.assign({}, txParams, signature)
+            const tx = new TransactionTx(txObj)
+
+            serializedTx = '0x' + tx.serialize().toString('hex')
+            // web3 v0.2, method name is sendRawTransaction
+            // You are using web3 v1.0. The method was renamed to sendSignedTransaction.
+
+            Vue.prototype.web3Eth.eth.sendSignedTransaction(
+                serializedTx
+            ).on('transactionHash', (txHash) => {
+                resolve(txHash)
+            }).catch(error => reject(error))
+            // if (!rs.tx && rs.transactionHash) {
+            //     rs.tx = rs.transactionHash
+            // }
+        } catch (error) {
+            reject(error)
+        }
+    })
 }
 
 Vue.prototype.getChainId = Helper.getChainId

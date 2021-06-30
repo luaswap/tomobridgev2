@@ -30,7 +30,8 @@
 import axios from 'axios'
 import urljoin from 'url-join'
 import BigNumber from 'bignumber.js'
-// import BigNumber from 'bignumber.js'
+import Helper from '../../utils'
+import TransactionTx from 'ethereumjs-tx'
 export default {
     name: 'App',
     components: {
@@ -56,6 +57,13 @@ export default {
             txObj: {},
             interval1: '',
             txUrl: ''
+        }
+    },
+    computed: {
+        mobileCheck: () => {
+            const isAndroid = navigator.userAgent.match(/Android/i)
+            const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)
+            return (isAndroid || isIOS)
         }
     },
     async updated () {
@@ -181,7 +189,7 @@ export default {
                     let estimateGas = await this.estimateGas()
                     if (!estimateGas) { estimateGas = 150000 }
 
-                    const txParams = {
+                    let txParams = {
                         from: this.address,
                         gas: new BigNumber(estimateGas).isGreaterThan(150000) ? 150000 : estimateGas,
                         gasPrice: this.ethGasPrice,
@@ -189,18 +197,35 @@ export default {
                     }
 
                     if (token.symbol.toLowerCase() !== 'eth') {
-                        await contract.methods.withdrawERC20(
-                            token.tokenAddress,
-                            this.recAddress || this.txObj.To,
-                            txData.amount,
-                            this.txObj.ScID,
-                            this.txObj.Hash,
-                            0,
-                            this.txObj.Signature
-                        ).send(txParams)
-                            .on('transactionHash', async txHash => {
-                                let check = true
+                        if (this.mobileCheck && this.$store.state.network === 'tomowallet') {
+                            const data = await contract.methods.withdrawERC20(
+                                token.tokenAddress,
+                                this.recAddress || this.txObj.To,
+                                txData.amount,
+                                this.txObj.ScID,
+                                this.txObj.Hash,
+                                0,
+                                this.txObj.Signature
+                            ).encodeABI()
+
+                            const dataTx = {
+                                data,
+                                to: config.blockchain.contractBridgeTomo
+                            }
+                            txParams = Object.assign(txParams, dataTx)
+
+                            const rawTx = new TransactionTx(txParams)
+                            const Hash = '0x' + rawTx.hash(false).toString('hex')
+                            console.log(Hash)
+
+                            let signature = await this.web3.eth.personal.sign(Hash, this.address, '')
+                            console.log(signature)
+                            const signObj = Helper.detachSignature(signature)
+
+                            const txHash = await this.sendSignedTransaction(txParams, signObj)
+                            if (txHash) {
                                 parent.claimTxHash = txHash
+                                let check = true
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                     if (receipt && receipt.status) {
@@ -210,37 +235,141 @@ export default {
                                         parent.step++
                                     }
                                 }
-                            }).catch(error => {
-                                console.log(error)
-                                this.loading = false
-                                this.$toasted.show(error.message ? error.message : error, { type: 'error' })
-                            })
+                            }
+                        } else {
+                            const data = await contract.methods.withdrawERC20(
+                                token.tokenAddress,
+                                this.recAddress || this.txObj.To,
+                                txData.amount,
+                                this.txObj.ScID,
+                                this.txObj.Hash,
+                                0,
+                                this.txObj.Signature
+                            ).encodeABI()
+
+                            const dataTx = {
+                                data,
+                                to: config.blockchain.contractBridgeTomo
+                            }
+                            txParams = Object.assign(txParams, dataTx)
+
+                            const rawTx = new TransactionTx(txParams)
+                            const Hash = '0x' + rawTx.hash(false).toString('hex')
+                            console.log(Hash)
+
+                            let signature = await this.web3.eth.personal.sign(Hash, this.address, '')
+                            console.log(signature)
+                            const signObj = Helper.detachSignature(signature)
+
+                            const txHash = await this.sendSignedTransaction(txParams, signObj)
+                            if (txHash) {
+                                parent.claimTxHash = txHash
+                                let check = true
+                                while (check) {
+                                    const receipt = await this.web3.eth.getTransactionReceipt(txHash)
+                                    if (receipt && receipt.status) {
+                                        await this.updateTransaction()
+                                        this.loading = false
+                                        check = false
+                                        parent.step++
+                                    }
+                                }
+                            }
+
+                            // await contract.methods.withdrawERC20(
+                            //     token.tokenAddress,
+                            //     this.recAddress || this.txObj.To,
+                            //     txData.amount,
+                            //     this.txObj.ScID,
+                            //     this.txObj.Hash,
+                            //     0,
+                            //     this.txObj.Signature
+                            // ).send(txParams)
+                            //     .on('transactionHash', async txHash => {
+                            //         let check = true
+                            //         parent.claimTxHash = txHash
+                            //         while (check) {
+                            //             const receipt = await this.web3.eth.getTransactionReceipt(txHash)
+                            //             if (receipt && receipt.status) {
+                            //                 await this.updateTransaction()
+                            //                 this.loading = false
+                            //                 check = false
+                            //                 parent.step++
+                            //             }
+                            //         }
+                            //     }).catch(error => {
+                            //         console.log(error)
+                            //         this.loading = false
+                            //         this.$toasted.show(error.message ? error.message : error, { type: 'error' })
+                            //     })
+                        }
                     } else {
-                        await contract.methods.withdrawEth(
-                            this.recAddress || this.txObj.To,
-                            txData.amount,
-                            this.txObj.ScID,
-                            this.txObj.Hash,
-                            0, // target_chain
-                            this.txObj.Signature
-                        ).send(txParams)
-                            .on('transactionHash', async txHash => {
-                                let check = true
-                                parent.claimTxHash = txHash
-                                while (check) {
-                                    const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                                    if (receipt && receipt.status) {
-                                        await this.updateTransaction()
-                                        this.loading = false
-                                        check = false
-                                        parent.step++
-                                    }
-                                }
-                            }).catch(error => {
-                                console.log(error)
-                                this.loading = false
-                                this.$toasted.show(error.message ? error.message : error, { type: 'error' })
+                        if (this.mobileCheck && this.$store.state.network === 'tomowallet') {
+                            const data = await contract.methods.withdrawERC20(
+                                token.tokenAddress,
+                                this.recAddress || this.txObj.To,
+                                txData.amount,
+                                this.txObj.ScID,
+                                this.txObj.Hash,
+                                0,
+                                this.txObj.Signature
+                            ).encodeABI()
+
+                            txParams = Object.assign(txParams, {
+                                data,
+                                to: config.blockchain.contractBridgeTomo
                             })
+
+                            const rawTx = new TransactionTx(txParams)
+                            const Hash = '0x' + rawTx.hash(false).toString('hex')
+                            console.log(Hash)
+
+                        } else {
+                            console.log(11111)
+                            const data = await contract.methods.withdrawERC20(
+                                token.tokenAddress,
+                                this.recAddress || this.txObj.To,
+                                txData.amount,
+                                this.txObj.ScID,
+                                this.txObj.Hash,
+                                0,
+                                this.txObj.Signature
+                            ).encodeABI()
+
+                            txParams = Object.assign(txParams, {
+                                data,
+                                to: config.blockchain.contractBridgeTomo
+                            })
+
+                            const rawTx = new TransactionTx(txParams)
+                            const Hash = '0x' + rawTx.hash(false).toString('hex')
+                            console.log(Hash)
+                            // await contract.methods.withdrawEth(
+                            //     this.recAddress || this.txObj.To,
+                            //     txData.amount,
+                            //     this.txObj.ScID,
+                            //     this.txObj.Hash,
+                            //     0, // target_chain
+                            //     this.txObj.Signature
+                            // ).send(txParams)
+                            //     .on('transactionHash', async txHash => {
+                            //         let check = true
+                            //         parent.claimTxHash = txHash
+                            //         while (check) {
+                            //             const receipt = await this.web3.eth.getTransactionReceipt(txHash)
+                            //             if (receipt && receipt.status) {
+                            //                 await this.updateTransaction()
+                            //                 this.loading = false
+                            //                 check = false
+                            //                 parent.step++
+                            //             }
+                            //         }
+                            //     }).catch(error => {
+                            //         console.log(error)
+                            //         this.loading = false
+                            //         this.$toasted.show(error.message ? error.message : error, { type: 'error' })
+                            //     })
+                        }
                     }
                 } else { this.$toasted.show('Need Ethereum network to claim asset', { type: 'error' }) }
             } catch (error) {
