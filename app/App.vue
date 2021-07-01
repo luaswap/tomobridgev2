@@ -20,9 +20,6 @@
                     is-nav>
                     <b-nav
                         class="text-white ml-auto">
-                        <b-nav-item
-                            active
-                            to="/select">Home</b-nav-item>
                         <b-nav-item class="position-relative">Instruction video <span class="coming-soon">Coming soon</span></b-nav-item>
                         <b-nav-item
                             href="https://forms.gle/cU1XU3b8EUMxB6yA6"

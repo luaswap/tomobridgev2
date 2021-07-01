@@ -5,7 +5,9 @@
         <div
             class="box-more-infor mb-4">
             <div class="infor-address-wallet">
-                <p><span class="tag">{{ network.name }}</span> <span class="text-gray">{{ address }}</span></p>
+                <p>
+                    <span class="tag">{{ network.name }}</span>
+                    <span class="text-gray">{{ mobileCheck ? truncate(address, 30) : address }}</span></p>
                 <p class="text-gray">
                     Balance: {{ balance }} {{ tomoIds.indexOf(network.chainId || '') > -1 ? 'TOMO' : 'ETH' }}
                 </p>
@@ -28,7 +30,7 @@
                 </b-col>
                 <b-col cols="5">
                     <b-form-group
-                        class="mb-4 font-weight-bold"
+                        class="mb-4 font-weight-bold overflow-hidden"
                         label="Amount">
                         <div class="bg_input_tags font-weight-normal">
                             {{ parent.depAmount || parent.amount }}
@@ -38,10 +40,10 @@
                 </b-col>
                 <b-col cols="12">
                     <b-form-group
-                        class="font-weight-bold"
+                        class="font-weight-bold overflow-hidden"
                         label="Receiving Address">
                         <div class="bg_input_tags font-weight-normal">
-                            {{ parent.recAddress }}
+                            {{ mobileCheck ? truncate(parent.recAddress, 30) : parent.recAddress }}
                         </div>
                     </b-form-group>
 
@@ -93,11 +95,10 @@ export default {
             },
             set () {}
         },
-        mobileCheck () {
-            if (window.web3 && window.web3.currentProvider &&
-                window.web3.currentProvider.isTomoWallet) {
-                return true
-            } else return false
+        mobileCheck: () => {
+            const isAndroid = navigator.userAgent.match(/Android/i)
+            const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)
+            return (isAndroid || isIOS)
         }
     },
     watch: {
