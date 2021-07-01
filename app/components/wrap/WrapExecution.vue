@@ -22,7 +22,7 @@
                         <a
                             :href="txUrl"
                             target="_blank">
-                            {{ transactionHash }}
+                            {{ mobileCheck ? truncate(transactionHash, 30) : transactionHash }}
                         </a>
                     </p>
                 </div>
@@ -259,6 +259,11 @@ export default {
         }
     },
     computed: {
+        mobileCheck: () => {
+            const isAndroid = navigator.userAgent.match(/Android/i)
+            const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)
+            return (isAndroid || isIOS)
+        }
     },
     watch: {
         transactionHash: function () {
