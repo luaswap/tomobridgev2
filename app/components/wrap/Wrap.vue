@@ -292,7 +292,7 @@ export default {
             switch (token.symbol) {
             case 'ETH':
                 const balanceEthBN = await this.web3Eth.eth.getBalance(this.address)
-                this.depAmount = new BigNumber(balanceEthBN).div(10 ** 18).minus(new BigNumber(this.estimateSwap)).toString(10)
+                this.depAmount = new BigNumber(balanceEthBN).div(10 ** 18).minus(new BigNumber(this.estimateSwap || 0)).toString(10)
                 break
             case 'BTC':
                 this.depAmount = 0
@@ -403,6 +403,10 @@ export default {
                 if (token.tokenAddress && this.isApproved &&
                     new BigNumber(this.depAmount).isGreaterThan(0) &&
                     new BigNumber(this.depAmount).multipliedBy(10 ** token.decimals).isLessThanOrEqualTo(this.tokenBalance)) {
+                    let amountInNumber = new BigNumber(this.depAmount).multipliedBy(10 ** token.decimals)
+                    if (!Number.isInteger(Number(amountInNumber))) {
+                        this.depAmount = new BigNumber(Math.round(amountInNumber)).div(10 ** token.decimals).toString(10)
+                    }
                     const estimateGas = await contract.methods.swapErc20(
                         token.tokenAddress,
                         this.recAddress || this.address,
@@ -411,9 +415,7 @@ export default {
                         from: this.address
                     })
                     price = new BigNumber(estimateGas).multipliedBy(this.ethGasPrice).div(10 ** 18)
-                } else if (token.symbol === 'ETH' &&
-                    new BigNumber(this.depAmount).isGreaterThan(0) &&
-                    new BigNumber(this.depAmount).multipliedBy(10 ** token.decimals).isLessThanOrEqualTo(this.tokenBalance)) {
+                } else if (token.symbol === 'ETH') {
                     let estimateGas
                     if (!checkEthBalance) {
                         estimateGas = 0
