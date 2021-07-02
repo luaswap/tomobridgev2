@@ -401,6 +401,7 @@ export default {
                 )
                 const checkEthBalance = await this.checkEthBalance()
                 if (token.tokenAddress && this.isApproved &&
+                    new BigNumber(this.depAmount).isGreaterThan(0) &&
                     new BigNumber(this.depAmount).multipliedBy(10 ** token.decimals).isLessThanOrEqualTo(this.tokenBalance)) {
                     const estimateGas = await contract.methods.swapErc20(
                         token.tokenAddress,
@@ -410,7 +411,9 @@ export default {
                         from: this.address
                     })
                     price = new BigNumber(estimateGas).multipliedBy(this.ethGasPrice).div(10 ** 18)
-                } else if (token.symbol === 'ETH') {
+                } else if (token.symbol === 'ETH' &&
+                    new BigNumber(this.depAmount).isGreaterThan(0) &&
+                    new BigNumber(this.depAmount).multipliedBy(10 ** token.decimals).isLessThanOrEqualTo(this.tokenBalance)) {
                     let estimateGas
                     if (!checkEthBalance) {
                         estimateGas = 0
