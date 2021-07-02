@@ -14,15 +14,15 @@
                     </b>
                 </span>
             </div>
-            <div class="box-address-infor mt-3">
+            <div class="box-address-infor mt-2 mt-md-3">
                 <span
-                    class="text-gray">
+                    class="text-gray mr-3">
                     Balance: {{ balance }} {{ tomoIds.indexOf(network.chainId || '') > -1 ? 'TOMO' : 'ETH' }}
                 </span>
                 <a
                     :href="scanUrl"
                     target="_blank"
-                    class="text-blue ml-3 ml-md-5">
+                    class="text-blue ml-md-5">
                     Transaction history
                 </a>
             </div>

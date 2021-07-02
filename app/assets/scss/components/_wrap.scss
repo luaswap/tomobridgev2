@@ -37,7 +37,7 @@
   margin: auto;
   max-width: 700px;
   border-radius: 24px;
-  padding: 25px 40px;
+  padding: 25px;
   position: relative;
   word-break: break-all;
   z-index: 1;
@@ -102,6 +102,7 @@
 .box-address-infor {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   // justify-content: space-between;
 }
 

@@ -2,14 +2,14 @@
     <b-container>
         <div
             v-if="!address"
-            class="login-wallet mb-4">
+            class="login-wallet mb-4 row">
             <div
-                class="connect">
+                class="connect col-12">
                 <div id="login">
                     <div class="login__buttons">
                         <div class="txt-infor">
                             <p class="txt-dec mb-1">Connect wallet to continue</p>
-                            <div class="d-flex">
+                            <div class="d-flex align-items-center">
                                 <img
                                     width="24"
                                     height="24"
@@ -50,10 +50,12 @@
                             <span>Wrapped Tokens on TomoChain</span>
                         </div>
                         <div class="col-2 text-center">
-                            <b-icon
+                            <b-img
+                                src="/app/assets/images/swap.svg"/>
+                            <!-- <b-icon
                                 class="light-h"
                                 icon="arrow-right-short"
-                                font-scale="3"/>
+                                font-scale="3"/> -->
                         </div>
                         <div class="col-5 px-0 text-left">
                             <div class="text-left">
@@ -78,10 +80,13 @@
                             <span>ERC-20 Tokens on Ethereum</span>
                         </div>
                         <div class="col-2 text-center">
-                            <b-icon
+                            <b-img
+                                src="/app/assets/images/swap.svg"
+                                class=""/>
+                            <!-- <b-icon
                                 class="light-h"
                                 icon="arrow-right-short"
-                                font-scale="3"/>
+                                font-scale="3"/> -->
                         </div>
                         <div class="col-5 px-0 text-left">
                             <div class="text-left">
