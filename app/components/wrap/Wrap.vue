@@ -399,8 +399,8 @@ export default {
                     config.blockchain.contractBridgeEth
                 )
                 const checkEthBalance = await this.checkEthBalance()
-                if (token.tokenAddress && this.isApproved
-                    && new BigNumber(this.depAmount).multipliedBy(10 ** token.decimals).isLessThanOrEqualTo(this.tokenBalance)) {
+                if (token.tokenAddress && this.isApproved &&
+                    new BigNumber(this.depAmount).multipliedBy(10 ** token.decimals).isLessThanOrEqualTo(this.tokenBalance)) {
                     const estimateGas = await contract.methods.swapErc20(
                         token.tokenAddress,
                         this.recAddress || this.address,
@@ -498,8 +498,8 @@ export default {
                         // this.allChecked = true
                     } else if (!checkEthBalance) {
                         this.$toasted.show(`Not enough ETH`, { type: 'error' })
-                    } else if (coin.symbol.toLowerCase() !== 'eth'
-                        && new BigNumber(this.depAmount).multipliedBy(10 ** coin.decimals).isGreaterThan(this.tokenBalance)) {
+                    } else if (coin.symbol.toLowerCase() !== 'eth' &&
+                        new BigNumber(this.depAmount).multipliedBy(10 ** coin.decimals).isGreaterThan(this.tokenBalance)) {
                         this.$toasted.show(`Not enough ${coin.symbol}`, { type: 'error' })
                     } else if (amountInNumber.isLessThan(1)) {
                         this.$toasted.show('Deposit amount is too small', { type: 'error' })

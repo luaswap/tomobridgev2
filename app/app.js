@@ -30,7 +30,7 @@ Vue.use(BootstrapVueIcons)
 Vue.use(VueRouter)
 Vue.use(Vuex)
 Vue.use(Toasted, {
-    position: 'bottom-right',
+    position: 'top-center',
     theme: 'bubble',
     duration: 4000,
     action : {
