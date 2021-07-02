@@ -1,5 +1,5 @@
 <template>
-    <b-container class="step-one text-center">
+    <div class="step-one text-center">
         <div class="mt-3">
             <div class="text-center mt-3">
                 <b-button
@@ -10,7 +10,7 @@
                 </b-button>
             </div>
         </div>
-    </b-container>
+    </div>
 </template>
 
 <script>

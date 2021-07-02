@@ -1,8 +1,19 @@
 <template>
     <div
-        class="infor-wallet mb-4">
-        <div class="connect">
-            <div class="box-address-wallet"><span class="tag"><b>{{ network.name }}</b></span> <b>{{ address }}</b></div>
+        class="row align-items-center infor-wallet mb-4">
+        <div class="col-10 col-md-11 connect">
+            <div class="box-address-wallet">
+                <span class="tag">
+                    <b>
+                        {{ network.name }}
+                    </b>
+                </span>
+                <span class="d-block d-md-inline-block mt-2 mt-md-0">
+                    <b>
+                        {{ mobileCheck ? truncate(address, 36) : address }}
+                    </b>
+                </span>
+            </div>
             <div class="box-address-infor mt-3">
                 <span
                     class="text-gray">
@@ -11,14 +22,17 @@
                 <a
                     :href="scanUrl"
                     target="_blank"
-                    class="text-blue">
+                    class="text-blue ml-3 ml-md-5">
                     Transaction history
                 </a>
             </div>
         </div>
-        <div class="btn-sign-out">
+        <div class="col-2 col-md-1 btn-sign-out text-right pr-md-0">
             <span
-                @click="signOut">Sign out</span>
+                @click="signOut">
+                <b-img
+                    src="/app/assets/images/close.svg"
+                    alt="TomoBridge"/></span>
         </div>
     </div>
 </template>
@@ -60,11 +74,10 @@ export default {
             },
             set () {}
         },
-        mobileCheck () {
-            if (window.web3 && window.web3.currentProvider &&
-                window.web3.currentProvider.isTomoWallet) {
-                return true
-            } else return false
+        mobileCheck: () => {
+            const isAndroid = navigator.userAgent.match(/Android/i)
+            const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)
+            return (isAndroid || isIOS)
         }
     },
     watch: {

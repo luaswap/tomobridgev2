@@ -31,6 +31,12 @@
             height: 8px;
             position: absolute;
             width: 80px;
+            @include media-breakpoint-down(xs) {
+                right: calc(100% - 20px);
+                width: 40px;
+                height: 4px;
+                top: 64px;
+            }
         }
 
         // &:first-child::before {
@@ -66,6 +72,12 @@
             width: 80px;
             z-index: 1;
             // animation: ActiveSteps 5s forwards;
+            @include media-breakpoint-down(xs) {
+                right: calc(100% - 20px);
+                width: 40px;
+                height: 4px;
+                top: 64px;
+            }
         }
         svg {
             .light-blue {
@@ -187,39 +199,11 @@
 }
 
 .steps__number {
-    // background-color: rgb(43, 42, 42);
-    // color: $color-gray;
-    // font-size: 18px;
-    // margin: 0 auto;
-    // position: relative;
-    // width: calc(100% - 30px);
-    // z-index: 2;
-
-    // >span {
-    //     border: 1px solid $color-gray;
-    //     border-radius: 100%;
-    //     display: inline-block;
-    //     font-weight: bold;
-    //     height: 50px;
-    //     line-height: 50px;
-    //     margin: 0 auto;
-    //     position: relative;
-    //     width: 50px;
-    // }
-
-    // @include media-breakpoint-up(md) {
-    //     width: calc(100% - 100px);
-    // }
-
-    // @include media-breakpoint-up(lg) {
-    //     width: 40%;
-
-    //     >span {
-    //         font-size: 24px;
-    //         height: 60px;
-    //         line-height: 60px;
-    //         width: 60px;
-    //         font-weight: bold;
-    //     }
-    // }
+    img,
+    svg {
+        max-width: 100px;
+        @include media-breakpoint-down(sm) {
+            max-width: 80%;
+        }
+    }
 }

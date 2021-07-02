@@ -5,7 +5,7 @@
             class="container-medium">
             <div class="open-product text-center">
                 <h1 class="title-tmp-large">
-                    SELECT ASSET TO CONVERT
+                    CONVERTING FORM
                 </h1>
                 <p class="txt-dec-tem-2 font-weight-bold">
                     {{ fromWrapSelected.symbol !== 'ETH' && fromWrapSelected.symbol !== 'BTC' ? 'ERC-20' : '' }}
@@ -14,7 +14,7 @@
             </div>
 
             <b-row class="wrapbox__row mb-lg-4 mt-4">
-                <b-col cols="7">
+                <b-col sm="12" md="7">
                     <b-form-group
                         class="mb-4 font-weight-bold"
                         label="Asset"
@@ -67,7 +67,7 @@
                         </multiselect>
                     </b-form-group>
                 </b-col>
-                <b-col cols="5">
+                <b-col sm="12" md="5">
                     <b-form-group
                         class="mb-4 font-weight-bold"
                         label="Amount"
@@ -95,6 +95,7 @@
                         <b-form-input
                             v-model="recAddress"
                             type="text"
+                            class="pr-8"
                             placeholder="Please use only TomoChain network address"/>
                         <b-button
                             class="add-address"
@@ -426,7 +427,11 @@ export default {
                 }
                 if (price) {
                     this.estimateSwap = price
-                    this.estimateTotal += price.toNumber()
+                    if (this.estimateApprovement) {
+                        this.estimateTotal += price.toNumber()
+                    } else {
+                        this.estimateTotal = price.toNumber()
+                    }
                 }
             } catch (error) {
                 console.log(error)

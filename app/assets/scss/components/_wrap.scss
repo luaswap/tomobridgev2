@@ -10,6 +10,9 @@
   right: 25px;
   padding: 5px;
   top: 35px;
+  @include media-breakpoint-down(sm) {
+    top:32px;
+  }
 }
 
 .add-address {
@@ -23,6 +26,9 @@
   right: 25px;
   padding: 5px;
   top: 35px;
+  @include media-breakpoint-down(sm) {
+    top:32px;
+  }
 }
 
 .login-wallet,
@@ -47,22 +53,29 @@
     z-index: -1;
   }
   @include media-breakpoint-down(sm) {
-    padding: 15px;
+    padding: 15px 0;
+    font-size: 11px;
   }
 }
 
 .infor-wallet {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  // display: flex;
+  // align-items: center;
+  // justify-content: space-between;
   .connect {
     border-right: 1px solid #606060;
     padding-right: 40px;
+    @include media-breakpoint-down(sm) {
+      padding-right: 15px;
+    }
   }
 }
 
 .box-address-wallet {
   color: #F2FEFB;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .tag {
@@ -89,14 +102,14 @@
 .box-address-infor {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  // justify-content: space-between;
 }
 
 .btn-sign-out {
   cursor: pointer;
   color: #d00000;
   position: relative;
-  padding-left: 25px;
+  // padding-left: 25px;
 }
 
 .box-more-infor {

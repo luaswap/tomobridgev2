@@ -5,9 +5,9 @@
         <div
             class="box-more-infor mb-4">
             <div class="infor-address-wallet">
-                <p>
+                <p class="mb-1 mb-md-2">
                     <span class="tag">{{ network.name }}</span>
-                    <span class="text-gray">{{ mobileCheck ? truncate(address, 30) : address }}</span></p>
+                    <span class="text-gray mt-2 d-block d-md-inline-block">{{ mobileCheck ? truncate(address, 30) : address }}</span></p>
                 <p class="text-gray">
                     Balance: {{ balance }} {{ tomoIds.indexOf(network.chainId || '') > -1 ? 'TOMO' : 'ETH' }}
                 </p>

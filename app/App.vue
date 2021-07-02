@@ -17,8 +17,9 @@
                 <!-- /button menu SP -->
                 <b-collapse
                     id="nav-collapse"
+                    class="sp-navbar-bridge"
                     is-nav>
-                    <b-nav
+                    <b-navbar-nav
                         class="text-white ml-auto">
                         <b-nav-item class="position-relative">Instruction video <span class="coming-soon">Coming soon</span></b-nav-item>
                         <b-nav-item
@@ -40,7 +41,7 @@
                             <b-dropdown-item
                                 @click="changeLang('chinese')">简体中文</b-dropdown-item>
                         </b-dropdown> -->
-                    </b-nav>
+                    </b-navbar-nav>
                 </b-collapse>
             </section>
         </b-navbar>
@@ -96,11 +97,10 @@ export default {
             },
             set () {}
         },
-        mobileCheck () {
-            if (window.web3 && window.web3.currentProvider &&
-                window.web3.currentProvider.isTomoWallet) {
-                return true
-            } else return false
+        mobileCheck: () => {
+            const isAndroid = navigator.userAgent.match(/Android/i)
+            const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)
+            return (isAndroid || isIOS)
         }
     },
     watch: {

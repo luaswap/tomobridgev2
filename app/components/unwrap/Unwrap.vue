@@ -5,7 +5,7 @@
             class="container-medium">
             <div class="open-product text-center">
                 <h1 class="title-tmp-large">
-                    SELECT ASSET TO CONVERT
+                    CONVERTING FORM
                 </h1>
                 <p class="txt-dec-tem-2 font-weight-bold">
                     TomoChain wrapped {{ fromWrapSelected.symbol }}
@@ -93,6 +93,7 @@
                         <b-form-input
                             v-model="recAddress"
                             type="text"
+                            class="pr-8"
                             placeholder="Please use only Ethereum network address"/>
                         <b-button
                             class="add-address"

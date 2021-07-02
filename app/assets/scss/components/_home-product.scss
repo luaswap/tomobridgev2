@@ -52,6 +52,7 @@ body {
         margin-top: 0px;
         box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.08);
         padding: 15px;
+        font-size: 12px;;
     }
 }
 
@@ -190,6 +191,9 @@ body {
     text-transform: uppercase;
     font-weight: bold;
     justify-content: center;
+    @include media-breakpoint-down(sm) {
+        display: block;
+    }
 }
 
 .tomo-footer-product {
@@ -288,12 +292,18 @@ body {
     font-weight: bold;
     font-size: 24px;
     color: #D8D8D8;
+    @include media-breakpoint-down(sm) {
+        font-size: 16px;
+    }
 }
 
 .title-tmp-medium {
     font-weight: bold;
     font-size: 18px;
     color: #D8D8D8;
+    @include media-breakpoint-down(sm) {
+        font-size: 14px;
+    }
 }
 
 .text-blue {

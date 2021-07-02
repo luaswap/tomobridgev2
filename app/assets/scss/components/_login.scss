@@ -5,13 +5,16 @@
     img {
         display: block;
         max-width: 25px;
+        @include media-breakpoint-down(sm) {
+            max-width: 20px;
+        }
     }
 
     @include media-breakpoint-up(lg) {
         img {
             display: inline-block;
             margin-bottom: 0;
-            margin-right: 10px;
+            // margin-right: 10px;
             vertical-align: middle;
         }
 
@@ -23,6 +26,9 @@
 
     button {
         font-size: 15px;
+        @include media-breakpoint-down(sm) {
+            font-size: 12px !important;
+        }
     }
 
     @include media-breakpoint-up(xxl) {

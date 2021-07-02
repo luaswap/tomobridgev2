@@ -48,7 +48,7 @@
                                 class="infor-detail"
                                 :href="burnTxUrl"
                                 target="_blank">
-                                {{ truncate(unClaimTx.burnTx || '', 40) }}
+                                {{ truncate(unClaimTx.burnTx || '', 30) }}
                             </a>
                         </b-form-group>
                     </b-col>

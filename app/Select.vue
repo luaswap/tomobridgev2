@@ -9,11 +9,13 @@
                     <div class="login__buttons">
                         <div class="txt-infor">
                             <p class="txt-dec mb-1">Connect wallet to continue</p>
-                            <div class="">
+                            <div class="d-flex">
                                 <img
+                                    width="24"
+                                    height="24"
                                     src="/app/assets/images/metamask.png"
                                     alt="Metamask">
-                                <span class="title-tmp-medium">METAMASK</span>
+                                <span class="title-tmp-medium ml-2">METAMASK</span>
                             </div>
                         </div>
                         <b-button
@@ -25,77 +27,75 @@
             </div>
         </div>
         <AddressInfo v-else/>
-        <div class="container">
-            <b-container
-                class="container-medium">
-                <div
-                    class="text-center">
-                    <h1 class="title-tmp-large">SELECT CONVERSION DIRECTION</h1>
-                </div>
+        <b-container
+            class="container-medium">
+            <div
+                class="text-center">
+                <h1 class="title-tmp-large">SELECT CONVERSION DIRECTION</h1>
+            </div>
 
-                <div
-                    class="item-product">
-                    <div class="box-btn">
-                        <a
-                            class="row btn-tm"
-                            @click="redirect('unwrapErc20')">
-                            <div class="col-5 px-0 text-right">
-                                <div class="text-right">
-                                    <img
-                                        src="/app/assets/images/tomochain.svg"
-                                        class="logo-icon mr-2">
-                                    TOMOCHAIN
-                                </div>
-                                <span>Wrapped Tokens on TomoChain</span>
+            <div
+                class="item-product">
+                <div class="box-btn">
+                    <a
+                        class="row btn-tm"
+                        @click="redirect('unwrapErc20')">
+                        <div class="col-5 px-0 text-right">
+                            <div class="text-right">
+                                <img
+                                    src="/app/assets/images/tomochain.svg"
+                                    class="logo-icon mr-2">
+                                TOMOCHAIN
                             </div>
-                            <div class="col-2 text-center">
-                                <b-icon
-                                    class="light-h"
-                                    icon="arrow-right-short"
-                                    font-scale="3"/>
+                            <span>Wrapped Tokens on TomoChain</span>
+                        </div>
+                        <div class="col-2 text-center">
+                            <b-icon
+                                class="light-h"
+                                icon="arrow-right-short"
+                                font-scale="3"/>
+                        </div>
+                        <div class="col-5 px-0 text-left">
+                            <div class="text-left">
+                                <img
+                                    src="/app/assets/images/ethereum.svg"
+                                    class="logo-icon mr-2">
+                                ETHEREUM
                             </div>
-                            <div class="col-5 px-0 text-left">
-                                <div class="text-left">
-                                    <img
-                                        src="/app/assets/images/ethereum.svg"
-                                        class="logo-icon mr-2">
-                                    ETHEREUM
-                                </div>
-                                <span>ERC-20 Tokens on Ethereum</span>
+                            <span>ERC-20 Tokens on Ethereum</span>
+                        </div>
+                    </a>
+                    <a
+                        class="row btn-tm"
+                        @click="redirect('wrapErc20')">
+                        <div class="col-5 px-0 text-right">
+                            <div class="text-right">
+                                <img
+                                    src="/app/assets/images/ethereum.svg"
+                                    class="logo-icon mr-2">
+                                ETHEREUM
                             </div>
-                        </a>
-                        <a
-                            class="row btn-tm"
-                            @click="redirect('wrapErc20')">
-                            <div class="col-5 px-0 text-right">
-                                <div class="text-right">
-                                    <img
-                                        src="/app/assets/images/ethereum.svg"
-                                        class="logo-icon mr-2">
-                                    ETHEREUM
-                                </div>
-                                <span>ERC-20 Tokens on Ethereum</span>
+                            <span>ERC-20 Tokens on Ethereum</span>
+                        </div>
+                        <div class="col-2 text-center">
+                            <b-icon
+                                class="light-h"
+                                icon="arrow-right-short"
+                                font-scale="3"/>
+                        </div>
+                        <div class="col-5 px-0 text-left">
+                            <div class="text-left">
+                                <img
+                                    src="/app/assets/images/tomochain.svg"
+                                    class="logo-icon mr-2">
+                                TOMOCHAIN
                             </div>
-                            <div class="col-2 text-center">
-                                <b-icon
-                                    class="light-h"
-                                    icon="arrow-right-short"
-                                    font-scale="3"/>
-                            </div>
-                            <div class="col-5 px-0 text-left">
-                                <div class="text-left">
-                                    <img
-                                        src="/app/assets/images/tomochain.svg"
-                                        class="logo-icon mr-2">
-                                    TOMOCHAIN
-                                </div>
-                                <span>TomoChain Wrapped Tokens</span>
-                            </div>
-                        </a>
-                    </div>
+                            <span>TomoChain Wrapped Tokens</span>
+                        </div>
+                    </a>
                 </div>
-            </b-container>
-        </div>
+            </div>
+        </b-container>
         <LoginModal
             ref="loginModal"
             :parent="this"/>

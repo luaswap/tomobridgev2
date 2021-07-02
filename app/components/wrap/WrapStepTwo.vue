@@ -1,5 +1,5 @@
 <template>
-    <b-container class="step-one text-center">
+    <div class="step-one text-center">
         <div class="mt-2">
             <div class="text-center">
                 <div class="txt-blue2 w-100">
@@ -7,7 +7,7 @@
                 </div>
             </div>
         </div>
-    </b-container>
+    </div>
 </template>
 
 <script>
