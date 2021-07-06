@@ -5,8 +5,18 @@
         centered
         scrollable
         no-close-on-backdrop
-        hide-header
         hide-footer>
+        <template
+            #modal-header>
+            <b-button
+                size="sm"
+                class="close"
+                @click="closeModal">
+                <b-img
+                    src="/app/assets/images/close.svg"
+                    alt="TomoBridge"/>
+            </b-button>
+        </template>
         <b-container>
             <div class="text-center mb-5">
                 <img
@@ -131,6 +141,16 @@ export default {
     methods: {
         show () {
             this.$refs.claimModal.show()
+        },
+        closeModal () {
+            this.$store.state.address = ''
+            this.$store.state.network = ''
+            if (this.$route.path !== '/select') {
+                this.$router.push({
+                    path: '/select'
+                })
+            }
+            this.$refs.claimModal.hide()
         },
         hide () {
             this.$refs.claimModal.hide()

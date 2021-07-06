@@ -11,17 +11,24 @@
     &:not(.show):not(.fade) {
         opacity: .8;
     }
+
+    @include media-breakpoint-down(sm) {
+        opacity: 1 !important;
+    }
 }
 
 .modal-header {
-    // border-bottom: 0;
+    border-bottom: 0;
     // display: block;
     // padding: 20px;
     text-align: center;
 
-    // .close {
-    //     display: none;
-    // }
+    .close {
+        &:hover {
+            background: none !important;
+        }
+        opacity: 1;
+    }
 
     // @include media-breakpoint-up(xl) {
     //     padding: 50px 50px 30px;
