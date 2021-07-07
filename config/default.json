@@ -26,7 +26,6 @@
     "tomoscanUrl": "https://scan.devnet.tomochain.com",
     "tomoscanAPI": "https://scan.devnet.tomochain.com",
     "serverAPI": "https://bridge.devnet.tomochain.com",
-    "serverAPI1": "https://bridge.tomochain.com",
     "tokenListAPI": "https://raw.githubusercontent.com/tomochain/tokens/master/tokens",
     "verifiedListAPI": "https://raw.githubusercontent.com/tomochain/tokens/master/verifiedlist.json",
     "db": {

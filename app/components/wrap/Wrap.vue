@@ -14,7 +14,9 @@
             </div>
 
             <b-row class="wrapbox__row mb-lg-4 mt-4">
-                <b-col sm="12" md="7">
+                <b-col
+                    sm="12"
+                    md="7">
                     <b-form-group
                         class="mb-4 font-weight-bold"
                         label="Asset"
@@ -67,7 +69,9 @@
                         </multiselect>
                     </b-form-group>
                 </b-col>
-                <b-col sm="12" md="5">
+                <b-col
+                    sm="12"
+                    md="5">
                     <b-form-group
                         class="mb-4 font-weight-bold"
                         label="Amount"

@@ -106,7 +106,7 @@ export default {
     },
     methods: {
         back () {
-            this.$router.push({ path: '/unwrap' })
+            this.$router.push({ path: '/select' })
         },
         async scanTX () {
             try {

@@ -107,6 +107,9 @@
         <ClaimTokenModal
             ref="claimModal"
             :parent="this"/>
+        <Claimed
+            ref="claimedModal"
+            :parent="this"/>
         <div
             :class="(loading ? 'tomo-loading' : '')"/>
     </b-container>
@@ -120,12 +123,14 @@ import urljoin from 'url-join'
 import LoginModal from './components/modals/Login'
 import ClaimTokenModal from './components/modals/ClaimToken'
 import AddressInfo from './components/Address.vue'
+import Claimed from './components/modals/Claimed'
 export default {
     name: 'App',
     components: {
         LoginModal,
         ClaimTokenModal,
-        AddressInfo
+        AddressInfo,
+        Claimed
     },
     data () {
         return {
@@ -171,11 +176,7 @@ export default {
     destroyed () { },
     created: async function () {
         if (this.address) {
-            const data1 = await this.checkUnclaimTx()
-            if (data1) {
-                this.$store.state.unClaimTx = data1
-                this.$refs.claimModal.show()
-            }
+            await this.checkUnclaimTx()
         }
     },
     methods: {
@@ -220,9 +221,15 @@ export default {
         },
         async checkUnclaimTx () {
             try {
+                this.loading = true
                 const { data } = await axios.get('/api/account/getUnclaimTx/' + this.address)
-                return data
+                if (data) {
+                    this.$store.state.unClaimTx = data
+                    this.$refs.claimModal.show()
+                }
+                this.loading = false
             } catch (error) {
+                this.loading = false
                 console.log(error)
                 this.$toasted.show(error.message ? error.message : error, { type: 'error ' })
             }
@@ -249,12 +256,7 @@ export default {
                     this.$store.state.address = address
                     this.$store.state.provider = 'metamask'
 
-                    const data1 = await this.checkUnclaimTx()
-                    if (data1) {
-                        this.$store.state.unClaimTx = data1
-                        this.loading = false
-                        this.$refs.claimModal.show()
-                    }
+                    await this.checkUnclaimTx()
                     this.loading = false
                 } else {
                     this.loading = false

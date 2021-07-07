@@ -31,7 +31,8 @@ export default {
             txHash: '',
             txUrl: '',
             isMint: false,
-            outtxObj: {}
+            outtxObj: {},
+            contract: {}
         }
     },
     async updated () {

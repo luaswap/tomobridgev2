@@ -71,12 +71,15 @@
                     @click="claim">Claim {{ (unClaimTx.coin || '').toUpperCase() }}</b-button>
             </div>
         </b-container>
+        <div
+            :class="(loading ? 'tomo-loading' : '')"/>
     </b-modal>
 </template>
 
 <script>
 import urljoin from 'url-join'
 import moment from 'moment'
+import axios from 'axios'
 export default {
     name: 'App',
     components: { },
@@ -91,7 +94,8 @@ export default {
         return {
             burnTxUrl: '#',
             dateTime: '',
-            coinImg: ''
+            coinImg: '',
+            loading: false
         }
     },
     computed: {
@@ -128,6 +132,7 @@ export default {
     destroyed () { },
     created: async function () {
         const config = this.config
+
         if (this.unClaimTx && this.unClaimTx.burnTx) {
             this.burnTxUrl = urljoin(
                 this.config.tomoscanUrl,
@@ -155,18 +160,79 @@ export default {
         hide () {
             this.$refs.claimModal.hide()
         },
-        async claim () {
-            const coinObj = this.config.objSwapCoin
-            this.hide()
-            this.$router.push({
-                name: 'UnwrapExecution',
-                params: {
-                    recAddress: this.unClaimTx.receivingAddress,
-                    amount: this.unClaimTx.amount,
-                    fromWrapSelected: coinObj[this.unClaimTx.coin],
-                    isClaimable: true
+        async scanTX () {
+            try {
+                const txData = await axios.get(
+                    `/api/wrap/getTransaction/${this.unClaimTx.burnTx}`
+                )
+                if (txData && txData.data) {
+                    return txData.data
                 }
-            })
+            } catch (error) {
+                console.log(error)
+                this.$toasted.show(error.message ? error.message : error, { type: 'error' })
+            }
+        },
+        async claim () {
+            this.loading = true
+            const parent = this.parent
+            try {
+                const config = this.config
+                let data = await this.scanTX()
+
+                if (data && data.transaction) {
+                    const outTx = data.transaction.OutTx
+                    let threeFirstBytes = []
+                    if (outTx.Hash === this.unClaimTx.burnTx &&
+                        outTx.Status.toLowerCase() === 'signed_on_hub' && outTx.Signature) {
+                        const bytes = this.web3Eth.utils.hexToBytes(outTx.Signature)
+                        // get 3 first bytes
+                        for (let i = 0; i < 3; i++) {
+                            threeFirstBytes.push(bytes[i])
+                        }
+                    }
+                    threeFirstBytes.push(0)
+
+                    const contract = new this.web3Eth.eth.Contract(
+                        this.ContractBridgeEthAbi.abi,
+                        config.blockchain.contractBridgeEth
+                    )
+
+                    const isClaim = await contract.methods.usedNonce(threeFirstBytes).call()
+                    if (!isClaim) {
+                        const coinObj = this.config.objSwapCoin
+                        this.hide()
+                        this.$router.push({
+                            name: 'UnwrapExecution',
+                            params: {
+                                recAddress: this.unClaimTx.receivingAddress,
+                                amount: this.unClaimTx.amount,
+                                fromWrapSelected: coinObj[this.unClaimTx.coin],
+                                isClaimable: true
+                            }
+                        })
+                    } else {
+                        this.loading = false
+                        this.hide()
+                        parent.$refs.claimedModal.show()
+                    }
+                } else {
+                    const coinObj = this.config.objSwapCoin
+                    this.hide()
+                    this.$router.push({
+                        name: 'UnwrapExecution',
+                        params: {
+                            recAddress: this.unClaimTx.receivingAddress,
+                            amount: this.unClaimTx.amount,
+                            fromWrapSelected: coinObj[this.unClaimTx.coin],
+                            isClaimable: true
+                        }
+                    })
+                }
+            } catch (error) {
+                this.loading = false
+                this.$toasted.show(error, { type: 'error' })
+            }
         }
     }
 }
