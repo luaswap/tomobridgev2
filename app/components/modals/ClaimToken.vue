@@ -182,23 +182,18 @@ export default {
 
                 if (data && data.transaction) {
                     const outTx = data.transaction.OutTx
-                    let threeFirstBytes = []
+                    let signatureBytes = []
                     if (outTx.Hash === this.unClaimTx.burnTx &&
                         outTx.Status.toLowerCase() === 'signed_on_hub' && outTx.Signature) {
-                        const bytes = this.web3Eth.utils.hexToBytes(outTx.Signature)
-                        // get 3 first bytes
-                        for (let i = 0; i < 3; i++) {
-                            threeFirstBytes.push(bytes[i])
-                        }
+                        signatureBytes = this.web3Eth.utils.hexToBytes(outTx.Signature)
                     }
-                    threeFirstBytes.push(0)
 
                     const contract = new this.web3Eth.eth.Contract(
                         this.ContractBridgeEthAbi.abi,
                         config.blockchain.contractBridgeEth
                     )
 
-                    const isClaim = await contract.methods.usedNonce(threeFirstBytes).call()
+                    const isClaim = await contract.methods.usedNonce(signatureBytes).call()
                     if (!isClaim) {
                         const coinObj = this.config.objSwapCoin
                         this.hide()
