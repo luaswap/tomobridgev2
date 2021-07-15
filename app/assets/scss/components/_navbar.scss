@@ -81,9 +81,27 @@
     }
 }
 
-.navbar-nav .nav-item {
-    .nav-link {
-        color: white;
+.navbar-nav {
+    .show {
+        .nav-link {
+            color: #8B8B8B !important;
+        }
+    }
+    .nav-item {
+        .nav-link {
+            color: white;
+            &:focus {
+                color: white;
+            }
+            &:hover,
+            &.active {
+                color: #8B8B8B !important;
+                span {
+                    display: inline-block;
+                    color: #8B8B8B !important;
+                }
+            }
+        }
     }
 
     .dropdown-toggle {
@@ -147,6 +165,7 @@
 
     .dropdown-item {
         padding: 12px 30px;
+        border-radius: 10px;
 
         &:hover {
             background-color: $color-bg;

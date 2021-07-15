@@ -21,7 +21,21 @@
                     is-nav>
                     <b-navbar-nav
                         class="text-white ml-auto">
-                        <b-nav-item class="position-relative">Instruction video <span class="coming-soon">Coming soon</span></b-nav-item>
+                        <!-- <b-nav-item class="position-relative">Instruction video <span class="coming-soon">Coming soon</span></b-nav-item> -->
+                        <b-nav-item-dropdown
+                            class="nav-item btn-language ml-2"
+                            no-caret
+                            text="Instruction video">
+                            <b-dropdown-item
+                                href="https://www.youtube.com/watch?v=O2QDRsfE2sc"
+                                target="_blank">TOMO <> TOMOE</b-dropdown-item>
+                            <b-dropdown-item
+                                href="https://www.youtube.com/watch?v=BMea900EY2Y"
+                                target="_blank">Wrap (Ethereum > TomoChain)</b-dropdown-item>
+                            <b-dropdown-item
+                                href="https://www.youtube.com/watch?v=1dVwU2Wu5ao"
+                                target="_blank">Unwrap (TomoChain > Ethereum)</b-dropdown-item>
+                        </b-nav-item-dropdown>
                         <b-nav-item
                             href="https://forms.gle/cU1XU3b8EUMxB6yA6"
                             target="_blank">Support ticket</b-nav-item>
