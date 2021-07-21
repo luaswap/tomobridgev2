@@ -142,14 +142,7 @@ export default {
                             while (check) {
                                 const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                 if (receipt && receipt.status) {
-                                    axios.post('/api/account/updateTx', {
-                                        address: this.address,
-                                        burnTx: txHash,
-                                        coin: this.fromWrapSelected.symbol.toLowerCase(),
-                                        isClaim: false,
-                                        amount: this.amount,
-                                        receivingAddress: this.recAddress
-                                    })
+                                    await this.updateTransaction()
                                     check = false
                                     this.loading = false
                                     parent.step++
@@ -166,6 +159,23 @@ export default {
                 console.log(error)
                 this.loading = false
                 this.isSigned = false
+                this.$toasted.show(error.message ? error.message : error, { type: 'error' })
+            }
+        },
+        async updateTransaction () {
+            const parent = this.parent
+            const token = this.fromWrapSelected
+            try {
+                await axios.post('/api/account/updateTx', {
+                    address: this.address,
+                    burnTx: parent.transactionHash,
+                    coin: token.symbol.toLowerCase(),
+                    isClaim: false,
+                    amount: this.amount,
+                    receivingAddress: this.recAddress
+                })
+            } catch (error) {
+                console.log(error)
                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
             }
         }

@@ -26,9 +26,11 @@
                             class="nav-item btn-language ml-2"
                             no-caret
                             text="Instruction video">
+                            <!-- eslint-disable -->
                             <b-dropdown-item
                                 href="https://www.youtube.com/watch?v=O2QDRsfE2sc"
                                 target="_blank">TOMO <> TOMOE</b-dropdown-item>
+                            <!-- eslint-enable -->
                             <b-dropdown-item
                                 href="https://www.youtube.com/watch?v=BMea900EY2Y"
                                 target="_blank">Wrap (Ethereum > TomoChain)</b-dropdown-item>
