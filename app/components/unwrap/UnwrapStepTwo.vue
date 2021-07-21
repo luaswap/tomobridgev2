@@ -260,7 +260,8 @@ export default {
                     claimTx: parent.claimTxHash,
                     isClaim: true,
                     amount: this.amount,
-                    receivingAddress: this.recAddress
+                    receivingAddress: this.recAddress,
+                    status: 'confirmed'
                 })
             } catch (error) {
                 console.log(error)

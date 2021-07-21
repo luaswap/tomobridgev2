@@ -43,13 +43,15 @@ router.post('/updateTx', [
         const coin = req.body.coin
         const amount = req.body.amount
         const receivingAddress = req.body.receivingAddress
+        const status = req.body.status || ''
         let data = {
             signer: address.toLowerCase(),
             isClaim: req.body.isClaim,
             coin: coin.toLowerCase(),
             burnTx,
             amount,
-            receivingAddress: receivingAddress.toLowerCase()
+            receivingAddress: receivingAddress.toLowerCase(),
+            status
         }
         if (claimTx) {
             data.claimTx = claimTx
@@ -65,17 +67,16 @@ router.post('/updateTx', [
                 burnTx: burnTx
             }, { $set: data }, { upsert: true })
         }
-        return res.send('OK')
+        return res.json(data)
     } catch (error) {
         return res.send('Cannot find tx')
     }
 })
 
-router.post('/updateTxWithKey', [
+router.post('/updateClaimTxWithKey', [
     check('address').exists().isLength({ min: 42, max: 42 }).withMessage("'address' is incorrect."),
     check('burnTx').exists().withMessage("'burnTx' is required.").isLength({ min: 66, max: 66 }).withMessage("'burnTx' is incorrect."),
-    check('claimTx').optional().isLength({ min: 66, max: 66 }).withMessage("'claimTx' is incorrect."),
-    check('isClaim').exists().isBoolean().withMessage("'isClaim' is required.")
+    check('claimTx').optional().isLength({ min: 66, max: 66 }).withMessage("'claimTx' is incorrect.")
 ], async function (req, res, next) {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -88,7 +89,6 @@ router.post('/updateTxWithKey', [
             const address = req.body.address
             const burnTx = req.body.burnTx
             const claimTx = req.body.claimTx || ''
-            const isClaim = req.body.isClaim
             let data = await db.Transaction.findOne({
                 signer: address.toLowerCase(),
                 burnTx: burnTx
@@ -106,12 +106,17 @@ router.post('/updateTxWithKey', [
                     }, {
                         $set: {
                             claimTx,
-                            isClaim
+                            isClaim: true,
+                            status: 'claimed'
                         }
                     }, { upsert: true })
                 }
             }
-            return res.send('OK')
+            let data1 = await db.Transaction.findOne({
+                signer: address.toLowerCase(),
+                burnTx: burnTx
+            })
+            return res.json(data1)
         }
     } catch (error) {
         return next(error)

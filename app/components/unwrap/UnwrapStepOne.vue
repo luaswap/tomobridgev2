@@ -56,7 +56,8 @@ export default {
             contract: {},
             fee: 0,
             tomoIds: [88, 89, 99],
-            isSigned: false
+            isSigned: false,
+            interval: ''
         }
     },
     computed: {
@@ -138,16 +139,26 @@ export default {
                         .on('transactionHash', async (txHash) => {
                             this.isSigned = true
                             parent.transactionHash = txHash
-                            let check = true
-                            while (check) {
+                            await this.updateTransaction(false)
+                            // let check = true
+                            this.interval = setInterval(async () => {
                                 const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                 if (receipt && receipt.status) {
                                     await this.updateTransaction()
-                                    check = false
                                     this.loading = false
+                                    clearInterval(this.interval)
                                     parent.step++
                                 }
-                            }
+                            }, 1000)
+                            // while (check) {
+                            //     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
+                            //     if (receipt && receipt.status) {
+                            //         await this.updateTransaction()
+                            //         check = false
+                            //         this.loading = false
+                            //         parent.step++
+                            //     }
+                            // }
                         }).catch(error => {
                             console.log(error)
                             this.loading = false
@@ -162,18 +173,31 @@ export default {
                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
             }
         },
-        async updateTransaction () {
+        async updateTransaction (isConfirm = true) {
             const parent = this.parent
             const token = this.fromWrapSelected
             try {
-                await axios.post('/api/account/updateTx', {
-                    address: this.address,
-                    burnTx: parent.transactionHash,
-                    coin: token.symbol.toLowerCase(),
-                    isClaim: false,
-                    amount: this.amount,
-                    receivingAddress: this.recAddress
-                })
+                if (!isConfirm) {
+                    await axios.post('/api/account/updateTx', {
+                        address: this.address,
+                        burnTx: parent.transactionHash,
+                        coin: token.symbol.toLowerCase(),
+                        isClaim: false,
+                        amount: this.amount,
+                        receivingAddress: this.recAddress,
+                        status: 'notConfirm'
+                    })
+                } else {
+                    await axios.post('/api/account/updateTx', {
+                        address: this.address,
+                        burnTx: parent.transactionHash,
+                        coin: token.symbol.toLowerCase(),
+                        isClaim: false,
+                        amount: this.amount,
+                        receivingAddress: this.recAddress,
+                        status: 'confirmed'
+                    })
+                }
             } catch (error) {
                 console.log(error)
                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })

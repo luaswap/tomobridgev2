@@ -10,7 +10,11 @@ var Transaction = new Schema({
     burnTx: { type: String, index: true },
     claimTx: { type: String, index: true },
     isClaim: { type: Boolean, index: true },
-    receivingAddress: String
+    receivingAddress: String,
+    status: {
+        type: String,
+        enum : ['notConfirm', 'confirmed']
+    }
 }, { timestamps: true })
 
 module.exports = mongoose.model('Transaction', Transaction)
