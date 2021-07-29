@@ -8,6 +8,7 @@ const Web3 = require('web3')
 const config = require('config')
 
 router.get('/getUnclaimTx/:address', [], async function (req, res, next) {
+    console.log(req.ip)
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         return next(errors.array())
@@ -16,7 +17,8 @@ router.get('/getUnclaimTx/:address', [], async function (req, res, next) {
         const address = req.params.address
         const result = await db.Transaction.findOne({
             signer: address.toLowerCase(),
-            isClaim: false
+            isClaim: false,
+            status: 'confirmed'
         })
         return res.json(result)
     } catch (error) {
