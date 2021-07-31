@@ -7,8 +7,8 @@
             <section class="container container-tomochain">
                 <b-navbar-brand to="/">
                     <b-img
-                        src="/app/assets/images/logo-tomo-bridge.svg"
-                        alt="TomoBridge"/>
+                        src="/app/assets/images/logo-sdx-bridge.svg"
+                        alt="SDXBridge"/>
                 </b-navbar-brand>
                 <!-- button menu SP -->
                 <b-navbar-toggle
