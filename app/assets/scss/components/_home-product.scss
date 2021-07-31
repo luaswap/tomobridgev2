@@ -1,20 +1,20 @@
 body {
     background-color: $background-body;
-    background-image: url(/app/assets/images/bg-full-screen.svg);
+    background-image: url(/app/assets/images/bg-full-screen.jpg);
     background-repeat: no-repeat;
     background-position: center;
     min-height: 100vh;
 }
 
 .page-layout  {
-    margin: 30px 0;
+    margin: 100px 0;
     @include media-breakpoint-down(sm) {
         margin: 15px 0;
     }
 }
 
 .container-medium {
-    background: linear-gradient(138deg, #b4b4b4, #353535, #5c5c5c, #00E8B4 );
+    background: linear-gradient(138deg, #b4b4b4, #353535, #5c5c5c, #F13E81 );
     max-width: 700px;
     border-radius: 24px;
     padding: 25px 40px;
@@ -24,7 +24,7 @@ body {
         content: '';
         width: calc(100% - 2px);
         height: calc(100% - 2px);
-        background: linear-gradient(40deg, #5c5c5c, #b4b4b4, #b4b4b4, #353535);
+        background: linear-gradient(40deg, #5c5c5c, #F13E81, #F13E81, #353535);
         position: absolute;
         border-radius: 24px;
         left: 0px;
@@ -102,7 +102,7 @@ body {
 
         &:hover {
             background: #2e3835!important;
-            border: 1px solid #00E8B4!important;
+            border: 1px solid #F13E81!important;
 
             // .b-icon {
             //     color: #ffffff;
@@ -135,12 +135,12 @@ body {
 }
 
 .custom-control-input:checked~.custom-control-label::before {
-    border-color: #1990FF;
-    background-color: #1990FF;
+    border-color: #F13E81;
+    background-color: #F13E81;
 }
 
 .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-    border-color: #1990FF;
+    border-color: #F13E81;
 }
 
 .position-md-absolute {
@@ -256,7 +256,7 @@ body {
                     transition: all 0s ease;
 
                     &:hover {
-                        color: #1990FF;
+                        color: #F13E81;
                     }
                 }
             }
@@ -307,7 +307,7 @@ body {
 }
 
 .text-blue {
-    color: #1990FF!important;
+    color: #F13E81!important;
 }
 
 .txt-red {

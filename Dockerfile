@@ -1,4 +1,4 @@
-FROM node:8-alpine
+FROM node:10-alpine
 
 WORKDIR /app
 
@@ -14,9 +14,7 @@ RUN apk --no-cache --virtual deps add \
 
 COPY . .
 
-RUN mkdir -p build/contracts \
-    && mv abis/* build/contracts/ \
-    && npm run build \
+RUN npm run build \
     && rm -rf node_modules \
     && npm install --production \
     && apk del deps

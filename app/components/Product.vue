@@ -6,20 +6,20 @@
                 <h1 class="title-tmp-large">
                     SELECT A BRIDGE
                 </h1>
-                <p class="txt-dec">Cross-chain portal to transfer assets between TomoChain and other Blockchains</p>
+                <p class="txt-dec">Cross-chain portal to transfer assets between Smart DEX Chain and other Blockchains</p>
 
                 <b-form-checkbox
                     v-model="isAgreed"
                     unchecked-value="not_accepted">
                     I agree to the
                     <b-link
-                        href="https://docs.tomochain.com/tomobridge/terms-of-use"
+                        href="https://swapdex.gitbook.io/swapdex/legal/terms-of-use"
                         class="text-blue">
                         Terms of use
                     </b-link>
                     and
                     <b-link
-                        href="https://docs.tomochain.com/tomobridge/privacy-policy"
+                        href="https://swapdex.gitbook.io/swapdex/legal/privacy-policy"
                         class="text-blue">
                         Privacy policy
                     </b-link>
