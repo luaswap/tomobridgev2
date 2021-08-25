@@ -2,6 +2,18 @@ const path = require('path')
 const globImporter = require('node-sass-glob-importer')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
+
+const envPath = () => {
+    return (!process.env.NODE_ENV || (process.env.NODE_ENV === 'development'))
+        ? './.env'
+        : `./.env.${process.env.NODE_ENV}`
+}
+
+const dotenvArgs = {
+    expand: true,
+    path: envPath()
+}
 
 const webpackConfig = {
     entry: {
@@ -116,7 +128,8 @@ const webpackConfig = {
     devtool: '#eval-source-map',
     plugins: [
         new VueLoaderPlugin(),
-        new ESLintPlugin()
+        new ESLintPlugin(),
+        new Dotenv(dotenvArgs)
     ]
 }
 
