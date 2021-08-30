@@ -30,7 +30,7 @@
 import axios from 'axios'
 import urljoin from 'url-join'
 import BigNumber from 'bignumber.js'
-// import BigNumber from 'bignumber.js'
+import store from 'store'
 export default {
     name: 'App',
     components: {
@@ -205,6 +205,7 @@ export default {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                     if (receipt && receipt.status) {
                                         await this.updateTransaction()
+                                        store.remove('pendingWithdraw')
                                         this.loading = false
                                         check = false
                                         parent.step++

@@ -8,7 +8,6 @@ const Web3 = require('web3')
 const config = require('config')
 
 router.get('/getUnclaimTx/:address', [], async function (req, res, next) {
-    console.log(req.ip)
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         return next(errors.array())

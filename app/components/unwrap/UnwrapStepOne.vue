@@ -32,6 +32,7 @@
 <script>
 import BigNumber from 'bignumber.js'
 import axios from 'axios'
+import store from 'store'
 export default {
     name: 'App',
     components: {
@@ -145,20 +146,17 @@ export default {
                                 const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                 if (receipt && receipt.status) {
                                     await this.updateTransaction()
+                                    store.set('pendingWithdraw', {
+                                        ...this.fromWrapSelected,
+                                        burnTx: txHash,
+                                        amount: this.amount,
+                                        recipient: this.recAddress
+                                    })
                                     this.loading = false
                                     clearInterval(this.interval)
                                     parent.step++
                                 }
                             }, 1000)
-                            // while (check) {
-                            //     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                            //     if (receipt && receipt.status) {
-                            //         await this.updateTransaction()
-                            //         check = false
-                            //         this.loading = false
-                            //         parent.step++
-                            //     }
-                            // }
                         }).catch(error => {
                             console.log(error)
                             this.loading = false

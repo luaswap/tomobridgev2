@@ -44,6 +44,9 @@
                         <b-nav-item
                             href="https://docs.tomochain.com/tomobridge/faq"
                             target="_blank">FAQ</b-nav-item>
+                        <b-nav-item
+                            v-if="mobileCheck"
+                            to="/claimonbehalf">Claim token with multicoin wallet</b-nav-item>
                         <!-- <b-dropdown
                             :text="selectedLanguage"
                             class="nav-item btn-language ml-2">

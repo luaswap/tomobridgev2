@@ -1,79 +1,129 @@
 <template>
-    <b-modal
-        id="claimModal"
-        ref="claimModal"
-        centered
-        scrollable
-        no-close-on-backdrop
-        hide-footer>
-        <template
-            #modal-header>
-            <b-button
-                size="sm"
-                class="close"
-                @click="closeModal">
-                <b-img
-                    src="/app/assets/images/close.svg"
-                    alt="TomoBridge"/>
-            </b-button>
-        </template>
-        <b-container>
-            <div class="text-center mb-5">
-                <img
-                    src="/app/assets/images/icon-time.svg"
-                    alt="Metamask">
-            </div>
-            <h2 class="title-tmp-medium text-center">You have a pending transaction!</h2>
-            <p class="text-center">Timestamp: {{ dateTime }}</p>
-
-            <div class="claim-modal">
-                <b-row>
-                    <b-col cols="6">
-                        <b-form-group
-                            class="font-weight-bold"
-                            label="Token name">
-                            <div class="infor-detail">
-                                <img
-                                    v-if="coinImg"
-                                    :src="coinImg"
-                                    class="claim_img">
-                                {{ (unClaimTx.coin || '').toUpperCase() }}
-                            </div>
-                        </b-form-group>
-                    </b-col>
-                    <b-col cols="6">
-                        <b-form-group
-                            class="font-weight-bold overflow-hidden"
-                            label="Amount">
-                            <div class="infor-detail">
-                                {{ unClaimTx.amount }}
-                            </div>
-                        </b-form-group>
-                    </b-col>
-                    <b-col cols="12">
-                        <b-form-group
-                            class="font-weight-bold"
-                            label="Approved burn TxHash">
-                            <a
-                                class="infor-detail"
-                                :href="burnTxUrl"
-                                target="_blank">
-                                {{ truncate(unClaimTx.burnTx || '', 30) }}
-                            </a>
-                        </b-form-group>
-                    </b-col>
-                </b-row>
-            </div>
-            <div
-                class="mt-2">
+    <div>
+        <b-modal
+            id="claimModal"
+            ref="claimModal"
+            centered
+            scrollable
+            no-close-on-backdrop
+            hide-footer>
+            <template
+                #modal-header>
                 <b-button
-                    class="btn-green w-100"
-                    @click="claim">Claim {{ (unClaimTx.coin || '').toUpperCase() }}</b-button>
-            </div>
-        </b-container>
-        <div
-            :class="(loading ? 'tomo-loading' : '')"/>
-    </b-modal>
+                    size="sm"
+                    class="close"
+                    @click="closeModal">
+                    <b-img
+                        src="/app/assets/images/close.svg"
+                        alt="TomoBridge"/>
+                </b-button>
+            </template>
+            <b-container>
+                <div class="text-center mb-5">
+                    <img
+                        src="/app/assets/images/icon-time.svg"
+                        alt="Metamask">
+                </div>
+                <h2 class="title-tmp-medium text-center">You have a pending transaction!</h2>
+                <p class="text-center">Timestamp: {{ dateTime }}</p>
+
+                <div class="claim-modal">
+                    <b-row>
+                        <b-col cols="6">
+                            <b-form-group
+                                class="font-weight-bold"
+                                label="Token name">
+                                <div class="infor-detail">
+                                    <img
+                                        v-if="coinImg"
+                                        :src="coinImg"
+                                        class="claim_img">
+                                    {{ (unClaimTx.coin || '').toUpperCase() }}
+                                </div>
+                            </b-form-group>
+                        </b-col>
+                        <b-col cols="6">
+                            <b-form-group
+                                class="font-weight-bold overflow-hidden"
+                                label="Amount">
+                                <div class="infor-detail">
+                                    {{ unClaimTx.amount }}
+                                </div>
+                            </b-form-group>
+                        </b-col>
+                        <b-col cols="12">
+                            <b-form-group
+                                class="font-weight-bold"
+                                label="Approved burn TxHash">
+                                <a
+                                    class="infor-detail"
+                                    :href="burnTxUrl"
+                                    target="_blank">
+                                    {{ truncate(unClaimTx.burnTx || '', 30) }}
+                                </a>
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
+                </div>
+                <div
+                    class="mt-2">
+                    <b-button
+                        class="btn-green w-100"
+                        @click="claim">Claim {{ (unClaimTx.coin || '').toUpperCase() }}</b-button>
+                </div>
+                <div class="mt-2">* If you are using the multicoin wallet on TrustWallet, please
+                    <a
+                        style="color: #00E8B4; cursor: pointer;"
+                        @click="openTrustWalletModal">click here</a>
+                    to follow the instruction</div>
+            </b-container>
+            <div
+                :class="(loading ? 'tomo-loading' : '')"/>
+        </b-modal>
+        <b-modal
+            id="trustwalletModal"
+            ref="trustwalletModal"
+            centered
+            scrollable
+            no-close-on-backdrop
+            hide-footer>
+            <template
+                #modal-header>
+                <b-button
+                    size="sm"
+                    class="close"
+                    @click="closeTrustWalletModal">
+                    <b-img
+                        src="/app/assets/images/close.svg"
+                        alt="TomoBridge"/>
+                </b-button>
+            </template>
+            <b-container>
+                <h3 class="text-center">How to claim</h3>
+
+                <div class="ml-3">
+                    <div>1. Copy the approved burned TxHash</div>
+                    <div>
+                        {{ truncate(unClaimTx.burnTx || '', 30) }}
+                        <i
+                            style="cursor: pointer;"
+                            class="tb-copy ml-1"
+                            @click="copytoClipboard"/>
+                    </div>
+                    <div>2. Click on the <b-icon icon="list"/></div>
+                    <div>
+                        3. Click on
+                        <div class="font-weight-bold">
+                            Claim token with multicoin wallet
+                        </div>
+                    </div>
+                    <div>4. Connect your wallet</div>
+                    <div>5. Fill in the copied Burn txHash</div>
+                    <div>6. Click claim token</div>
+                </div>
+            </b-container>
+        </b-modal>
+    </div>
 </template>
 
 <script>
@@ -160,6 +210,16 @@ export default {
         hide () {
             this.$refs.claimModal.hide()
         },
+        openTrustWalletModal () {
+            this.$refs.trustwalletModal.show()
+        },
+        closeTrustWalletModal () {
+            this.$refs.trustwalletModal.hide()
+        },
+        copytoClipboard () {
+            navigator.clipboard.writeText(this.unClaimTx.burnTx)
+            this.$toasted.show('Copied')
+        },
         async scanTX () {
             try {
                 const txData = await axios.get(
@@ -168,6 +228,7 @@ export default {
                 if (txData && txData.data) {
                     return txData.data
                 }
+                return {}
             } catch (error) {
                 console.log(error)
                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
