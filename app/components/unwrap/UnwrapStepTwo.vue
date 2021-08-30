@@ -232,6 +232,7 @@ export default {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                     if (receipt && receipt.status) {
                                         await this.updateTransaction()
+                                        store.remove('pendingWithdraw')
                                         this.loading = false
                                         check = false
                                         parent.step++
