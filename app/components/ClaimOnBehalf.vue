@@ -65,9 +65,9 @@
         </div>
 
         <b-container class="container-medium">
-            <p
+            <!-- <p
                 v-if="isClaimable"
-                class="text-center">Timestamp: {{ dateTime }}</p>
+                class="text-center">Timestamp: {{ dateTime }}</p> -->
 
             <div class="claim-modal">
                 <b-row>
@@ -132,18 +132,39 @@
                 </b-row>
             </div>
             <div
-                v-if="!isClaimable"
+                v-if="!isClaimable && !signing && !claimTxHash"
                 class="mt-2">
                 <b-button
                     class="btn-green w-100"
                     @click="searchTx">Search</b-button>
             </div>
             <div
-                v-if="isClaimable"
+                v-if="isClaimable && !signing && !claimTxHash"
                 class="mt-2">
                 <b-button
                     class="btn-green w-100"
                     @click="claimAsset">Claim {{ (token || '').toUpperCase() }}</b-button>
+            </div>
+            <div
+                v-if="isClaimable && signing"
+                class="mt-2 text-center">
+                <b-button
+                    class="btn-green w-100"
+                    style="pointer: default">
+                    Please keep the window open
+                </b-button>
+            </div>
+            <div
+                v-if="claimTxHash && !signing"
+                class="mt-2 text-center">
+                <b-button
+                    class="btn-green w-100 mb-3"
+                    style="pointer: default">
+                    Successfylly converted assets!
+                </b-button>
+                <a
+                    :href="explorerUrl"
+                    target="_blank">Check transaction on etherscan</a>
             </div>
         </b-container>
         <div
@@ -167,6 +188,7 @@ export default {
             tomoIds: [88, 89, 99],
             ethIds: [1, 3, 4, 5],
             scanUrl: '#',
+            explorerUrl: '#',
             burnTxUrl: '#',
             dateTime: '',
             coinImg: '',
@@ -179,7 +201,8 @@ export default {
             signer: '',
             claimTxHash: '',
             txObj: {},
-            txDataOnHub: {}
+            txDataOnHub: {},
+            signing: false
         }
     },
     computed: {
@@ -407,6 +430,7 @@ export default {
                 const chainId = await this.getChainId()
                 if (this.ethIds.indexOf(chainId) > -1) {
                     this.loading = true
+                    this.signing = true
                     const contract = new this.web3.eth.Contract(
                         this.ContractBridgeEthAbi.abi,
                         config.blockchain.contractBridgeEth
@@ -441,12 +465,19 @@ export default {
                                         await this.updateTransaction()
                                         store.remove('pendingWithdraw')
                                         this.loading = false
+                                        this.signing = false
+                                        this.explorerUrl = urljoin(
+                                            config.etherChain.etherScanURL,
+                                            'tx',
+                                            txHash
+                                        )
                                         check = false
                                     }
                                 }
                             }).catch(error => {
                                 console.log(error)
                                 this.loading = false
+                                this.signing = false
                                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
                             })
                     } else {
@@ -466,12 +497,19 @@ export default {
                                     if (receipt && receipt.status) {
                                         await this.updateTransaction()
                                         this.loading = false
+                                        this.signing = false
+                                        this.explorerUrl = urljoin(
+                                            config.etherChain.etherScanURL,
+                                            'tx',
+                                            txHash
+                                        )
                                         check = false
                                     }
                                 }
                             }).catch(error => {
                                 console.log(error)
                                 this.loading = false
+                                this.signing = false
                                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
                             })
                     }
@@ -479,6 +517,7 @@ export default {
             } catch (error) {
                 console.log(error)
                 this.loading = false
+                this.signing = false
                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })
             }
         },
