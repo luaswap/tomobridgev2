@@ -101,25 +101,29 @@
             <b-container>
                 <h3 class="text-center">How to claim</h3>
 
-                <div class="ml-3">
+                <div class="ml-3 pt-2">
                     <div>1. Copy the approved burned TxHash</div>
-                    <div>
+                    <div class="mt-2">
                         {{ truncate(unClaimTx.burnTx || '', 30) }}
                         <i
-                            style="cursor: pointer;"
+                            style="cursor: pointer; font-size: 25px;"
                             class="tb-copy ml-1"
                             @click="copytoClipboard"/>
                     </div>
-                    <div>2. Click on the <b-icon icon="list"/></div>
-                    <div>
+                    <div class="mt-2">2. Click on the
+                        <b-icon
+                            icon="list"
+                            font-scale="2"/>
+                    </div>
+                    <div class="mt-2">
                         3. Click on
-                        <div class="font-weight-bold">
+                        <div class="font-weight-bold mt-2">
                             Claim token with multicoin wallet
                         </div>
                     </div>
-                    <div>4. Connect your wallet</div>
-                    <div>5. Fill in the copied Burn txHash</div>
-                    <div>6. Click claim token</div>
+                    <div class="mt-2">4. Connect your wallet</div>
+                    <div class="mt-2">5. Fill in the copied Burn txHash</div>
+                    <div class="mt-2">6. Click claim token</div>
                 </div>
             </b-container>
         </b-modal>
