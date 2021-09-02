@@ -483,7 +483,7 @@ export default {
                     } else {
                         await contract.methods.withdrawEth(
                             this.recipient || this.txObj.To,
-                            this.txDataOnHuba.amount,
+                            this.txDataOnHub.amount,
                             this.txObj.ScID,
                             this.txObj.Hash,
                             0, // target_chain
