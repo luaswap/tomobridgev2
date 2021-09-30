@@ -208,7 +208,7 @@ export default {
                                         store.remove('pendingWithdraw')
                                         this.loading = false
                                         check = false
-                                        parent.step++
+                                        parent.step = 3
                                     }
                                 }
                             }).catch(error => {
@@ -235,7 +235,7 @@ export default {
                                         store.remove('pendingWithdraw')
                                         this.loading = false
                                         check = false
-                                        parent.step++
+                                        parent.step = 3
                                     }
                                 }
                             }).catch(error => {

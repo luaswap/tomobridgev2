@@ -154,7 +154,7 @@ export default {
                                     })
                                     this.loading = false
                                     clearInterval(this.interval)
-                                    parent.step++
+                                    parent.step = 2
                                 }
                             }, 1000)
                         }).catch(error => {

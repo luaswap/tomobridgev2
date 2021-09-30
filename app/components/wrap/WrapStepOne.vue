@@ -139,7 +139,7 @@ export default {
                                     if (receipt && receipt.status) {
                                         this.loading = false
                                         check = false
-                                        parent.step++
+                                        parent.step = 2
                                     }
                                 }
                             }).catch(error => {
@@ -161,7 +161,7 @@ export default {
                                     if (receipt && receipt.status) {
                                         this.loading = false
                                         check = false
-                                        parent.step++
+                                        parent.step = 2
                                     }
                                 }
                             }).catch(error => {

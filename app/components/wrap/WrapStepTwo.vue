@@ -78,7 +78,7 @@ export default {
                     outTx.Status.toLowerCase() === 'mint') {
                     parent.outTx = outTx
                     this.isMint = true
-                    parent.step++
+                    parent.step = 3
                     clearInterval(this.interval1)
                 }
             }
