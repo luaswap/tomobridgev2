@@ -246,6 +246,7 @@ import UnWrapStepOne from './UnwrapStepOne'
 import UnWrapStepTwo from './UnwrapStepTwo'
 import UnWrapStepThree from './UnwrapStepThree'
 import TransactionDetails from '../TransactionDetails'
+import store from 'store'
 
 export default {
     name: 'App',
@@ -262,7 +263,7 @@ export default {
             recAddress: this.$route.params.recAddress || '',
             config: this.$store.state.config || {},
             amount: this.$route.params.amount || {},
-            isClaimable: this.$route.params.isClaimable,
+            isClaimable: this.$route.params.isClaimable || false,
             address: this.$store.state.address || '',
             expireTime: '',
             loading: false,
@@ -301,7 +302,7 @@ export default {
                 path: '/select'
             })
         }
-        if (this.isClaimable) {
+        if (this.isClaimable && store.get('pendingWithdraw')) {
             const unClaimTx = this.$store.state.unClaimTx
             this.transactionHash = unClaimTx.burnTx
             this.step = 2
