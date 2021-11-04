@@ -74,7 +74,7 @@ export default {
         const receipt = await this.web3Tomo.eth.getTransactionReceipt(parent.transactionHash)
         this.txUrl = urljoin(
             config.tomoscanUrl,
-            'txs',
+            'tx',
             parent.transactionHash
         )
         const signedBlock = receipt.blockNumber

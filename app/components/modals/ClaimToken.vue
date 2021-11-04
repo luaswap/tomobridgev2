@@ -172,7 +172,7 @@ export default {
             if (this.unClaimTx && this.unClaimTx.burnTx) {
                 this.burnTxUrl = urljoin(
                     this.config.tomoscanUrl,
-                    'txs',
+                    'tx',
                     this.unClaimTx.burnTx
                 )
                 this.dateTime = moment(this.unClaimTx.createdAt).format('DD/MM/YYYY')
@@ -190,7 +190,7 @@ export default {
         if (this.unClaimTx && this.unClaimTx.burnTx) {
             this.burnTxUrl = urljoin(
                 this.config.tomoscanUrl,
-                'txs',
+                'tx',
                 this.unClaimTx.burnTx
             )
             this.dateTime = moment(this.unClaimTx.createdAt).format('DD/MM/YYYY')
