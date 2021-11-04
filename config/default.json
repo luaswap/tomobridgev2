@@ -23,7 +23,7 @@
         "contractBridgeTomo": ""
     },
     "apiKey": "",
-    "tomoscanUrl": "https://scan.devnet.tomochain.com",
+    "tomoscanUrl": "https://tomoscan.io",
     "tomoscanAPI": "https://scan.devnet.tomochain.com",
     "serverAPI": "https://bridge.devnet.tomochain.com",
     "tokenListAPI": "https://raw.githubusercontent.com/tomochain/tokens/master/tokens",

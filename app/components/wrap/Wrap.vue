@@ -276,7 +276,7 @@ export default {
 
             this.tomoScanUrl = urljoin(
                 config.tomoscanUrl,
-                'tokens',
+                'token',
                 this.fromWrapSelected.wrapperAddress
             )
         }
@@ -332,7 +332,7 @@ export default {
             const config = this.config
             this.tomoScanUrl = urljoin(
                 config.tomoscanUrl,
-                'tokens',
+                'token',
                 token.wrapperAddress
             )
             if (token.symbol === 'ETH') {

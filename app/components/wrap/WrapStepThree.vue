@@ -39,7 +39,7 @@ export default {
         const parent = this.parent
         this.explorerUrl = urljoin(
             this.config.tomoscanUrl,
-            'txs',
+            'tx',
             parent.outTx.Hash || ''
         )
     },
