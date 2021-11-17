@@ -5,7 +5,7 @@ const db = require('../models/mongodb')
 const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time))
 const web3 = new Web3(new Web3.providers.HttpProvider(config.blockchain.rpc))
 
-const scanPendingTx = async () => {
+const scanNotConfirmTx = async () => {
     try {
         console.log(`Checking not confirm tx at ${new Date()}`)
         const data = await db.Transaction.find({ status: 'notConfirm' })
@@ -26,10 +26,10 @@ const scanPendingTx = async () => {
     } catch (error) {
         console.log('Sonething went wrong', error)
         await sleep(30000)
-        return scanPendingTx()
+        return scanNotConfirmTx()
     }
     await sleep(30000)
-    return scanPendingTx()
+    return scanNotConfirmTx()
 }
 
 scanPendingTx()
