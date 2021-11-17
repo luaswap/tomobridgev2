@@ -32,4 +32,4 @@ const scanNotConfirmTx = async () => {
     return scanNotConfirmTx()
 }
 
-scanPendingTx()
+scanNotConfirmTx()
