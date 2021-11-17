@@ -302,7 +302,7 @@ export default {
                 path: '/select'
             })
         }
-        if (this.isClaimable && store.get('pendingWithdraw')) {
+        if (this.isClaimable || store.get('pendingWithdraw')) {
             const unClaimTx = this.$store.state.unClaimTx
             this.transactionHash = unClaimTx.burnTx
             this.step = 2
