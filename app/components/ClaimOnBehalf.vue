@@ -422,6 +422,7 @@ export default {
                 return estimateGas
             } catch (error) {
                 console.log(error)
+                throw new Error(error.message ? error.message : error)
             }
         },
         async claimAsset () {

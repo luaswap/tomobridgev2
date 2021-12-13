@@ -158,6 +158,7 @@ export default {
                 return estimateGas
             } catch (error) {
                 console.log(error)
+                throw new Error(error.message ? error.message : error)
             }
         },
         async claimAsset () {
@@ -211,7 +212,8 @@ export default {
                                         parent.step = 3
                                     }
                                 }
-                            }).catch(error => {
+                            })
+                            .catch(error => {
                                 console.log(error)
                                 this.loading = false
                                 this.$toasted.show(error.message ? error.message : error, { type: 'error' })

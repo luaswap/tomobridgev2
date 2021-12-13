@@ -10,24 +10,34 @@ const scanNotConfirmTx = async () => {
         console.log(`Checking not confirm tx at ${new Date()}`)
         const data = await db.Transaction.find({ status: 'notConfirm' })
         if (data.length === 0) {
-            console.log('Found nothing!')
+            // console.log('Found nothing!')
         } else {
+            console.log(`Found ${data.length}`)
             data.map(async d => {
+                const currentBlock = await web3.eth.getBlockNumber()
                 const receipt = await web3.eth.getTransactionReceipt(d.burnTx)
-                if (receipt && receipt.status) {
+                if (receipt &&
+                    receipt.status &&
+                    ((currentBlock - receipt.blockNumber) >= 30)
+                ) {
                     await db.Transaction.updateOne({
                         signer: d.signer.toLowerCase(),
                         burnTx: d.burnTx
                     }, { $set: { status: 'confirmed' } })
                     console.log(`Done update burn tx: ${d.burnTx}`)
+                } else {
+                    // Reorg ? delete
+                    await db.Transaction.deleteOne({ burnTx: d.burnTx })
                 }
             })
         }
     } catch (error) {
         console.log('Sonething went wrong', error)
+        console.log('Sleep 30 seconds')
         await sleep(30000)
         return scanNotConfirmTx()
     }
+    console.log('Sleep 30 seconds')
     await sleep(30000)
     return scanNotConfirmTx()
 }
