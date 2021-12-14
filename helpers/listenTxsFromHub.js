@@ -16,6 +16,7 @@ const HUB_CONTRACT = config.get('blockchain.contractBridgeTomo') // '0xd814E8bB7
 
 const listenTxsFromHub = async (block = 'latest') => {
     try {
+        console.log('Listening to SubmitBurningtx event')
         const { data } = await axios.get(
             urljoin(config.get('serverAPI'), 'tokens?page=1&limit=1000')
         )
@@ -47,55 +48,51 @@ const listenTxsFromHub = async (block = 'latest') => {
                 // get burn tx hash
                 const burnTx = result.returnValues.txHash
 
-                const isExist = await db.Transaction.findOne({ burnTx })
+                // get signer
+                const burnTxData = await web3.eth.getTransaction(burnTx)
+                const signer = burnTxData.from
 
-                if (!isExist) {
-                    // get signer
-                    const burnTxData = await web3.eth.getTransaction(burnTx)
-                    const signer = burnTxData.from
+                // get recipient, amount, coin
+                const burningData = await contract.methods.Transactions(result.returnValues.txHash).call()
 
-                    // get recipient, amount, coin
-                    const burningData = await contract.methods.Transactions(result.returnValues.txHash).call()
+                let recipient = burningData.recipient
+                let amount
+                let tokenAddress = burningData.tokenAddress
 
-                    let recipient = burningData.recipient
-                    let amount
-                    let tokenAddress = burningData.tokenAddress
+                let coin
 
-                    let coin
-
-                    if (tokenAddress === '0x0000000000000000000000000000000000000000') {
-                        coin = swapCoin.find(s => s.symbol.toLowerCase() === 'eth')
-                    } else {
-                        coin = swapCoin.find(s => s.tokenAddress.toLowerCase() === tokenAddress.toLowerCase())
-                    }
-
-                    if (!coin) {
-                        throw new Error(`Cannot find token ${coin} ${tokenAddress}`)
-                    }
-
-                    amount = (new BigNumber(burningData.amount).div(10 ** coin.decimals)).toString(10)
-
-                    let data = {
-                        signer: signer.toLowerCase(),
-                        isClaim: false,
-                        coin: coin.symbol.toLowerCase(),
-                        burnTx,
-                        amount,
-                        receivingAddress: recipient.toLowerCase(),
-                        status: 'confirmed',
-                        createdAt: createdAt,
-                        updatedAt: createdAt
-                    }
-
-                    console.log(`Store burnTx ${burnTx}`)
-
-                    // store db
-                    await db.Transaction.findOneAndUpdate({
-                        signer: signer.toLowerCase(),
-                        coin: coin.symbol.toLowerCase(),
-                        burnTx: burnTx
-                    }, { $set: data }, { upsert: true })
+                if (tokenAddress === '0x0000000000000000000000000000000000000000') {
+                    coin = swapCoin.find(s => s.symbol.toLowerCase() === 'eth')
+                } else {
+                    coin = swapCoin.find(s => s.tokenAddress.toLowerCase() === tokenAddress.toLowerCase())
                 }
+
+                if (!coin) {
+                    throw new Error(`Cannot find token ${coin} ${tokenAddress}`)
+                }
+
+                amount = (new BigNumber(burningData.amount).div(10 ** coin.decimals)).toString(10)
+
+                let data = {
+                    signer: signer.toLowerCase(),
+                    isClaim: false,
+                    coin: coin.symbol.toLowerCase(),
+                    burnTx,
+                    amount,
+                    receivingAddress: recipient.toLowerCase(),
+                    status: 'confirmed',
+                    createdAt: createdAt,
+                    updatedAt: createdAt
+                }
+
+                console.log(`Store burnTx ${burnTx}`)
+
+                // store db
+                await db.Transaction.findOneAndUpdate({
+                    signer: signer.toLowerCase(),
+                    coin: coin.symbol.toLowerCase(),
+                    burnTx: burnTx
+                }, { $set: data }, { upsert: true })
             }
         })
     } catch (error) {
