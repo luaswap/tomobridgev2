@@ -17,14 +17,17 @@ const scanNotConfirmTx = async () => {
                 const currentBlock = await web3.eth.getBlockNumber()
                 const receipt = await web3.eth.getTransactionReceipt(d.burnTx)
                 if (receipt &&
-                    receipt.status &&
-                    ((currentBlock - receipt.blockNumber) >= 30)
+                    receipt.status
                 ) {
-                    await db.Transaction.updateOne({
-                        signer: d.signer.toLowerCase(),
-                        burnTx: d.burnTx
-                    }, { $set: { status: 'confirmed' } })
-                    console.log(`Done update burn tx: ${d.burnTx}`)
+                    if ((currentBlock - receipt.blockNumber) >= 30) {
+                        await db.Transaction.updateOne({
+                            signer: d.signer.toLowerCase(),
+                            burnTx: d.burnTx
+                        }, { $set: { status: 'confirmed' } })
+                        console.log(`Done update burn tx: ${d.burnTx}`)
+                    } else {
+                        console.log('Not enough blocks requirement')
+                    }
                 } else {
                     // Reorg ? delete
                     await db.Transaction.deleteOne({ burnTx: d.burnTx })
