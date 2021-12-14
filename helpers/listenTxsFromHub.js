@@ -9,10 +9,8 @@ const hubContractAbi = require('../abis/ContractBridgeTomo.json')
 
 const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time))
 const web3 = new Web3(new Web3.providers.WebsocketProvider(config.blockchain.ws))
-// const web3 = new Web3(new Web3.providers.WebsocketProvider('wss://ws.tomochain.com'))
 
-// const HUB_CONTRACT = '0x5e10389bF3Bc3cDf274d7112C00e3785bbE0b8cd'
-const HUB_CONTRACT = config.get('blockchain.contractBridgeTomo') // '0xd814E8bB79082A2bf7D59A634b5134670f632837'
+const HUB_CONTRACT = config.get('blockchain.contractBridgeTomo')
 
 const listenTxsFromHub = async (block = 'latest') => {
     try {
