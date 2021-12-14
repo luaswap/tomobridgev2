@@ -82,7 +82,7 @@ const listenTxsFromHub = async (block = 'latest') => {
                         burnTx,
                         amount,
                         receivingAddress: recipient.toLowerCase(),
-                        status: 'notConfirm',
+                        status: 'confirmed',
                         createdAt: createdAt,
                         updatedAt: createdAt
                     }
