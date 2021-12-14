@@ -145,7 +145,7 @@ export default {
                             this.interval = setInterval(async () => {
                                 const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                 if (receipt && receipt.status) {
-                                    await this.updateTransaction()
+                                    // await this.updateTransaction()
                                     store.set('pendingWithdraw', {
                                         ...this.fromWrapSelected,
                                         burnTx: txHash,
