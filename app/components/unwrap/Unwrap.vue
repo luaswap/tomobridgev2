@@ -91,7 +91,7 @@
                     class="blink_me mb-2 text-center">
                     We’re migrating old token ETH to new token, go migrate
                     <a
-                        href="https://migration.tomochain.com"
+                        href="https://migrate.tomochain.com"
                         target="_blank"
                         class="text-blue">here</a>
                 </b-col>
