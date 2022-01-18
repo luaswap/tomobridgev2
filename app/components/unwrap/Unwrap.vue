@@ -85,6 +85,16 @@
                         </b-button>
                     </b-form-group>
                 </b-col>
+                <b-col
+                    v-if="fromWrapSelected.symbol === 'ETH'"
+                    cols="12"
+                    class="blink_me mb-2 text-center">
+                    We’re migrating old token ETH to new token, go migrate
+                    <a
+                        href="https://migration.tomochain.com"
+                        target="_blank"
+                        class="text-blue">here</a>
+                </b-col>
                 <b-col cols="12">
                     <b-form-group
                         class="mb-4 font-weight-bold"
