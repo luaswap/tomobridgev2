@@ -126,16 +126,22 @@ export default {
             try {
                 const config = this.config
                 const token = this.fromWrapSelected
+                const parent = this.parent
                 let estimateGas
                 const contract = new this.web3.eth.Contract(
                     this.ContractBridgeEthAbi.abi,
                     config.blockchain.contractBridgeEth
                 )
+                const hubContract = new this.web3Tomo.eth.Contract(
+                        this.ContractBridgeTomoAbi.abi,
+                        config.blockchain.contractBridgeTomo
+                    )
+                const txData = await hubContract.methods.Transactions(parent.transactionHash).call()
                 if (token.symbol.toLowerCase() !== 'eth') {
                     estimateGas = await contract.methods.withdrawERC20(
                         token.tokenAddress,
                         this.recAddress,
-                        this.inTxObj.Amount,
+                        txData.amount,
                         this.txObj.ScID,
                         this.txObj.Hash,
                         0,
@@ -146,7 +152,7 @@ export default {
                 } else {
                     estimateGas = await contract.methods.withdrawEth(
                         this.recAddress,
-                        this.inTxObj.Amount,
+                        txData.amount,
                         this.txObj.ScID,
                         this.txObj.Hash,
                         0, // target_chain
