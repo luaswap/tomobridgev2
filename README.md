@@ -1,7 +1,7 @@
 ## TomoBridge
 
 ## Requirements
-- NodeJS (If you get EACCES permission issue, please see: https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally)
+- NodeJS v10 (If you get EACCES permission issue, please see: https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally)
 - MongoDB
 - Truffle Framework
 
