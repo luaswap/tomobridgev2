@@ -93,7 +93,9 @@ export default {
                     amount: this.unClaimTx.amount,
                     receivingAddress: this.unClaimTx.receivingAddress
                 })
-                store.remove('pendingWithdraw')
+                if (store.get('pendingWithdraw')) {
+                    store.remove('pendingWithdraw')
+                }
                 this.loading = false
                 this.hide()
                 parent.checkUnclaimTx()
