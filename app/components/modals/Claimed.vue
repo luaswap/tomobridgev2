@@ -30,6 +30,7 @@
 
 <script>
 import axios from 'axios'
+import store from 'store'
 export default {
     name: 'App',
     components: { },
@@ -92,6 +93,7 @@ export default {
                     amount: this.unClaimTx.amount,
                     receivingAddress: this.unClaimTx.receivingAddress
                 })
+                store.remove('pendingWithdraw')
                 this.loading = false
                 this.hide()
                 parent.checkUnclaimTx()
