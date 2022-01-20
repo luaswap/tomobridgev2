@@ -12,7 +12,9 @@
     "etherChain": {
         "rpc": "",
         "networkId": 1,
-        "etherScanURL": "https://etherscan.io/"
+        "etherScanURL": "https://etherscan.io/",
+        "ethClaimGas": 10000,
+        "tokenClaimGas": 125000
     },
     "blockchain": {
         "rpc": "https://rpc.devnet.tomochain.com",
