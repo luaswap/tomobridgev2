@@ -37,7 +37,12 @@ const listenTxsFromHub = async (block = 'latest') => {
 
         contract.events.SubmitBurningTx({
             fromBlock: block
-        }).on('data', async event => {
+        })
+        .on('connected', (subscriptionId) => {
+            console.log('subscriptionId', subscriptionId)
+        })
+        .on('changed', (data) => console.log('changed', changed))
+        .on('data', async event => {
             let result = event
             if (result.event === 'SubmitBurningTx') {
                 console.log('Found SubmitBurningTx for burnTx: ', result.returnValues.txHash)
@@ -83,15 +88,23 @@ const listenTxsFromHub = async (block = 'latest') => {
                     updatedAt: createdAt
                 }
 
-                console.log(`Store burnTx ${burnTx}`)
 
                 // store db
-                await db.Transaction.findOneAndUpdate({
-                    signer: signer.toLowerCase(),
-                    coin: coin.symbol.toLowerCase(),
+                const isExist = await db.Transaction.findOne({
                     burnTx: burnTx
-                }, { $set: data }, { upsert: true })
+                })
+                if (!isExist) {
+                    console.log(`Store burnTx ${burnTx}`)
+                    await db.Transaction.findOneAndUpdate({
+                        signer: signer.toLowerCase(),
+                        coin: coin.symbol.toLowerCase(),
+                        burnTx: burnTx
+                    }, { $set: data }, { upsert: true })
+                }
             }
+        })
+        .on('error', (error, receipt) => {
+            console.log('error', error)
         })
     } catch (error) {
         console.log('Sonething went wrong', error)
