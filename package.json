@@ -17,7 +17,8 @@
     "lint-fix": "eslint --cache ./ --ext .vue --ext .js --fix",
     "crawl-dev": "./node_modules/.bin/nodemon crawl.js",
     "crawl": "node ./crawl.js",
-    "start": "node ./index.js"
+    "start": "node ./index.js",
+    "listenHub": "node ./helpers/listenTxsFromHub.js"
   },
   "repository": {
     "type": "git",
