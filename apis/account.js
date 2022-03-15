@@ -17,7 +17,7 @@ router.get('/getUnclaimTx/:address', [], async function (req, res, next) {
         const result = await db.Transaction.findOne({
             signer: address.toLowerCase(),
             isClaim: false,
-            status: { $in: ['confirmed', 'notConfirm'] }
+            status: 'confirmed'
         })
         return res.json(result)
     } catch (error) {
