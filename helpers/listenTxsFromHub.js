@@ -8,12 +8,13 @@ const BigNumber = require('bignumber.js')
 const hubContractAbi = require('../abis/ContractBridgeTomo.json')
 
 const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time))
-// wss://ws.tomochain.com
-// https://rpc.tomochain.com
-// wss://ws.testnet.tomochain.com
-// https://rpc.testnet.tomochain.com
-const web3 = new Web3(new Web3.providers.WebsocketProvider(config.blockchain.ws))
-const web3Rpc = new Web3(new Web3.providers.HttpProvider(config.blockchain.rpc))
+// https://rpc.tomochain.com  wss://ws.tomochain.com
+// https://rpc.testnet.tomochain.com  wss://ws.testnet.tomochain.com
+
+const rpc = config.blockchain.rpc
+const ws = config.blockchain.ws
+let web3 = new Web3(new Web3.providers.WebsocketProvider(ws))
+let web3Rpc = new Web3(new Web3.providers.HttpProvider(rpc))
 
 const HUB_CONTRACT = config.get('blockchain.contractBridgeTomo')
 
@@ -111,6 +112,8 @@ const listenTxsFromHub = async (block = 'latest') => {
         .on('error',async (error, receipt) => {
             console.log('Error', new Error(error))
             console.log('Sleep 10 seconds')
+            web3 = new Web3(new Web3.providers.WebsocketProvider(ws))
+            web3Rpc = new Web3(new Web3.providers.HttpProvider(rpc))
             block = await web3Rpc.eth.getBlockNumber()
             await sleep(10000)
             console.log('Listen event again from block', block)
@@ -119,6 +122,8 @@ const listenTxsFromHub = async (block = 'latest') => {
     } catch (error) {
         console.log('Sonething went wrong', new Error(error))
         console.log('Sleep 10 seconds')
+        web3 = new Web3(new Web3.providers.WebsocketProvider(ws))
+        web3Rpc = new Web3(new Web3.providers.HttpProvider(rpc))
         block = await web3Rpc.eth.getBlockNumber()
         await sleep(10000)
         console.log('Listen event again from block', block)
