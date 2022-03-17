@@ -11,8 +11,8 @@ const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time))
 // https://rpc.tomochain.com  wss://ws.tomochain.com
 // https://rpc.testnet.tomochain.com  wss://ws.testnet.tomochain.com
 
-const rpc = 'https://rpc.tomochain.com' // config.blockchain.rpc
-const ws = 'wss://ws.tomochain.com' // config.blockchain.ws
+const rpc = config.blockchain.rpc
+const ws = config.blockchain.ws
 let web3, web3Rpc
 
 const HUB_CONTRACT = config.get('blockchain.contractBridgeTomo') // 0xd814E8bB79082A2bf7D59A634b5134670f632837
@@ -22,7 +22,6 @@ const bridgeAbi = config.get('serverAPI')
 
 const listenTxsFromHub = async (block = 'latest') => {
     try {
-        console.log(rpc)
         web3 = new Web3(new Web3.providers.WebsocketProvider(ws))
         web3Rpc = new Web3(new Web3.providers.HttpProvider(rpc))
         blockNumber = await web3Rpc.eth.getBlockNumber()
@@ -45,15 +44,13 @@ const listenTxsFromHub = async (block = 'latest') => {
         // swapCoin = require('./token.json')
         const contract = new web3.eth.Contract(
             hubContractAbi.abi,
-            '0xd814E8bB79082A2bf7D59A634b5134670f632837'
+            HUB_CONTRACT
         )
 
         contract.getPastEvents('SubmitBurningTx', {
             fromBlock: block,
             toBlock: blockNumber
         }).then(async (events) => {
-            console.log(1111)
-            console.log(events)
             let map = events.map(async event => {
                 let result = event
                 if (result.event === 'SubmitBurningTx') {
