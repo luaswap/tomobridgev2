@@ -20,13 +20,13 @@ let currentBlock = 0
 let blockNumber
 const bridgeAbi = config.get('serverAPI')
 
-const listenTxsFromHub = async (block = 'latest') => {
+const listenTxsFromHub = async (fromBlock = 'latest', toBlock) => {
     try {
         web3 = new Web3(new Web3.providers.WebsocketProvider(ws))
         web3Rpc = new Web3(new Web3.providers.HttpProvider(rpc))
         blockNumber = await web3Rpc.eth.getBlockNumber()
 
-        console.log(`Listening to SubmitBurningtx event from ${block} to ${blockNumber}`, )
+        console.log(`Listening to SubmitBurningtx event from ${fromBlock} to ${blockNumber}`, )
         const { data } = await axios.get(
             urljoin(bridgeAbi, 'tokens?page=1&limit=1000')
         )
@@ -47,9 +47,13 @@ const listenTxsFromHub = async (block = 'latest') => {
             HUB_CONTRACT
         )
 
+        if (blockNumber - fromBlock > 50) {
+            blockNumber = fromBlock + 50
+        }
+
         contract.getPastEvents('SubmitBurningTx', {
-            fromBlock: block,
-            toBlock: blockNumber
+            fromBlock: fromBlock,
+            toBlock: toBlock | blockNumber
         }).then(async (events) => {
             let map = events.map(async event => {
                 let result = event
@@ -122,8 +126,8 @@ const listenTxsFromHub = async (block = 'latest') => {
             web3Rpc = new Web3(new Web3.providers.HttpProvider(rpc))
             console.log('Sleep 10 seconds')
             await sleep(10000)
-            console.log('Listen event again from block', block)
-            return listenTxsFromHub(block)
+            console.log('Listen event again from block', fromBlock)
+            return listenTxsFromHub(fromBlock)
         })
     } catch (error) {
         console.log('Sonething went wrong', new Error(error))
