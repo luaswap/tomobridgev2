@@ -122,7 +122,6 @@ const listenTxsFromHub = async (fromBlock = 'latest', toBlock) => {
 
             return listenTxsFromHub(currentBlock)
         }).catch(async error => {
-            console.log(1111)
             console.log(error)
             web3 = new Web3(new Web3.providers.WebsocketProvider(ws))
             web3Rpc = new Web3(new Web3.providers.HttpProvider(rpc))
@@ -132,7 +131,6 @@ const listenTxsFromHub = async (fromBlock = 'latest', toBlock) => {
             return listenTxsFromHub(fromBlock)
         })
     } catch (error) {
-        console.log(2222)
         console.log('Sonething went wrong', new Error(error))
         web3 = new Web3(new Web3.providers.WebsocketProvider(ws))
         web3Rpc = new Web3(new Web3.providers.HttpProvider(rpc))
