@@ -11,8 +11,8 @@ const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time))
 // https://rpc.tomochain.com  wss://ws.tomochain.com
 // https://rpc.testnet.tomochain.com  wss://ws.testnet.tomochain.com
 
-const rpc = config.blockchain.rpc
-const ws = config.blockchain.ws
+const rpc = 'https://rpc.tomochain.com' // config.blockchain.rpc
+const ws = 'wss://ws.tomochain.com' // config.blockchain.ws
 let web3, web3Rpc
 
 const HUB_CONTRACT = config.get('blockchain.contractBridgeTomo') // 0xd814E8bB79082A2bf7D59A634b5134670f632837
@@ -49,6 +49,7 @@ const listenTxsFromHub = async (fromBlock = 'latest', toBlock) => {
 
         if (blockNumber - fromBlock > 50) {
             blockNumber = fromBlock + 50
+            console.log(`toBlock too far, read event from ${fromBlock} to ${blockNumber}`)
         }
 
         contract.getPastEvents('SubmitBurningTx', {
@@ -121,6 +122,7 @@ const listenTxsFromHub = async (fromBlock = 'latest', toBlock) => {
 
             return listenTxsFromHub(currentBlock)
         }).catch(async error => {
+            console.log(1111)
             console.log(error)
             web3 = new Web3(new Web3.providers.WebsocketProvider(ws))
             web3Rpc = new Web3(new Web3.providers.HttpProvider(rpc))
@@ -130,15 +132,16 @@ const listenTxsFromHub = async (fromBlock = 'latest', toBlock) => {
             return listenTxsFromHub(fromBlock)
         })
     } catch (error) {
+        console.log(2222)
         console.log('Sonething went wrong', new Error(error))
         web3 = new Web3(new Web3.providers.WebsocketProvider(ws))
         web3Rpc = new Web3(new Web3.providers.HttpProvider(rpc))
         console.log('Sleep 10 seconds')
         await sleep(10000)
-        currentBlock = block
+        currentBlock = blockNumber
         return listenTxsFromHub(currentBlock)
         // ha ha ha
     }
 }
 
-listenTxsFromHub()
+listenTxsFromHub(9999999999)
