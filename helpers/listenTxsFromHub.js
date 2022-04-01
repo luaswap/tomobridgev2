@@ -117,16 +117,16 @@ const listenTxsFromHub = async (fromBlock = 'latest', toBlock) => {
             })
             currentBlock = blockNumber
             await Promise.all(map)
-            console.log('Sleep 30 seconds')
-            await sleep(30000)
+            console.log('Sleep 60 seconds')
+            await sleep(60000)
 
             return listenTxsFromHub(currentBlock)
         }).catch(async error => {
             console.log(error)
             web3 = new Web3(new Web3.providers.WebsocketProvider(ws))
             web3Rpc = new Web3(new Web3.providers.HttpProvider(rpc))
-            console.log('Sleep 10 seconds')
-            await sleep(10000)
+            console.log('Sleep 60 seconds')
+            await sleep(60000)
             console.log('Listen event again from block', fromBlock)
             return listenTxsFromHub(fromBlock)
         })
@@ -134,12 +134,12 @@ const listenTxsFromHub = async (fromBlock = 'latest', toBlock) => {
         console.log('Sonething went wrong', new Error(error))
         web3 = new Web3(new Web3.providers.WebsocketProvider(ws))
         web3Rpc = new Web3(new Web3.providers.HttpProvider(rpc))
-        console.log('Sleep 10 seconds')
-        await sleep(10000)
+        console.log('Sleep 60 seconds')
+        await sleep(60000)
         currentBlock = blockNumber
         return listenTxsFromHub(currentBlock)
         // ha ha ha
     }
 }
 
-listenTxsFromHub(9999999999)
+listenTxsFromHub(47856467)
