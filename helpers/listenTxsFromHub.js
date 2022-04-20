@@ -142,4 +142,4 @@ const listenTxsFromHub = async (fromBlock = 'latest', toBlock) => {
     }
 }
 
-listenTxsFromHub(47856467)
+listenTxsFromHub()
