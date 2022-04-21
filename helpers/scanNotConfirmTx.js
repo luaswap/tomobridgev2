@@ -36,12 +36,12 @@ const scanNotConfirmTx = async () => {
         }
     } catch (error) {
         console.log('Sonething went wrong', error)
-        console.log('Sleep 30 seconds')
-        await sleep(30000)
+        console.log('Sleep 60 seconds')
+        await sleep(60000)
         return scanNotConfirmTx()
     }
-    console.log('Sleep 30 seconds')
-    await sleep(30000)
+    console.log('Sleep 60 seconds')
+    await sleep(60000)
     return scanNotConfirmTx()
 }
 
