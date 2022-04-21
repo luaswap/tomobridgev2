@@ -53,3 +53,14 @@ Or run command
 ```
 truffle test
 ```
+
+## Scripts
+Listen burning tx from contract hub
+```
+npm run listenHub
+```
+
+Check if withdraw tx has signature
+```
+npm run scanNotConfirm
+```
