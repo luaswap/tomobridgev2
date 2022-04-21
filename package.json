@@ -18,7 +18,8 @@
     "crawl-dev": "./node_modules/.bin/nodemon crawl.js",
     "crawl": "node ./crawl.js",
     "start": "node ./index.js",
-    "listenHub": "node ./helpers/listenTxsFromHub.js"
+    "listenHub": "node ./helpers/listenTxsFromHub.js",
+    "scanNotConfirm": "node ./helpers/scanNotConfirmTx.js"
   },
   "repository": {
     "type": "git",
