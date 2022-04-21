@@ -1,6 +1,8 @@
 const config = require('config')
 const Web3 = require('web3')
 const db = require('../models/mongodb')
+const axios = require('axios')
+const urljoin = require('url-join')
 
 const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time))
 const web3 = new Web3(new Web3.providers.HttpProvider(config.blockchain.rpc))
@@ -20,11 +22,25 @@ const scanNotConfirmTx = async () => {
                     receipt.status
                 ) {
                     if ((currentBlock - receipt.blockNumber) >= 30) {
-                        await db.Transaction.updateOne({
-                            signer: d.signer.toLowerCase(),
-                            burnTx: d.burnTx
-                        }, { $set: { status: 'confirmed' } })
-                        console.log(`Done update burn tx: ${d.burnTx}`)
+                        const url = urljoin(
+                            config.get('serverAPI'),
+                            '/txbyhash',
+                            `/${d.burnTx}`
+                        )
+                
+                        const { data } = await axios.get(url)
+                        if (data && data.transaction) {
+                            const outTx = data.transaction.OutTx
+                            // const inTx = data.transaction.InTx
+                            if (outTx.Hash === d.burnTx &&
+                                outTx.Status.toLowerCase() === 'signed_on_hub' && outTx.Signature) {
+                                await db.Transaction.updateOne({
+                                    signer: d.signer.toLowerCase(),
+                                    burnTx: d.burnTx
+                                }, { $set: { status: 'confirmed' } })
+                                console.log(`Done update burn tx: ${d.burnTx}`)
+                            }
+                        }
                     } else {
                         console.log('Not enough blocks requirement')
                     }
