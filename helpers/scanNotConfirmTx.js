@@ -56,8 +56,8 @@ const scanNotConfirmTx = async () => {
         await sleep(60000)
         return scanNotConfirmTx()
     }
-    console.log('Sleep 60 seconds')
-    await sleep(60000)
+    console.log('Sleep 5 minutes')
+    await sleep(60 * 5 * 1000)
     return scanNotConfirmTx()
 }
 
