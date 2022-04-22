@@ -11,11 +11,13 @@ const scanNotConfirmTx = async () => {
     try {
         console.log(`Checking not confirm tx at ${new Date()}`)
         const data = await db.Transaction.find({ status: 'notConfirm' })
+        console.log(data)
         if (data.length === 0) {
             // console.log('Found nothing!')
         } else {
             console.log(`Found ${data.length}`)
-            data.map(async d => {
+            console.log(data)
+            await data.map(async d => {
                 const currentBlock = await web3.eth.getBlockNumber()
                 const receipt = await web3.eth.getTransactionReceipt(d.burnTx)
                 if (receipt &&
