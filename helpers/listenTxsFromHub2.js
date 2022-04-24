@@ -21,7 +21,9 @@ const HUB_CONTRACT = config.get('blockchain.contractBridgeTomo')
 const listenTxsFromHub = async (block = 'latest') => {
     try {
         console.log('Listening to SubmitBurningtx event')
-        const { data } = await axios.get(
+        const {
+            data
+        } = await axios.get(
             urljoin(config.get('serverAPI'), 'tokens?page=1&limit=1000')
         )
         let swapCoin = data.Data.map(d => {
@@ -43,12 +45,9 @@ const listenTxsFromHub = async (block = 'latest') => {
 
         contract.events.SubmitBurningTx({
             fromBlock: block
-        })
-        .on('connected', (subscriptionId) => {
+        }).on('connected', (subscriptionId) => {
             console.log('subscriptionId', subscriptionId)
-        })
-        .on('changed', (data) => console.log('changed', changed))
-        .on('data', async event => {
+        }).on('data', async event => {
             let result = event
             if (result.event === 'SubmitBurningTx') {
                 console.log('Found SubmitBurningTx for burnTx: ', result.returnValues.txHash)
@@ -94,7 +93,6 @@ const listenTxsFromHub = async (block = 'latest') => {
                     updatedAt: createdAt
                 }
 
-
                 // store db
                 const isExist = await db.Transaction.findOne({
                     burnTx: burnTx
@@ -105,11 +103,14 @@ const listenTxsFromHub = async (block = 'latest') => {
                         signer: signer.toLowerCase(),
                         coin: coin.symbol.toLowerCase(),
                         burnTx: burnTx
-                    }, { $set: data }, { upsert: true })
+                    }, {
+                        $set: data
+                    }, {
+                        upsert: true
+                    })
                 }
             }
-        })
-        .on('error',async (error, receipt) => {
+        }).on('error', async (error, receipt) => {
             console.log('Error', new Error(error))
             console.log('Sleep 10 seconds')
             web3 = new Web3(new Web3.providers.WebsocketProvider(ws))

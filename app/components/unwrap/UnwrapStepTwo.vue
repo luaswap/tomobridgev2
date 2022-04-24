@@ -95,7 +95,8 @@ export default {
                 const outTx = data.transaction.OutTx
                 const inTx = data.transaction.InTx
                 if (outTx.Hash === parent.transactionHash &&
-                    outTx.Status.toLowerCase() === 'signed_on_hub' && outTx.Signature) {
+                    (outTx.Status.toLowerCase() === 'signed_on_hub' ||
+                    outTx.Status.toLowerCase() === 'signing_on_hub') && outTx.Signature) {
                     this.isReadyToClaim = true
                     this.txObj = outTx
                     this.inTxObj = inTx
@@ -133,9 +134,9 @@ export default {
                     config.blockchain.contractBridgeEth
                 )
                 const hubContract = new this.web3Tomo.eth.Contract(
-                        this.ContractBridgeTomoAbi.abi,
-                        config.blockchain.contractBridgeTomo
-                    )
+                    this.ContractBridgeTomoAbi.abi,
+                    config.blockchain.contractBridgeTomo
+                )
                 const txData = await hubContract.methods.Transactions(parent.transactionHash).call()
                 if (token.symbol.toLowerCase() !== 'eth') {
                     estimateGas = await contract.methods.withdrawERC20(
