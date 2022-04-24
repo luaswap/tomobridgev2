@@ -26,7 +26,7 @@ const listenTxsFromHub = async (fromBlock = 'latest', toBlock) => {
         web3Rpc = new Web3(new Web3.providers.HttpProvider(rpc))
         blockNumber = await web3Rpc.eth.getBlockNumber()
 
-        console.log(`Listening to SubmitBurningtx event from ${fromBlock} to ${blockNumber}`, )
+        console.log(`Listening to SubmitBurningtx event from ${fromBlock} to ${blockNumber}`)
         const { data } = await axios.get(
             urljoin(bridgeAbi, 'tokens?page=1&limit=1000')
         )
@@ -98,7 +98,6 @@ const listenTxsFromHub = async (fromBlock = 'latest', toBlock) => {
                             createdAt: createdAt,
                             updatedAt: createdAt
                         }
-
 
                         // store db
                         const isExist = await db.Transaction.findOne({

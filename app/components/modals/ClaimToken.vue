@@ -249,7 +249,9 @@ export default {
                     const outTx = data.transaction.OutTx
                     let signatureBytes = []
                     if (outTx.Hash === this.unClaimTx.burnTx &&
-                        outTx.Status.toLowerCase() === 'signed_on_hub' && outTx.Signature) {
+                        (outTx.Status.toLowerCase() === 'signed_on_hub' ||
+                        outTx.Status.toLowerCase() === 'signing_on_hub') &&
+                        outTx.Signature) {
                         signatureBytes = this.web3Eth.utils.hexToBytes(outTx.Signature)
                     }
 

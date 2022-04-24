@@ -29,13 +29,15 @@ const scanNotConfirmTx = async () => {
                             '/txbyhash',
                             `/${d.burnTx}`
                         )
-                
+
                         const { data } = await axios.get(url)
                         if (data && data.transaction) {
                             const outTx = data.transaction.OutTx
                             // const inTx = data.transaction.InTx
                             if (outTx.Hash === d.burnTx &&
-                                outTx.Status.toLowerCase() === 'signed_on_hub' && outTx.Signature) {
+                                (outTx.Status.toLowerCase() === 'signed_on_hub' ||
+                                outTx.Status.toLowerCase() === 'signing_on_hub') &&
+                                outTx.Signature) {
                                 await db.Transaction.updateOne({
                                     signer: d.signer.toLowerCase(),
                                     burnTx: d.burnTx
