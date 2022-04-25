@@ -343,7 +343,9 @@ export default {
                         this.token = this.txObj.CoinType.toLowerCase()
                         let signatureBytes = []
                         if (this.txObj.Hash === this.burnTx &&
-                            this.txObj.Status.toLowerCase() === 'signed_on_hub' && this.txObj.Signature) {
+                            (this.txObj.Status.toLowerCase() === 'signed_on_hub' ||
+                            this.txObj.Status.toLowerCase() === 'signing_on_hub') &&
+                            this.txObj.Signature) {
                             signatureBytes = this.web3Eth.utils.hexToBytes(this.txObj.Signature)
 
                             const contract = new this.web3Eth.eth.Contract(
