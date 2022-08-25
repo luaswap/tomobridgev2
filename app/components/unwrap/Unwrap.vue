@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <Notify />
         <AddressInfo/>
         <b-container
             class="container-medium">
@@ -192,12 +193,14 @@ import BigNumber from 'bignumber.js'
 import Multiselect from 'vue-multiselect'
 import WAValidator from 'wallet-address-validator'
 import AddressInfo from './../Address.vue'
+import Notify from '../Notify.vue'
 export default {
     name: 'App',
     components: {
-        Multiselect,
-        AddressInfo
-    },
+    Multiselect,
+    AddressInfo,
+    Notify
+},
     data () {
         return {
             verifiedList: [],
