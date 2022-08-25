@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <Notify />
         <AddressInfo/>
         <b-container
             class="container-medium">
@@ -193,11 +194,13 @@ import Multiselect from 'vue-multiselect'
 import urljoin from 'url-join'
 import WAValidator from 'wallet-address-validator'
 import AddressInfo from './../Address.vue'
+import Notify from '../Notify.vue'
 export default {
     name: 'App',
     components: {
         Multiselect,
-        AddressInfo
+        AddressInfo,
+        Notify
     },
     data () {
         return {
