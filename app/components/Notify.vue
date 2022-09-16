@@ -11,6 +11,10 @@
           target="_blank" class="text-blue">please contact Multichain for
           support.</a>
       </div>
+      <div>
+        If you use TomoBridge v2 to wrap your tokens, you need to wait until the release of next version to be able to
+        unwrap the assets.
+      </div>
     </div>
 
   </div>
